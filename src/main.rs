@@ -58,10 +58,19 @@ async fn main() -> Result<(), BootError> {
 }
 
 fn pick_config_path(arg1: Option<String>) -> PathBuf {
-  // Scala default: os.pwd / src/main/resources/config/config.toml :contentReference[oaicite:1]{index=1}
-  let default = PathBuf::from("src/main/resources/config/config.toml");
-  match arg1 {
-    Some(p) => PathBuf::from(p),
-    None => default,
+  if let Some(p) = arg1 {
+    return PathBuf::from(p);
   }
+
+  // Prefer repo-local res/ config; fall back to old resources path for compatibility.
+  let candidates = [
+    PathBuf::from("res/config.toml"),
+    PathBuf::from("src/main/resources/config/config.toml"),
+  ];
+  for p in &candidates {
+    if p.exists() {
+      return p.clone();
+    }
+  }
+  candidates[0].clone()
 }
