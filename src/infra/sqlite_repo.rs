@@ -1,8 +1,7 @@
-use std::collections::HashMap;
-use std::path::Path;
+use std::{collections::HashMap, path::{Path, PathBuf}, str::FromStr};
 
 use chrono_tz::Tz;
-use sqlx::{sqlite::SqlitePoolOptions, SqlitePool};
+use sqlx::{sqlite::{SqliteConnectOptions, SqlitePoolOptions}, SqlitePool};
 use tracing::{debug, info};
 
 use crate::domain::link_state::LinkState;
@@ -58,13 +57,26 @@ pub struct SqliteRepo {
 
 impl SqliteRepo {
   pub async fn new(db_path: &Path) -> Result<Self, String> {
-    if let Some(parent) = db_path.parent().filter(|p| !p.as_os_str().is_empty()) {
+    let full_path = if db_path.is_absolute() {
+      db_path.to_path_buf()
+    } else {
+      std::env::current_dir()
+        .unwrap_or_else(|_| PathBuf::from("."))
+        .join(db_path)
+    };
+
+    if let Some(parent) = full_path.parent().filter(|p| !p.as_os_str().is_empty()) {
       std::fs::create_dir_all(parent).map_err(|e| format!("db dir create error: {e}"))?;
     }
-    let url = format!("sqlite://{}", db_path.display());
+
+    let url = format!("sqlite://{}", full_path.display());
+    let opts = SqliteConnectOptions::from_str(&url)
+      .map_err(|e| format!("db connect options error: {e}"))?
+      .create_if_missing(true);
+
     let pool = SqlitePoolOptions::new()
       .max_connections(10)
-      .connect(&url)
+      .connect_with(opts)
       .await
       .map_err(|e| format!("db connect error: {e}"))?;
     Ok(Self { pool })
