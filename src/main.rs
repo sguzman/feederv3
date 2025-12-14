@@ -1,23 +1,24 @@
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
-use rssify::app::{context::AppContext, scheduler::Scheduler};
-use rssify::infra::{
+use feedrv3::app::{context::AppContext, scheduler::Scheduler};
+use feedrv3::infra::{
   config::ConfigLoader,
-  logging::init_logging,
+  logging::{init_logging, BootError},
   random::MutexRng,
   reqwest_http::ReqwestHttp,
   sqlite_repo::SqliteRepo,
   system_clock::SystemClock,
 };
-use rssify::domain::model::AppMode;
+use feedrv3::domain::model::AppMode;
+use feedrv3::ports::repo::Repo;
 use tracing::{error, info, warn};
 
 #[tokio::main]
-async fn main() -> Result<(), rssify::infra::logging::BootError> {
+async fn main() -> Result<(), BootError> {
   init_logging();
 
   let cfg_path = pick_config_path(std::env::args().skip(1).next());
-  let cfg = ConfigLoader::load(&cfg_path).await?;
+  let cfg = ConfigLoader::load(&cfg_path).await.map_err(|e| BootError::Fatal(e.to_string()))?;
 
   info!(timezone = %cfg.timezone, "Using timezone");
   info!(
@@ -32,11 +33,11 @@ async fn main() -> Result<(), rssify::infra::logging::BootError> {
     let _ = tokio::fs::remove_file(&cfg.db_path).await;
   }
 
-  let repo = SqliteRepo::new(&cfg.db_path).await?;
-  repo.migrate(&cfg.timezone).await?;
-  repo.upsert_feeds(&cfg.feeds, &cfg.timezone).await?;
+  let repo = SqliteRepo::new(&cfg.db_path).await.map_err(BootError::Fatal)?;
+  repo.migrate(&cfg.timezone).await.map_err(BootError::Fatal)?;
+  repo.upsert_feeds(&cfg.feeds, &cfg.timezone).await.map_err(BootError::Fatal)?;
 
-  let http = ReqwestHttp::new(cfg.user_agent.clone())?;
+  let http = ReqwestHttp::new(cfg.user_agent.clone()).map_err(|e| BootError::Fatal(e.to_string()))?;
   let clock = SystemClock::default();
   let rng = MutexRng::new();
 
@@ -50,7 +51,7 @@ async fn main() -> Result<(), rssify::infra::logging::BootError> {
 
   if let Err(e) = Scheduler::run_forever(ctx).await {
     error!(error = %e, "Fatal error");
-    return Err(rssify::infra::logging::BootError::Fatal(e.to_string()));
+    return Err(BootError::Fatal(e.to_string()));
   }
 
   Ok(())

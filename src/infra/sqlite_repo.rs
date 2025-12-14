@@ -11,6 +11,47 @@ use crate::feed::parser::ParsedFeed;
 use crate::infra::time::{epoch_ms_to_iso};
 use crate::ports::repo::{Repo, StateRow};
 
+#[derive(Debug, sqlx::FromRow)]
+struct StateRowRecord {
+  pub feed_id: String,
+  pub phase: String,
+  pub last_head_at_ms: Option<i64>,
+  pub last_head_status: Option<i64>,
+  pub last_head_error: Option<String>,
+  pub last_get_at_ms: Option<i64>,
+  pub last_get_status: Option<i64>,
+  pub last_get_error: Option<String>,
+  pub etag: Option<String>,
+  pub last_modified_ms: Option<i64>,
+  pub backoff_index: i64,
+  pub base_poll_seconds: i64,
+  pub next_action_at_ms: i64,
+  pub jitter_seconds: i64,
+  pub note: Option<String>,
+}
+
+impl From<StateRowRecord> for StateRow {
+  fn from(value: StateRowRecord) -> Self {
+    Self {
+      feed_id: value.feed_id,
+      phase: value.phase,
+      last_head_at_ms: value.last_head_at_ms,
+      last_head_status: value.last_head_status,
+      last_head_error: value.last_head_error,
+      last_get_at_ms: value.last_get_at_ms,
+      last_get_status: value.last_get_status,
+      last_get_error: value.last_get_error,
+      etag: value.etag,
+      last_modified_ms: value.last_modified_ms,
+      backoff_index: value.backoff_index,
+      base_poll_seconds: value.base_poll_seconds,
+      next_action_at_ms: value.next_action_at_ms,
+      jitter_seconds: value.jitter_seconds,
+      note: value.note,
+    }
+  }
+}
+
 pub struct SqliteRepo {
   pool: SqlitePool,
 }
@@ -180,36 +221,35 @@ impl Repo for SqliteRepo {
   }
 
   async fn latest_state(&self, feed_id: &str) -> Result<Option<StateRow>, String> {
-    let row = sqlx::query_as!(
-      StateRow,
+    let row = sqlx::query_as::<_, StateRowRecord>(
       r#"
       SELECT
-        feed_id as "feed_id!",
-        phase as "phase!",
-        last_head_at_ms as "last_head_at_ms?",
-        last_head_status as "last_head_status?",
-        last_head_error as "last_head_error?",
-        last_get_at_ms as "last_get_at_ms?",
-        last_get_status as "last_get_status?",
-        last_get_error as "last_get_error?",
-        etag as "etag?",
-        last_modified_ms as "last_modified_ms?",
-        backoff_index as "backoff_index!",
-        base_poll_seconds as "base_poll_seconds!",
-        next_action_at_ms as "next_action_at_ms!",
-        jitter_seconds as "jitter_seconds!",
-        note as "note?"
+        feed_id,
+        phase,
+        last_head_at_ms,
+        last_head_status,
+        last_head_error,
+        last_get_at_ms,
+        last_get_status,
+        last_get_error,
+        etag,
+        last_modified_ms,
+        backoff_index,
+        base_poll_seconds,
+        next_action_at_ms,
+        jitter_seconds,
+        note
       FROM feed_state_history
       WHERE feed_id = ?1
       ORDER BY id DESC
       LIMIT 1
       "#,
-      feed_id
     )
+    .bind(feed_id)
     .fetch_optional(&self.pool)
     .await
     .map_err(|e| format!("latest_state error: {e}"))?;
-    Ok(row)
+    Ok(row.map(StateRow::from))
   }
 
   async fn due_feeds(&self, now_ms: i64, feeds: &[FeedConfig], limit: i64) -> Result<Vec<FeedConfig>, String> {
@@ -218,7 +258,7 @@ impl Repo for SqliteRepo {
       feed_map.insert(f.id.as_str(), f);
     }
 
-    let ids = sqlx::query_scalar!(
+    let ids = sqlx::query_scalar::<_, String>(
       r#"
       SELECT f.id
       FROM feeds f
@@ -227,9 +267,9 @@ impl Repo for SqliteRepo {
       ORDER BY COALESCE(s.next_action_at_ms, strftime('%s','now')*1000)
       LIMIT ?2
       "#,
-      now_ms,
-      limit
     )
+    .bind(now_ms)
+    .bind(limit)
     .fetch_all(&self.pool)
     .await
     .map_err(|e| format!("due_feeds error: {e}"))?;

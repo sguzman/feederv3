@@ -6,7 +6,7 @@ use tracing::{debug, warn};
 
 pub struct ReqwestHttp {
   client: reqwest::Client,
-  user_agent: String,
+  _user_agent: String,
 }
 
 impl ReqwestHttp {
@@ -16,7 +16,7 @@ impl ReqwestHttp {
       .pool_idle_timeout(std::time::Duration::from_secs(120))
       .timeout(std::time::Duration::from_secs(30))
       .build()?;
-    Ok(Self { client, user_agent })
+    Ok(Self { client, _user_agent: user_agent })
   }
 
   fn classify_error(e: &reqwest::Error) -> ErrorKind {
