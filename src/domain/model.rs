@@ -36,7 +36,7 @@ pub struct AppConfig {
     pub mode: AppMode,
     pub timezone: Tz,
     pub domains: HashMap<String, DomainConfig>,
-    pub feeds: Vec<FeedConfig>,
+    pub state_history_sample_rate: f64,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
