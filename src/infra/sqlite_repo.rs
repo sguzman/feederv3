@@ -1,7 +1,7 @@
 use std::{collections::HashMap, path::{Path, PathBuf}, str::FromStr};
 
 use chrono_tz::Tz;
-use sqlx::{sqlite::{SqliteConnectOptions, SqlitePoolOptions}, SqlitePool};
+use sqlx::{sqlite::{SqliteConnectOptions, SqliteJournalMode, SqlitePoolOptions}, SqlitePool};
 use tracing::{debug, info};
 
 use crate::domain::link_state::LinkState;
@@ -72,7 +72,10 @@ impl SqliteRepo {
     let url = format!("sqlite://{}", full_path.display());
     let opts = SqliteConnectOptions::from_str(&url)
       .map_err(|e| format!("db connect options error: {e}"))?
-      .create_if_missing(true);
+      .create_if_missing(true)
+      .journal_mode(SqliteJournalMode::Wal)
+      .busy_timeout(std::time::Duration::from_secs(5))
+      .foreign_keys(true);
 
     let pool = SqlitePoolOptions::new()
       .max_connections(10)
