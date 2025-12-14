@@ -85,8 +85,9 @@ impl LinkState {
             LinkPhase::NeedsHead => NextAction::DoHead {
                 state: state.clone(),
             },
-            LinkPhase::Sleeping | LinkPhase::ErrorBackoff => NextAction::SleepUntil {
-                at_ms: state.next_action_at_ms,
+            // Once the scheduled sleep/backoff has elapsed, wake up with a HEAD to re-check.
+            LinkPhase::Sleeping | LinkPhase::ErrorBackoff => NextAction::DoHead {
+                state: state.clone(),
             },
         }
     }
