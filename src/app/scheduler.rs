@@ -69,9 +69,14 @@ impl Scheduler {
 
 fn make_semaphores(cfg: &crate::domain::model::AppConfig) -> (Option<Arc<Semaphore>>, Arc<HashMap<String, Arc<Semaphore>>>) {
   let global = cfg.global_max_concurrent_requests.map(|n| Arc::new(Semaphore::new(n)));
-  let mut per = HashMap::new();
-  for (domain, dcfg) in &cfg.domains {
-    per.insert(domain.clone(), Arc::new(Semaphore::new(dcfg.max_concurrent_requests)));
+  let mut per: HashMap<String, Arc<Semaphore>> = HashMap::new();
+  for feed in &cfg.feeds {
+    let limit = cfg
+      .domains
+      .get(&feed.domain)
+      .map(|d| d.max_concurrent_requests)
+      .unwrap_or(1);
+    per.entry(feed.domain.clone()).or_insert_with(|| Arc::new(Semaphore::new(limit)));
   }
   (global, Arc::new(per))
 }
