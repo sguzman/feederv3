@@ -18,12 +18,16 @@ use crate::ports::repo::{Repo, StateRow};
 
 pub struct PostgresRepo {
     pool: PgPool,
+    timezone: Tz,
 }
 
 impl PostgresRepo {
-    pub async fn new(cfg: &PostgresConfig) -> Result<Self, String> {
-        let pool = connection::create_pool(cfg).await?;
-        Ok(Self { pool })
+    pub async fn new(cfg: &PostgresConfig, timezone: &Tz) -> Result<Self, String> {
+        let pool = connection::create_pool(cfg, timezone).await?;
+        Ok(Self {
+            pool,
+            timezone: timezone.clone(),
+        })
     }
 }
 
@@ -47,7 +51,7 @@ impl Repo for PostgresRepo {
     }
 
     async fn due_feeds(&self, now_ms: i64, limit: i64) -> Result<Vec<FeedConfig>, String> {
-        feeds::due_feeds(&self.pool, now_ms, limit).await
+        feeds::due_feeds(&self.pool, now_ms, limit, &self.timezone).await
     }
 
     async fn insert_state(

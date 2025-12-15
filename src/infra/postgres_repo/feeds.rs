@@ -86,9 +86,14 @@ async fn upsert_chunk(pool: &PgPool, feeds: &[FeedConfig], zone: &Tz) -> Result<
     Ok(())
 }
 
-pub async fn due_feeds(pool: &PgPool, now_ms: i64, limit: i64) -> Result<Vec<FeedConfig>, String> {
+pub async fn due_feeds(
+    pool: &PgPool,
+    now_ms: i64,
+    limit: i64,
+    zone: &Tz,
+) -> Result<Vec<FeedConfig>, String> {
     let start = Instant::now();
-    let now_ts = super::util::ts_from_ms(now_ms, &chrono_tz::UTC);
+    let now_ts = super::util::ts_from_ms(now_ms, zone);
     let rows = sqlx::query_as::<_, DueFeedRow>(
         r#"
       SELECT f.id, f.url, f.domain, f.base_poll_seconds

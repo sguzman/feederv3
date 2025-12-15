@@ -9,7 +9,7 @@ pub async fn create_repo(dialect: SqlDialect, cfg: &AppConfig) -> Result<Arc<dyn
     match dialect {
         SqlDialect::Sqlite => Ok(Arc::new(SqliteRepo::new(&cfg.sqlite_path).await?)),
         SqlDialect::Postgres => Ok(Arc::new(
-            PostgresRepo::new(&cfg.postgres)
+            PostgresRepo::new(&cfg.postgres, &cfg.timezone)
                 .await
                 .map_err(|e| format!("pg repo: {e}"))?,
         )),

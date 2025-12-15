@@ -1,4 +1,5 @@
 //! Helpers to create/configure the Postgres pool.
+use chrono_tz::Tz;
 use sqlx::{
     postgres::{PgConnectOptions, PgPoolOptions},
     PgPool,
@@ -6,10 +7,11 @@ use sqlx::{
 
 use crate::domain::model::PostgresConfig;
 
-pub async fn create_pool(cfg: &PostgresConfig) -> Result<PgPool, String> {
+pub async fn create_pool(cfg: &PostgresConfig, timezone: &Tz) -> Result<PgPool, String> {
     let opts = connect_options(cfg, Some(&cfg.database));
     let pool = PgPoolOptions::new()
         .max_connections(10)
+        .after_connect(set_time_zone(timezone))
         .connect_with(opts.clone())
         .await;
 
@@ -19,10 +21,31 @@ pub async fn create_pool(cfg: &PostgresConfig) -> Result<PgPool, String> {
             ensure_database_exists(cfg).await?;
             PgPoolOptions::new()
                 .max_connections(10)
+                .after_connect(set_time_zone(timezone))
                 .connect_with(opts)
                 .await
                 .map_err(|e| format!("postgres connect error after create: {e}"))
         }
+    }
+}
+
+fn set_time_zone(
+    timezone: &Tz,
+) -> impl Fn(
+    &mut sqlx::PgConnection,
+    sqlx::pool::PoolConnectionMetadata,
+)
+    -> std::pin::Pin<Box<dyn std::future::Future<Output = Result<(), sqlx::Error>> + Send + '_>> {
+    let tz_name = timezone.name().to_string();
+    move |conn, _meta| {
+        let tz = tz_name.clone();
+        Box::pin(async move {
+            sqlx::query("SET TIME ZONE $1")
+                .bind(tz)
+                .execute(conn)
+                .await?;
+            Ok(())
+        })
     }
 }
 
