@@ -1,3 +1,4 @@
+//! Domain models: app/feed configuration, HTTP result shapes, and error taxonomy.
 use std::{collections::HashMap, path::PathBuf};
 
 use chrono_tz::Tz;

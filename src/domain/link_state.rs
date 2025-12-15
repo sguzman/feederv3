@@ -1,3 +1,5 @@
+//! Link state machine for a single feed: decides next actions, applies HEAD/GET results,
+//! and computes exponential backoff with jitter.
 use crate::domain::model::{ErrorKind, GetResult, HeadResult};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
