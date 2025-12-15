@@ -13,6 +13,13 @@ use feedrv3::infra::{
 use feedrv3::ports::repo::Repo;
 use tracing::{error, info, warn};
 
+/// Binary entrypoint:
+/// - parses CLI args (`CONFIG_PATH` or `--ingest-benchmark N`)
+/// - loads TOML config bundle (app/domains/feeds), initializes logging
+/// - optionally wipes the DB in dev, opens SQLite + runs migrations
+/// - bulk upserts feeds, then either runs the ingest benchmark (HEAD/GET skipped)
+///   or starts the scheduler loop with HTTP/clock/rng/repo adapters
+/// - exits with `BootError` on fatal startup/ingest errors
 #[tokio::main]
 async fn main() -> Result<(), BootError> {
     let args = parse_args();
