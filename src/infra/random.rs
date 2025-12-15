@@ -9,7 +9,7 @@ pub struct MutexRng {
 
 impl MutexRng {
     pub fn new() -> Self {
-        let seed = rand::thread_rng().gen::<[u8; 32]>();
+        let seed = rand::rng().random::<[u8; 32]>();
         Self {
             inner: Mutex::new(rand::SeedableRng::from_seed(seed)),
         }
@@ -20,6 +20,6 @@ impl MutexRng {
 impl RandomSource for MutexRng {
     async fn next_f64(&self) -> f64 {
         let mut g = self.inner.lock().await;
-        g.gen::<f64>()
+        g.random::<f64>()
     }
 }
