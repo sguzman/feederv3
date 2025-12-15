@@ -17,7 +17,7 @@ tracing-subscriber = { version = "0.3.22", features = ["env-filter", "fmt"] }
 
 reqwest = { version = "0.12.25", default-features = false, features = ["rustls-tls", "gzip", "brotli", "deflate"] }
 
-sqlx = { version = "0.8.6", features = ["runtime-tokio", "sqlite", "macros", "chrono"] }
+sqlx = { version = "0.8.6", features = ["runtime-tokio", "sqlite", "postgres", "macros", "chrono"] }
 
 chrono = { version = "0.4.42", features = ["serde"] }
 chrono-tz = "0.10.4"

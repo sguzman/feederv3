@@ -8,7 +8,9 @@ use chrono_tz::Tz;
 use serde::Deserialize;
 use tokio::fs;
 
-use crate::domain::model::{AppConfig, AppMode, DomainConfig, FeedConfig, SqlDialect};
+use crate::domain::model::{
+    AppConfig, AppMode, DomainConfig, FeedConfig, PostgresConfig, SqlDialect,
+};
 
 #[derive(Debug, thiserror::Error)]
 pub enum ConfigError {
@@ -24,6 +26,10 @@ pub enum ConfigError {
 struct RawAppFile {
     app: RawApp,
     database: RawDatabase,
+    #[serde(default)]
+    sqlite: RawSqlite,
+    #[serde(default)]
+    postgres: Option<RawPostgres>,
     polling: RawPolling,
     backoff: RawBackoff,
     requests: RawRequests,
@@ -40,9 +46,28 @@ struct RawApp {
 
 #[derive(Debug, Deserialize)]
 struct RawDatabase {
-    path: String,
     #[serde(default)]
     dialect: Option<String>,
+}
+
+#[derive(Debug, Deserialize, Default)]
+struct RawSqlite {
+    #[serde(default = "default_sqlite_path")]
+    path: String,
+}
+
+#[derive(Debug, Deserialize, Default)]
+struct RawPostgres {
+    #[serde(default = "default_pg_user")]
+    user: String,
+    #[serde(default = "default_pg_password")]
+    password: String,
+    #[serde(default = "default_pg_host")]
+    host: String,
+    #[serde(default = "default_pg_port")]
+    port: u16,
+    #[serde(default = "default_pg_database")]
+    db: String,
 }
 
 #[derive(Debug, Deserialize)]
@@ -139,8 +164,9 @@ impl ConfigLoader {
             .unwrap_or_else(|| "info".to_string());
 
         let db_base = resolve_db_base_dir(config_path);
-        let db_path = db_base.join(raw_cfg.database.path);
+        let db_path = db_base.join(raw_cfg.sqlite.path);
         let db_dialect = parse_dialect(raw_cfg.database.dialect.as_deref())?;
+        let postgres = parse_postgres(raw_cfg.postgres)?;
 
         let mut domains = HashMap::new();
         for d in raw_domains.domains {
@@ -180,8 +206,9 @@ impl ConfigLoader {
 
         Ok(LoadedConfig {
             app: AppConfig {
-                db_path,
                 db_dialect,
+                sqlite_path: db_path,
+                postgres,
                 default_poll_seconds: raw_cfg.polling.default_seconds,
                 max_poll_seconds: raw_cfg.polling.max_seconds,
                 error_backoff_base_seconds: raw_cfg.backoff.error_base_seconds,
@@ -239,10 +266,46 @@ fn parse_dialect(s: Option<&str>) -> Result<SqlDialect, ConfigError> {
     match s.map(|x| x.to_ascii_lowercase()) {
         None => Ok(SqlDialect::Sqlite),
         Some(d) if d == "sqlite" => Ok(SqlDialect::Sqlite),
+        Some(d) if d == "postgres" => Ok(SqlDialect::Postgres),
         Some(other) => Err(ConfigError::Invalid(format!(
-            "invalid database.dialect '{other}', expected 'sqlite'"
+            "invalid database.dialect '{other}', expected 'sqlite' or 'postgres'"
         ))),
     }
+}
+
+fn parse_postgres(raw: Option<RawPostgres>) -> Result<PostgresConfig, ConfigError> {
+    let pg = raw.unwrap_or_default();
+    Ok(PostgresConfig {
+        user: pg.user,
+        password: pg.password,
+        host: pg.host,
+        port: pg.port,
+        database: pg.db,
+    })
+}
+
+fn default_pg_user() -> String {
+    "admin".to_string()
+}
+
+fn default_pg_password() -> String {
+    "admin".to_string()
+}
+
+fn default_pg_host() -> String {
+    "localhost".to_string()
+}
+
+fn default_pg_port() -> u16 {
+    5432
+}
+
+fn default_pg_database() -> String {
+    "data".to_string()
+}
+
+fn default_sqlite_path() -> String {
+    "rss.db".to_string()
 }
 
 fn parse_mode(s: Option<&str>) -> Result<AppMode, ConfigError> {

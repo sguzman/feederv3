@@ -1,12 +1,17 @@
 //! Database wiring: creates repository implementations per SQL dialect.
-use std::{path::Path, sync::Arc};
+use std::sync::Arc;
 
-use crate::domain::model::SqlDialect;
-use crate::infra::sqlite_repo::SqliteRepo;
+use crate::domain::model::{AppConfig, SqlDialect};
+use crate::infra::{postgres_repo::PostgresRepo, sqlite_repo::SqliteRepo};
 use crate::ports::repo::Repo;
 
-pub async fn create_repo(dialect: SqlDialect, db_path: &Path) -> Result<Arc<dyn Repo>, String> {
+pub async fn create_repo(dialect: SqlDialect, cfg: &AppConfig) -> Result<Arc<dyn Repo>, String> {
     match dialect {
-        SqlDialect::Sqlite => Ok(Arc::new(SqliteRepo::new(db_path).await?)),
+        SqlDialect::Sqlite => Ok(Arc::new(SqliteRepo::new(&cfg.sqlite_path).await?)),
+        SqlDialect::Postgres => Ok(Arc::new(
+            PostgresRepo::new(&cfg.postgres)
+                .await
+                .map_err(|e| format!("pg repo: {e}"))?,
+        )),
     }
 }

@@ -3,7 +3,7 @@
 Rust async worker that polls a set of RSS/Atom feeds, tracks HTTP state with adaptive backoff, and stores feed payloads plus items in SQLite. Configuration is file based (TOML) and a tiny scheduler drives concurrent HEAD/GET requests with per-domain limits.
 
 ## Overview
-- Loads app/domain/feed config from a TOML bundle, migrates/creates a WAL-enabled SQLite database, and bulk-ingests feed definitions.
+- Loads app/domain/feed config from a TOML bundle, migrates/creates a SQL database (SQLite by default) and bulk-ingests feed definitions.
 - Scheduler ticks every 5s, finds due feeds, and processes them with bounded parallelism. Per-domain semaphores prevent hammering the same host; optional global cap controls total concurrency.
 - Each feed alternates HEAD/GET based on last state. HEAD decides whether content changed; GET parses the body (via `feed-rs`), hashes it, and stores payload + items. Errors trigger exponential backoff with jitter and persisted state.
 - Minimal traits (`Repo`, `Http`, `Clock`, `RandomSource`) keep the core logic isolated; `SqliteRepo`, `ReqwestHttp`, `SystemClock`, and `MutexRng` are the shipped impls.
@@ -27,7 +27,9 @@ Config is resolved from:
 
 `config.toml` (app-wide sections):
 - `[app]` – `mode` (`dev` deletes the DB on boot; `prod` leaves it intact) and `timezone` (IANA TZ for timestamps/logging).
-- `[database]` – `path` to the SQL database (relative paths resolve from the config dir unless the path includes `resources`, in which case CWD is used) and `dialect` (currently only `sqlite` is supported).
+- `[database]` – `dialect` (`sqlite` default, or `postgres`).
+- `[sqlite]` – `path` to the SQLite file (relative paths resolve from the config dir unless the path includes `resources`, in which case CWD is used).
+- `[postgres]` – connection params: `user`, `password`, `host`, `port`, `db` (defaults: admin/admin/localhost/5432/data).
 - `[polling]` – `default_seconds`, `max_seconds`, and `jitter_fraction` controlling poll cadence and jitter.
 - `[backoff]` – `error_base_seconds` and `max_error_seconds` bounding exponential backoff after errors.
 - `[requests]` – `global_max_concurrent_requests` optional cap on in-flight HTTP requests (defaults to 64 when unset) and `user_agent` string.
@@ -58,8 +60,8 @@ Config is resolved from:
   Inserts synthetic feeds into the DB in bulk and exits. Requires a feed count > 0.
 
 ## Data & Schema Notes
-- SQLite path comes from `database.path`; WAL mode and `synchronous` toggling are used to speed bulk upserts.
-- Creation DDLs live in `res/sql/sqlite/schema.sql` and are applied at startup; non-schema migrations remain in code.
+- SQLite path comes from `[sqlite].path`; WAL mode and `synchronous` toggling are used to speed bulk upserts.
+- Creation DDLs live in `res/sql/sqlite/schema.sql` and `res/sql/postgres/schema.sql` and are applied at startup; non-schema migrations remain in code.
 - Key tables: `feeds` (definitions), `feed_state_current` + `feed_state_history`, `fetch_events`, `feed_payloads`, `feed_items`.
 - A prebuilt DB snapshot is checked in under `res/` for quick inspection; dev mode will delete it on boot.
 

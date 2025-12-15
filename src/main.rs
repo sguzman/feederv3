@@ -1,7 +1,7 @@
 use std::{path::PathBuf, sync::Arc};
 
 use feedrv3::app::{context::AppContext, scheduler::Scheduler};
-use feedrv3::domain::model::{AppConfig, AppMode, FeedConfig};
+use feedrv3::domain::model::{AppConfig, AppMode, FeedConfig, SqlDialect};
 use feedrv3::infra::{
     config::{ConfigLoader, LoadedConfig},
     database,
@@ -33,20 +33,27 @@ async fn main() -> Result<(), BootError> {
     init_logging(&app_cfg.log_level);
 
     info!(timezone = %app_cfg.timezone, "Using timezone");
-    info!(
-      feeds = feeds.len(),
-      db_path = %app_cfg.db_path.display(),
-      dialect = ?app_cfg.db_dialect,
-      mode = ?app_cfg.mode,
-      "Loaded config"
-    );
+    let db_desc = match app_cfg.db_dialect {
+        SqlDialect::Sqlite => format!("sqlite:{}", app_cfg.sqlite_path.display()),
+        SqlDialect::Postgres => format!(
+            "postgres://{}@{}:{}/{}",
+            app_cfg.postgres.user,
+            app_cfg.postgres.host,
+            app_cfg.postgres.port,
+            app_cfg.postgres.database
+        ),
+    };
+    info!(feeds = feeds.len(), db = %db_desc, dialect = ?app_cfg.db_dialect, mode = ?app_cfg.mode, "Loaded config");
 
-    if matches!(app_cfg.mode, AppMode::Dev) {
-        warn!(db_path = %app_cfg.db_path.display(), "Dev mode enabled, deleting database");
-        let _ = tokio::fs::remove_file(&app_cfg.db_path).await;
+    if matches!(app_cfg.mode, AppMode::Dev) && matches!(app_cfg.db_dialect, SqlDialect::Sqlite) {
+        warn!(
+            db_path = %app_cfg.sqlite_path.display(),
+            "Dev mode enabled, deleting database"
+        );
+        let _ = tokio::fs::remove_file(&app_cfg.sqlite_path).await;
     }
 
-    let repo = database::create_repo(app_cfg.db_dialect, &app_cfg.db_path)
+    let repo = database::create_repo(app_cfg.db_dialect, &app_cfg)
         .await
         .map_err(BootError::Fatal)?;
     repo.migrate(&app_cfg.timezone, app_cfg.default_poll_seconds)

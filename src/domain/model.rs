@@ -25,8 +25,9 @@ pub enum AppMode {
 
 #[derive(Debug, Clone)]
 pub struct AppConfig {
-    pub db_path: PathBuf,
     pub db_dialect: SqlDialect,
+    pub sqlite_path: PathBuf,
+    pub postgres: PostgresConfig,
     pub default_poll_seconds: u64,
     pub max_poll_seconds: u64,
     pub error_backoff_base_seconds: u64,
@@ -44,6 +45,16 @@ pub struct AppConfig {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum SqlDialect {
     Sqlite,
+    Postgres,
+}
+
+#[derive(Debug, Clone)]
+pub struct PostgresConfig {
+    pub user: String,
+    pub password: String,
+    pub host: String,
+    pub port: u16,
+    pub database: String,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
