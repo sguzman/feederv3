@@ -3,31 +3,25 @@ CREATE TABLE IF NOT EXISTS feeds(
   url TEXT NOT NULL,
   domain TEXT NOT NULL,
   base_poll_seconds INTEGER NOT NULL,
-  created_at_ms INTEGER NOT NULL,
-  created_at_text TEXT NOT NULL
+  created_at_ms INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS feed_state_history(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   feed_id TEXT NOT NULL REFERENCES feeds(id),
   recorded_at_ms INTEGER NOT NULL,
-  recorded_at_text TEXT NOT NULL,
   phase TEXT NOT NULL,
   last_head_at_ms INTEGER NULL,
-  last_head_at_text TEXT NULL,
   last_head_status INTEGER NULL,
   last_head_error TEXT NULL,
   last_get_at_ms INTEGER NULL,
-  last_get_at_text TEXT NULL,
   last_get_status INTEGER NULL,
   last_get_error TEXT NULL,
   etag TEXT NULL,
   last_modified_ms INTEGER NULL,
-  last_modified_text TEXT NULL,
   backoff_index INTEGER NOT NULL,
   base_poll_seconds INTEGER NOT NULL,
   next_action_at_ms INTEGER NOT NULL,
-  next_action_at_text TEXT NOT NULL,
   jitter_seconds INTEGER NOT NULL,
   note TEXT NULL
 );
@@ -36,14 +30,12 @@ CREATE TABLE IF NOT EXISTS fetch_events(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   feed_id TEXT NOT NULL REFERENCES feeds(id),
   event_time_ms INTEGER NOT NULL,
-  event_time_text TEXT NOT NULL,
   method TEXT NOT NULL,
   status INTEGER NULL,
   error_kind TEXT NULL,
   latency_ms INTEGER NULL,
   backoff_index INTEGER NOT NULL,
   scheduled_next_action_at_ms INTEGER NOT NULL,
-  scheduled_next_action_at_text TEXT NOT NULL,
   debug TEXT NULL
 );
 
@@ -51,37 +43,30 @@ CREATE TABLE IF NOT EXISTS feed_payloads(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   feed_id TEXT NOT NULL REFERENCES feeds(id),
   fetched_at_ms INTEGER NOT NULL,
-  fetched_at_text TEXT NOT NULL,
   etag TEXT NULL,
   last_modified_ms INTEGER NULL,
-  last_modified_text TEXT NULL,
   content_hash TEXT NULL,
   title TEXT NULL,
   link TEXT NULL,
   description TEXT NULL,
   language TEXT NULL,
-  updated_at_ms INTEGER NULL,
-  updated_at_text TEXT NULL
+  updated_at_ms INTEGER NULL
 );
 
 CREATE TABLE IF NOT EXISTS feed_state_current(
   feed_id TEXT PRIMARY KEY REFERENCES feeds(id),
   phase TEXT NOT NULL,
   last_head_at_ms INTEGER NULL,
-  last_head_at_text TEXT NULL,
   last_head_status INTEGER NULL,
   last_head_error TEXT NULL,
   last_get_at_ms INTEGER NULL,
-  last_get_at_text TEXT NULL,
   last_get_status INTEGER NULL,
   last_get_error TEXT NULL,
   etag TEXT NULL,
   last_modified_ms INTEGER NULL,
-  last_modified_text TEXT NULL,
   backoff_index INTEGER NOT NULL,
   base_poll_seconds INTEGER NOT NULL,
   next_action_at_ms INTEGER NOT NULL,
-  next_action_at_text TEXT NOT NULL,
   jitter_seconds INTEGER NOT NULL,
   note TEXT NULL
 );
@@ -97,7 +82,6 @@ CREATE TABLE IF NOT EXISTS feed_items(
   link TEXT NULL,
   guid TEXT NULL,
   published_at_ms INTEGER NULL,
-  published_at_text TEXT NULL,
   category TEXT NULL,
   description TEXT NULL,
   summary TEXT NULL

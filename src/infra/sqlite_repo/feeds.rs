@@ -6,7 +6,6 @@ use sqlx::SqlitePool;
 use tracing::info;
 
 use crate::domain::model::FeedConfig;
-use crate::infra::time::epoch_ms_to_iso;
 
 use super::connection::set_synchronous;
 use super::models::DueFeedRow;
@@ -16,10 +15,10 @@ pub async fn upsert_feeds_bulk(
     pool: &SqlitePool,
     feeds: Vec<FeedConfig>,
     chunk_size: usize,
-    zone: &Tz,
+    _zone: &Tz,
 ) -> Result<(), String> {
     let prev_sync = set_synchronous(pool, "NORMAL").await?;
-    let res = do_upsert_chunks(pool, feeds, chunk_size.max(1), zone).await;
+    let res = do_upsert_chunks(pool, feeds, chunk_size.max(1)).await;
     let _ = set_synchronous(pool, &prev_sync).await;
     res
 }
@@ -28,7 +27,6 @@ async fn do_upsert_chunks(
     pool: &SqlitePool,
     feeds: Vec<FeedConfig>,
     chunk_size: usize,
-    zone: &Tz,
 ) -> Result<(), String> {
     let mut chunk = Vec::with_capacity(chunk_size);
     let mut total = 0usize;
@@ -38,14 +36,14 @@ async fn do_upsert_chunks(
     while let Some(feed) = iter.next() {
         chunk.push(feed);
         if chunk.len() == chunk_size {
-            upsert_chunk(pool, &chunk, zone).await?;
+            upsert_chunk(pool, &chunk).await?;
             total += chunk.len();
             chunk.clear();
         }
     }
 
     if !chunk.is_empty() {
-        upsert_chunk(pool, &chunk, zone).await?;
+        upsert_chunk(pool, &chunk).await?;
         total += chunk.len();
     }
 
@@ -57,28 +55,26 @@ async fn do_upsert_chunks(
     Ok(())
 }
 
-async fn upsert_chunk(pool: &SqlitePool, feeds: &[FeedConfig], zone: &Tz) -> Result<(), String> {
+async fn upsert_chunk(pool: &SqlitePool, feeds: &[FeedConfig]) -> Result<(), String> {
     let start = Instant::now();
     let mut tx = pool.begin().await.map_err(|e| format!("tx begin: {e}"))?;
     let now_ms = now_epoch_ms();
-    let now_text = epoch_ms_to_iso(now_ms, zone);
 
     for f in feeds {
         sqlx::query(
-        r#"
-        INSERT OR IGNORE INTO feeds(id, url, domain, base_poll_seconds, created_at_ms, created_at_text)
-        VALUES (?1, ?2, ?3, ?4, ?5, ?6)
+            r#"
+        INSERT OR IGNORE INTO feeds(id, url, domain, base_poll_seconds, created_at_ms)
+        VALUES (?1, ?2, ?3, ?4, ?5)
         "#,
-      )
-      .bind(&f.id)
-      .bind(&f.url)
-      .bind(&f.domain)
-      .bind(f.base_poll_seconds as i64)
-      .bind(now_ms)
-      .bind(&now_text)
-      .execute(&mut *tx)
-      .await
-      .map_err(|e| format!("upsert feed error: {e}"))?;
+        )
+        .bind(&f.id)
+        .bind(&f.url)
+        .bind(&f.domain)
+        .bind(f.base_poll_seconds as i64)
+        .bind(now_ms)
+        .execute(&mut *tx)
+        .await
+        .map_err(|e| format!("upsert feed error: {e}"))?;
     }
 
     tx.commit().await.map_err(|e| format!("tx commit: {e}"))?;
