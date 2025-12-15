@@ -1,3 +1,4 @@
+//! Parses RSS/Atom XML bytes into a normalized in-memory representation.
 use chrono::{DateTime, Utc};
 
 #[derive(Debug, Clone)]
