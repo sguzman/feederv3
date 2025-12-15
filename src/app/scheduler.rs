@@ -24,6 +24,9 @@ use crate::ports::{
 pub struct Scheduler;
 
 impl Scheduler {
+    /// Runs the scheduler indefinitely: every tick it fetches due feeds from the repo,
+    /// processes them with bounded parallelism, and applies the link-state machine
+    /// to decide HEAD vs GET vs sleep. Errors are logged and the loop continues.
     pub async fn run_forever<R, H, C, G>(ctx: AppContext<R, H, C, G>) -> Result<(), String>
     where
         R: Repo + 'static,
@@ -409,3 +412,5 @@ fn parse_phase(s: &str) -> Option<LinkPhase> {
         _ => None,
     }
 }
+//! Scheduler tick loop: finds due feeds, throttles per-domain/global concurrency,
+//! and executes HEAD/GET cycles while persisting state, events, and payloads.
