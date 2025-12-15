@@ -4,10 +4,10 @@ use feedrv3::app::{context::AppContext, scheduler::Scheduler};
 use feedrv3::domain::model::{AppConfig, AppMode, FeedConfig};
 use feedrv3::infra::{
     config::{ConfigLoader, LoadedConfig},
+    database,
     logging::{init_logging, BootError},
     random::MutexRng,
     reqwest_http::ReqwestHttp,
-    sqlite_repo::SqliteRepo,
     system_clock::SystemClock,
 };
 use feedrv3::ports::repo::Repo;
@@ -36,6 +36,7 @@ async fn main() -> Result<(), BootError> {
     info!(
       feeds = feeds.len(),
       db_path = %app_cfg.db_path.display(),
+      dialect = ?app_cfg.db_dialect,
       mode = ?app_cfg.mode,
       "Loaded config"
     );
@@ -45,11 +46,9 @@ async fn main() -> Result<(), BootError> {
         let _ = tokio::fs::remove_file(&app_cfg.db_path).await;
     }
 
-    let repo = Arc::new(
-        SqliteRepo::new(&app_cfg.db_path)
-            .await
-            .map_err(BootError::Fatal)?,
-    );
+    let repo = database::create_repo(app_cfg.db_dialect, &app_cfg.db_path)
+        .await
+        .map_err(BootError::Fatal)?;
     repo.migrate(&app_cfg.timezone, app_cfg.default_poll_seconds)
         .await
         .map_err(BootError::Fatal)?;
@@ -149,13 +148,14 @@ fn parse_args() -> Args {
 
 async fn ingest_feeds<R, I>(repo: Arc<R>, cfg: Arc<AppConfig>, feeds: I) -> Result<(), BootError>
 where
-    R: Repo + 'static,
+    R: Repo + ?Sized + 'static,
     I: IntoIterator<Item = FeedConfig> + Send,
     I::IntoIter: Send,
 {
     // Large chunks keep transaction overhead low without blowing memory.
     let chunk_size = 10_000;
-    repo.upsert_feeds_bulk(feeds, chunk_size, &cfg.timezone)
+    let feed_vec: Vec<FeedConfig> = feeds.into_iter().collect();
+    repo.upsert_feeds_bulk(feed_vec, chunk_size, &cfg.timezone)
         .await
         .map_err(BootError::Fatal)
 }

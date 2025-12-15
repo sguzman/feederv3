@@ -12,32 +12,24 @@ use super::connection::set_synchronous;
 use super::models::DueFeedRow;
 use super::util::now_epoch_ms;
 
-pub async fn upsert_feeds_bulk<I>(
+pub async fn upsert_feeds_bulk(
     pool: &SqlitePool,
-    feeds: I,
+    feeds: Vec<FeedConfig>,
     chunk_size: usize,
     zone: &Tz,
-) -> Result<(), String>
-where
-    I: IntoIterator<Item = FeedConfig> + Send,
-    I::IntoIter: Send,
-{
+) -> Result<(), String> {
     let prev_sync = set_synchronous(pool, "NORMAL").await?;
     let res = do_upsert_chunks(pool, feeds, chunk_size.max(1), zone).await;
     let _ = set_synchronous(pool, &prev_sync).await;
     res
 }
 
-async fn do_upsert_chunks<I>(
+async fn do_upsert_chunks(
     pool: &SqlitePool,
-    feeds: I,
+    feeds: Vec<FeedConfig>,
     chunk_size: usize,
     zone: &Tz,
-) -> Result<(), String>
-where
-    I: IntoIterator<Item = FeedConfig>,
-    I::IntoIter: Send,
-{
+) -> Result<(), String> {
     let mut chunk = Vec::with_capacity(chunk_size);
     let mut total = 0usize;
     let mut iter = feeds.into_iter();

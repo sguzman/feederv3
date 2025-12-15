@@ -11,7 +11,7 @@ pub struct Scheduler;
 impl Scheduler {
     pub async fn run_forever<R, H, C, G>(ctx: AppContext<R, H, C, G>) -> Result<(), String>
     where
-        R: Repo + 'static,
+        R: Repo + ?Sized + 'static,
         H: Http + 'static,
         C: Clock + 'static,
         G: RandomSource + 'static,

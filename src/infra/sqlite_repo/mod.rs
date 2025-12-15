@@ -35,16 +35,12 @@ impl Repo for SqliteRepo {
         migrations::migrate(&self.pool, zone, default_poll_seconds).await
     }
 
-    async fn upsert_feeds_bulk<I>(
+    async fn upsert_feeds_bulk(
         &self,
-        feeds: I,
+        feeds: Vec<FeedConfig>,
         chunk_size: usize,
         zone: &Tz,
-    ) -> Result<(), String>
-    where
-        I: IntoIterator<Item = FeedConfig> + Send,
-        I::IntoIter: Send,
-    {
+    ) -> Result<(), String> {
         feeds::upsert_feeds_bulk(&self.pool, feeds, chunk_size, zone).await
     }
 

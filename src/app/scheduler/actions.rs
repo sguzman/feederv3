@@ -21,7 +21,7 @@ pub async fn do_head<R, H>(
     record_history: bool,
 ) -> Result<(), String>
 where
-    R: Repo,
+    R: Repo + ?Sized,
     H: Http,
 {
     let _permit = concurrency.permit(&feed.domain).await;
@@ -63,7 +63,7 @@ pub async fn do_get<R, H>(
     record_history: bool,
 ) -> Result<(), String>
 where
-    R: Repo,
+    R: Repo + ?Sized,
     H: Http,
 {
     let _permit = concurrency.permit(&feed.domain).await;

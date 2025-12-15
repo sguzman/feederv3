@@ -26,6 +26,7 @@ pub enum AppMode {
 #[derive(Debug, Clone)]
 pub struct AppConfig {
     pub db_path: PathBuf,
+    pub db_dialect: SqlDialect,
     pub default_poll_seconds: u64,
     pub max_poll_seconds: u64,
     pub error_backoff_base_seconds: u64,
@@ -38,6 +39,11 @@ pub struct AppConfig {
     pub timezone: Tz,
     pub domains: HashMap<String, DomainConfig>,
     pub state_history_sample_rate: f64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum SqlDialect {
+    Sqlite,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

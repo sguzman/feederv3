@@ -8,7 +8,7 @@ use chrono_tz::Tz;
 use serde::Deserialize;
 use tokio::fs;
 
-use crate::domain::model::{AppConfig, AppMode, DomainConfig, FeedConfig};
+use crate::domain::model::{AppConfig, AppMode, DomainConfig, FeedConfig, SqlDialect};
 
 #[derive(Debug, thiserror::Error)]
 pub enum ConfigError {
@@ -41,6 +41,8 @@ struct RawApp {
 #[derive(Debug, Deserialize)]
 struct RawDatabase {
     path: String,
+    #[serde(default)]
+    dialect: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -138,6 +140,7 @@ impl ConfigLoader {
 
         let db_base = resolve_db_base_dir(config_path);
         let db_path = db_base.join(raw_cfg.database.path);
+        let db_dialect = parse_dialect(raw_cfg.database.dialect.as_deref())?;
 
         let mut domains = HashMap::new();
         for d in raw_domains.domains {
@@ -178,6 +181,7 @@ impl ConfigLoader {
         Ok(LoadedConfig {
             app: AppConfig {
                 db_path,
+                db_dialect,
                 default_poll_seconds: raw_cfg.polling.default_seconds,
                 max_poll_seconds: raw_cfg.polling.max_seconds,
                 error_backoff_base_seconds: raw_cfg.backoff.error_base_seconds,
@@ -228,6 +232,16 @@ impl ConfigLoader {
             all.extend(parsed.feeds);
         }
         Ok(RawFeedsFile { feeds: all })
+    }
+}
+
+fn parse_dialect(s: Option<&str>) -> Result<SqlDialect, ConfigError> {
+    match s.map(|x| x.to_ascii_lowercase()) {
+        None => Ok(SqlDialect::Sqlite),
+        Some(d) if d == "sqlite" => Ok(SqlDialect::Sqlite),
+        Some(other) => Err(ConfigError::Invalid(format!(
+            "invalid database.dialect '{other}', expected 'sqlite'"
+        ))),
     }
 }
 

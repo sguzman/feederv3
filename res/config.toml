@@ -4,6 +4,7 @@ timezone = "America/Mexico_City"
 
 [database]
 path = "rss.db"
+dialect = "sqlite"
 
 [polling]
 default_seconds = 100

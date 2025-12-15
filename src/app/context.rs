@@ -7,7 +7,7 @@ use crate::ports::{clock::Clock, http::Http, random::RandomSource, repo::Repo};
 /// persistence, HTTP client, clock, and randomness source).
 pub struct AppContext<R, H, C, G>
 where
-    R: Repo,
+    R: Repo + ?Sized,
     H: Http,
     C: Clock,
     G: RandomSource,

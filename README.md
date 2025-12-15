@@ -27,7 +27,7 @@ Config is resolved from:
 
 `config.toml` (app-wide sections):
 - `[app]` – `mode` (`dev` deletes the DB on boot; `prod` leaves it intact) and `timezone` (IANA TZ for timestamps/logging).
-- `[database]` – `path` to the SQLite file (relative paths resolve from the config dir unless the path includes `resources`, in which case CWD is used).
+- `[database]` – `path` to the SQL database (relative paths resolve from the config dir unless the path includes `resources`, in which case CWD is used) and `dialect` (currently only `sqlite` is supported).
 - `[polling]` – `default_seconds`, `max_seconds`, and `jitter_fraction` controlling poll cadence and jitter.
 - `[backoff]` – `error_base_seconds` and `max_error_seconds` bounding exponential backoff after errors.
 - `[requests]` – `global_max_concurrent_requests` optional cap on in-flight HTTP requests (defaults to 64 when unset) and `user_agent` string.
@@ -59,6 +59,7 @@ Config is resolved from:
 
 ## Data & Schema Notes
 - SQLite path comes from `database.path`; WAL mode and `synchronous` toggling are used to speed bulk upserts.
+- Creation DDLs live in `res/sql/sqlite/schema.sql` and are applied at startup; non-schema migrations remain in code.
 - Key tables: `feeds` (definitions), `feed_state_current` + `feed_state_history`, `fetch_events`, `feed_payloads`, `feed_items`.
 - A prebuilt DB snapshot is checked in under `res/` for quick inspection; dev mode will delete it on boot.
 

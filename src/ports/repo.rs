@@ -31,15 +31,12 @@ pub struct StateRow {
 #[async_trait::async_trait]
 pub trait Repo: Send + Sync {
     async fn migrate(&self, zone: &Tz, default_poll_seconds: u64) -> Result<(), String>;
-    async fn upsert_feeds_bulk<I>(
+    async fn upsert_feeds_bulk(
         &self,
-        feeds: I,
+        feeds: Vec<FeedConfig>,
         chunk_size: usize,
         zone: &Tz,
-    ) -> Result<(), String>
-    where
-        I: IntoIterator<Item = FeedConfig> + Send,
-        I::IntoIter: Send;
+    ) -> Result<(), String>;
 
     async fn latest_state(&self, feed_id: &str) -> Result<Option<StateRow>, String>;
     async fn due_feeds(&self, now_ms: i64, limit: i64) -> Result<Vec<FeedConfig>, String>;

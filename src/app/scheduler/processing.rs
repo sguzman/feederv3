@@ -20,7 +20,7 @@ pub async fn run_tick<R, H, C, G>(
     tick_started: Instant,
 ) -> Result<(), String>
 where
-    R: Repo + 'static,
+    R: Repo + ?Sized + 'static,
     H: Http + 'static,
     C: Clock + 'static,
     G: RandomSource + 'static,
@@ -89,7 +89,7 @@ async fn process_feed<R, H, C, G>(
     feed: FeedConfig,
 ) -> Result<(), String>
 where
-    R: Repo,
+    R: Repo + ?Sized,
     H: Http,
     C: Clock,
     G: RandomSource,
