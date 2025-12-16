@@ -1,0 +1,90 @@
+[[feeds]]
+id = "econ"
+url = "https://rss.arxiv.org/rss/econ"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "eess"
+url = "https://rss.arxiv.org/rss/eess"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "stat"
+url = "https://rss.arxiv.org/rss/stat"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "q-fin"
+url = "https://rss.arxiv.org/rss/q-fin"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "q-bio"
+url = "https://rss.arxiv.org/rss/q-bio"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "cs"
+url = "https://rss.arxiv.org/rss/cs"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "quant-ph"
+url = "https://rss.arxiv.org/rss/quant-ph"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "physics"
+url = "https://rss.arxiv.org/rss/physics"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "nucl-th"
+url = "https://rss.arxiv.org/rss/nucl-th"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "nucl-ex"
+url = "https://rss.arxiv.org/rss/nucl-ex"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "nlin"
+url = "https://rss.arxiv.org/rss/nlin"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "math-ph"
+url = "https://rss.arxiv.org/rss/math-ph"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "hep-th"
+url = "https://rss.arxiv.org/rss/hep-th"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "hep-lat"
+url = "https://rss.arxiv.org/rss/hep-lat"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "hep-ex"
+url = "https://rss.arxiv.org/rss/hep-ex"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "gr-qc"
+url = "https://rss.arxiv.org/rss/gr-qc"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "cond-mat"
+url = "https://rss.arxiv.org/rss/cond-mat"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "astro-ph"
+url = "https://rss.arxiv.org/rss/astro-ph"
+base_poll_seconds = 500
+

@@ -13,3 +13,7 @@ max_concurrent_requests = 1
 [[domains]]
 name = "youtube.com"
 max_concurrent_requests = 1
+
+[[domains]]
+name = "arxiv.org"
+max_concurrent_requests = 1
