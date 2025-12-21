@@ -32,6 +32,10 @@ impl PostgresRepo {
     }
 }
 
+pub async fn wipe_database(cfg: &PostgresConfig, timezone: &Tz) -> Result<(), String> {
+    connection::wipe_database(cfg, timezone).await
+}
+
 #[async_trait::async_trait]
 impl Repo for PostgresRepo {
     async fn migrate(&self, _zone: &Tz, default_poll_seconds: u64) -> Result<(), String> {

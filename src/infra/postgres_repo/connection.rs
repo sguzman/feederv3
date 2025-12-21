@@ -29,6 +29,19 @@ pub async fn create_pool(cfg: &PostgresConfig, timezone: &Tz) -> Result<PgPool, 
     }
 }
 
+pub async fn wipe_database(cfg: &PostgresConfig, timezone: &Tz) -> Result<(), String> {
+    let pool = create_pool(cfg, timezone).await?;
+    sqlx::query("DROP SCHEMA public CASCADE")
+        .execute(&pool)
+        .await
+        .map_err(|e| format!("postgres drop schema error: {e}"))?;
+    sqlx::query("CREATE SCHEMA public")
+        .execute(&pool)
+        .await
+        .map_err(|e| format!("postgres create schema error: {e}"))?;
+    Ok(())
+}
+
 fn set_time_zone(
     timezone: &Tz,
 ) -> impl Fn(

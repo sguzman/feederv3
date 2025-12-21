@@ -46,12 +46,30 @@ async fn main() -> Result<(), BootError> {
     };
     info!(feeds = feeds.len(), db = %db_desc, dialect = ?app_cfg.db_dialect, mode = ?app_cfg.mode, "Loaded config");
 
-    if matches!(app_cfg.mode, AppMode::Dev) && matches!(app_cfg.db_dialect, SqlDialect::Sqlite) {
-        warn!(
-            db_path = %app_cfg.sqlite_path.display(),
-            "Dev mode enabled, deleting database"
-        );
-        let _ = tokio::fs::remove_file(&app_cfg.sqlite_path).await;
+    if matches!(app_cfg.mode, AppMode::Dev) {
+        match app_cfg.db_dialect {
+            SqlDialect::Sqlite => {
+                warn!(
+                    db_path = %app_cfg.sqlite_path.display(),
+                    "Dev mode enabled, deleting database"
+                );
+                let _ = tokio::fs::remove_file(&app_cfg.sqlite_path).await;
+            }
+            SqlDialect::Postgres => {
+                warn!(
+                    db = %app_cfg.postgres.database,
+                    host = %app_cfg.postgres.host,
+                    port = app_cfg.postgres.port,
+                    "Dev mode enabled, wiping database"
+                );
+                feedrv3::infra::postgres_repo::wipe_database(
+                    &app_cfg.postgres,
+                    &app_cfg.timezone,
+                )
+                .await
+                .map_err(BootError::Fatal)?;
+            }
+        }
     }
 
     let repo = database::create_repo(app_cfg.db_dialect, &app_cfg)
