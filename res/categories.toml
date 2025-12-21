@@ -4,7 +4,7 @@ domains = ["youtube.com", "youtu.be", "www.youtube.com"]
 
 [[categories]]
 name = "gov"
-domains = ["govinfo.gov", "bls.gov", "federalregister.gov", "www.federalreserve.gov"]
+domains = ["govinfo.gov", "www.govinfo.gov", "www.bls.gov", "bls.gov", "federalregister.gov", "www.federalreserve.gov"]
 
 [[categories]]
 name = "journals"
