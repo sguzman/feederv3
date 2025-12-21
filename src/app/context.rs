@@ -5,6 +5,7 @@ use crate::ports::{clock::Clock, http::Http, random::RandomSource, repo::Repo};
 
 /// Bundles the runtime dependencies the scheduler needs (configuration,
 /// persistence, HTTP client, clock, and randomness source).
+#[derive(Clone)]
 pub struct AppContext<R, H, C, G>
 where
     R: Repo + ?Sized,

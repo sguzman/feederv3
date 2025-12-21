@@ -63,13 +63,19 @@ async fn upsert_chunk(pool: &SqlitePool, feeds: &[FeedConfig]) -> Result<(), Str
     for f in feeds {
         sqlx::query(
             r#"
-        INSERT OR IGNORE INTO feeds(id, url, domain, base_poll_seconds, created_at_ms)
-        VALUES (?1, ?2, ?3, ?4, ?5)
+        INSERT INTO feeds(id, url, domain, category, base_poll_seconds, created_at_ms)
+        VALUES (?1, ?2, ?3, ?4, ?5, ?6)
+        ON CONFLICT(id) DO UPDATE SET
+          url = excluded.url,
+          domain = excluded.domain,
+          category = excluded.category,
+          base_poll_seconds = excluded.base_poll_seconds
         "#,
         )
         .bind(&f.id)
         .bind(&f.url)
         .bind(&f.domain)
+        .bind(&f.category)
         .bind(f.base_poll_seconds as i64)
         .bind(now_ms)
         .execute(&mut *tx)
@@ -88,20 +94,22 @@ async fn upsert_chunk(pool: &SqlitePool, feeds: &[FeedConfig]) -> Result<(), Str
 
 pub async fn due_feeds(
     pool: &SqlitePool,
+    category: &str,
     now_ms: i64,
     limit: i64,
 ) -> Result<Vec<FeedConfig>, String> {
     let start = Instant::now();
     let rows = sqlx::query_as::<_, DueFeedRow>(
         r#"
-      SELECT f.id, f.url, f.domain, f.base_poll_seconds
+      SELECT f.id, f.url, f.domain, f.category, f.base_poll_seconds
       FROM feeds f
       LEFT JOIN feed_state_current s ON s.feed_id = f.id
-      WHERE s.feed_id IS NULL OR s.next_action_at_ms <= ?1
-      ORDER BY COALESCE(s.next_action_at_ms, ?1)
-      LIMIT ?2
+      WHERE f.category = ?1 AND (s.feed_id IS NULL OR s.next_action_at_ms <= ?2)
+      ORDER BY COALESCE(s.next_action_at_ms, ?2)
+      LIMIT ?3
       "#,
     )
+    .bind(category)
     .bind(now_ms)
     .bind(limit)
     .fetch_all(pool)
@@ -112,10 +120,33 @@ pub async fn due_feeds(
     let feeds = rows.into_iter().map(FeedConfig::from).collect::<Vec<_>>();
 
     info!(
+        category,
         limit,
         due = feeds.len(),
         elapsed_ms = elapsed.as_millis(),
         "due_feeds query"
     );
     Ok(feeds)
+}
+
+pub async fn upsert_categories(pool: &SqlitePool, names: &[String]) -> Result<(), String> {
+    let mut tx = pool.begin().await.map_err(|e| format!("tx begin: {e}"))?;
+    let now_ms = now_epoch_ms();
+
+    for name in names {
+        sqlx::query(
+            r#"
+        INSERT OR IGNORE INTO categories(name, created_at_ms)
+        VALUES (?1, ?2)
+        "#,
+        )
+        .bind(name)
+        .bind(now_ms)
+        .execute(&mut *tx)
+        .await
+        .map_err(|e| format!("upsert category error: {e}"))?;
+    }
+
+    tx.commit().await.map_err(|e| format!("tx commit: {e}"))?;
+    Ok(())
 }

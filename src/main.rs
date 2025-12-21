@@ -27,6 +27,7 @@ async fn main() -> Result<(), BootError> {
     let LoadedConfig {
         app: app_cfg,
         feeds,
+        categories,
     } = ConfigLoader::load(&cfg_path)
         .await
         .map_err(|e| BootError::Fatal(e.to_string()))?;
@@ -61,6 +62,7 @@ async fn main() -> Result<(), BootError> {
         .map_err(BootError::Fatal)?;
 
     let cfg = Arc::new(app_cfg);
+    let category_names: Vec<String> = categories.iter().map(|c| c.name.clone()).collect();
 
     match args.mode {
         RunMode::IngestBenchmark { feeds_to_insert } => {
@@ -70,10 +72,17 @@ async fn main() -> Result<(), BootError> {
                 ));
             }
             info!(feeds = feeds_to_insert, "Starting ingest benchmark only");
+            repo.upsert_categories(vec!["benchmark".to_string()], &cfg.timezone)
+                .await
+                .map_err(BootError::Fatal)?;
             ingest_feeds(
                 repo.clone(),
                 cfg.clone(),
-                benchmark_feed_stream(feeds_to_insert, cfg.default_poll_seconds),
+                benchmark_feed_stream(
+                    feeds_to_insert,
+                    cfg.default_poll_seconds,
+                    "benchmark".to_string(),
+                ),
             )
             .await?;
             info!(feeds = feeds_to_insert, "Ingest benchmark finished");
@@ -82,6 +91,9 @@ async fn main() -> Result<(), BootError> {
         RunMode::Scheduler => {}
     }
 
+    repo.upsert_categories(category_names.clone(), &cfg.timezone)
+        .await
+        .map_err(BootError::Fatal)?;
     ingest_feeds(repo.clone(), cfg.clone(), feeds).await?;
 
     let http = Arc::new(
@@ -98,7 +110,7 @@ async fn main() -> Result<(), BootError> {
         rng: rng.clone(),
     };
 
-    if let Err(e) = Scheduler::run_forever(ctx).await {
+    if let Err(e) = Scheduler::run_forever_by_category(ctx, category_names).await {
         error!(error = %e, "Fatal error");
         return Err(BootError::Fatal(e.to_string()));
     }
@@ -170,11 +182,13 @@ where
 fn benchmark_feed_stream(
     count: usize,
     default_poll_seconds: u64,
+    category: String,
 ) -> impl Iterator<Item = FeedConfig> {
     (0..count).map(move |i| FeedConfig {
         id: format!("bench-{i}"),
         url: format!("https://bench.example.com/{i}.xml"),
         domain: "bench.example.com".to_string(),
+        category: category.clone(),
         base_poll_seconds: default_poll_seconds,
     })
 }

@@ -1,7 +1,13 @@
+CREATE TABLE IF NOT EXISTS categories(
+  name TEXT PRIMARY KEY,
+  created_at_ms INTEGER NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS feeds(
   id TEXT PRIMARY KEY,
   url TEXT NOT NULL,
   domain TEXT NOT NULL,
+  category TEXT NOT NULL REFERENCES categories(name),
   base_poll_seconds INTEGER NOT NULL,
   created_at_ms INTEGER NOT NULL
 );
@@ -90,3 +96,4 @@ CREATE TABLE IF NOT EXISTS feed_items(
 CREATE INDEX IF NOT EXISTS idx_feed_items_payload ON feed_items(payload_id);
 CREATE INDEX IF NOT EXISTS idx_feed_items_feed ON feed_items(feed_id);
 CREATE INDEX IF NOT EXISTS idx_feeds_domain ON feeds(domain);
+CREATE INDEX IF NOT EXISTS idx_feeds_category ON feeds(category);

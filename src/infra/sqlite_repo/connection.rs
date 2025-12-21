@@ -89,6 +89,37 @@ pub async fn ensure_feed_state_note_column(pool: &SqlitePool) -> Result<(), Stri
     Ok(())
 }
 
+pub async fn ensure_feed_category_column(pool: &SqlitePool) -> Result<(), String> {
+    let has_table: Option<i64> = sqlx::query_scalar(
+        r#"SELECT 1 FROM sqlite_master WHERE type='table' AND name='feeds' LIMIT 1"#,
+    )
+    .fetch_optional(pool)
+    .await
+    .map_err(|e| format!("introspect sqlite_master: {e}"))?;
+
+    if has_table.is_none() {
+        return Ok(());
+    }
+
+    let has_column: Option<i64> = sqlx::query_scalar(
+        r#"SELECT 1 FROM pragma_table_info('feeds') WHERE name = 'category' LIMIT 1"#,
+    )
+    .fetch_optional(pool)
+    .await
+    .map_err(|e| format!("introspect feeds table: {e}"))?;
+
+    if has_column.is_some() {
+        return Ok(());
+    }
+
+    sqlx::query("ALTER TABLE feeds ADD COLUMN category TEXT NULL")
+        .execute(pool)
+        .await
+        .map_err(|e| format!("add category column: {e}"))?;
+    info!("Added category column to feeds");
+    Ok(())
+}
+
 pub async fn set_synchronous(pool: &SqlitePool, mode: &str) -> Result<String, String> {
     let prev: i64 = sqlx::query_scalar("PRAGMA synchronous")
         .fetch_one(pool)

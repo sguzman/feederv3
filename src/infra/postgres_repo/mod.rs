@@ -46,12 +46,21 @@ impl Repo for PostgresRepo {
         feeds::upsert_feeds_bulk(&self.pool, feeds, chunk_size, zone).await
     }
 
+    async fn upsert_categories(&self, categories: Vec<String>, zone: &Tz) -> Result<(), String> {
+        feeds::upsert_categories(&self.pool, &categories, zone).await
+    }
+
     async fn latest_state(&self, feed_id: &str) -> Result<Option<StateRow>, String> {
         state::latest_state(&self.pool, feed_id).await
     }
 
-    async fn due_feeds(&self, now_ms: i64, limit: i64) -> Result<Vec<FeedConfig>, String> {
-        feeds::due_feeds(&self.pool, now_ms, limit, &self.timezone).await
+    async fn due_feeds_for_category(
+        &self,
+        category: &str,
+        now_ms: i64,
+        limit: i64,
+    ) -> Result<Vec<FeedConfig>, String> {
+        feeds::due_feeds(&self.pool, category, now_ms, limit, &self.timezone).await
     }
 
     async fn insert_state(

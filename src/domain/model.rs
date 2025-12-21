@@ -10,10 +10,17 @@ pub struct DomainConfig {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CategoryConfig {
+    pub name: String,
+    pub domains: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FeedConfig {
     pub id: String,
     pub url: String,
     pub domain: String,
+    pub category: String,
     pub base_poll_seconds: u64,
 }
 

@@ -9,7 +9,7 @@ use serde::Deserialize;
 use tokio::fs;
 
 use crate::domain::model::{
-    AppConfig, AppMode, DomainConfig, FeedConfig, PostgresConfig, SqlDialect,
+    AppConfig, AppMode, CategoryConfig, DomainConfig, FeedConfig, PostgresConfig, SqlDialect,
 };
 
 #[derive(Debug, thiserror::Error)]
@@ -116,6 +116,17 @@ struct RawFeedsFile {
 }
 
 #[derive(Debug, Deserialize)]
+struct RawCategoriesFile {
+    categories: Vec<RawCategoryEntry>,
+}
+
+#[derive(Debug, Deserialize)]
+struct RawCategoryEntry {
+    name: String,
+    domains: Vec<String>,
+}
+
+#[derive(Debug, Deserialize)]
 struct RawFeed {
     id: String,
     url: String,
@@ -127,6 +138,7 @@ pub struct ConfigLoader;
 pub struct LoadedConfig {
     pub app: AppConfig,
     pub feeds: Vec<FeedConfig>,
+    pub categories: Vec<CategoryConfig>,
 }
 
 impl ConfigLoader {
@@ -137,6 +149,7 @@ impl ConfigLoader {
             .parent()
             .ok_or_else(|| ConfigError::Invalid("config path has no parent".into()))?;
         let domains_path = base_dir.join("domains.toml");
+        let categories_path = base_dir.join("categories.toml");
         let feeds_dir = base_dir.join("feeds");
 
         let app_content = fs::read_to_string(config_path).await?;
@@ -144,6 +157,9 @@ impl ConfigLoader {
 
         let domains_content = fs::read_to_string(&domains_path).await?;
         let raw_domains: RawDomainsFile = toml::from_str(&domains_content)?;
+
+        let categories_content = fs::read_to_string(&categories_path).await?;
+        let raw_categories: RawCategoriesFile = toml::from_str(&categories_content)?;
 
         let raw_feeds = Self::load_all_feeds(&feeds_dir).await?;
 
@@ -178,6 +194,45 @@ impl ConfigLoader {
             );
         }
 
+        let mut category_names = std::collections::HashSet::new();
+        let mut domain_to_category = HashMap::new();
+        let mut categories = Vec::new();
+        for c in raw_categories.categories {
+            let name = c.name.trim().to_string();
+            if name.is_empty() {
+                return Err(ConfigError::Invalid("category name cannot be empty".into()));
+            }
+            if !category_names.insert(name.clone()) {
+                return Err(ConfigError::Invalid(format!(
+                    "duplicate category name '{name}'"
+                )));
+            }
+            let mut domains_vec = Vec::new();
+            for d in c.domains {
+                let domain = d.trim().to_ascii_lowercase();
+                if domain.is_empty() {
+                    return Err(ConfigError::Invalid(format!(
+                        "category '{name}' has empty domain"
+                    )));
+                }
+                if domain_to_category.insert(domain.clone(), name.clone()).is_some() {
+                    return Err(ConfigError::Invalid(format!(
+                        "domain '{domain}' appears in multiple categories"
+                    )));
+                }
+                domains_vec.push(domain);
+            }
+            categories.push(CategoryConfig {
+                name,
+                domains: domains_vec,
+            });
+        }
+        if categories.is_empty() {
+            return Err(ConfigError::Invalid(
+                "categories.toml must define at least one category".into(),
+            ));
+        }
+
         let history_sample_rate = raw_cfg
             .state_history
             .as_ref()
@@ -194,10 +249,18 @@ impl ConfigLoader {
         for f in raw_feeds.feeds {
             let domain = url_host(&f.url)
                 .ok_or_else(|| ConfigError::Invalid(format!("feed '{}' missing host", f.id)))?;
+            let domain = domain.to_ascii_lowercase();
+            let category = domain_to_category.get(&domain).cloned().ok_or_else(|| {
+                ConfigError::Invalid(format!(
+                    "feed '{}' domain '{domain}' missing from categories",
+                    f.id
+                ))
+            })?;
             feeds.push(FeedConfig {
                 id: f.id,
                 url: f.url,
                 domain,
+                category,
                 base_poll_seconds: f
                     .base_poll_seconds
                     .unwrap_or(raw_cfg.polling.default_seconds),
@@ -223,6 +286,7 @@ impl ConfigLoader {
                 state_history_sample_rate: history_sample_rate,
             },
             feeds,
+            categories,
         })
     }
 

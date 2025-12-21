@@ -1,0 +1,19 @@
+[[categories]]
+name = "youtube"
+domains = ["youtube.com", "youtu.be", "www.youtube.com"]
+
+[[categories]]
+name = "gov"
+domains = ["govinfo.gov", "bls.gov", "federalregister.gov", "www.federalreserve.gov"]
+
+[[categories]]
+name = "journals"
+domains = ["rss.arxiv.org"]
+
+[[categories]]
+name = "comics"
+domains = ["xkcd.com"]
+
+[[categories]]
+name = "tech"
+domains = ["hnrss.org"]

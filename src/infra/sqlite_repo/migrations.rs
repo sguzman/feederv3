@@ -3,7 +3,9 @@ use chrono_tz::Tz;
 use sqlx::SqlitePool;
 use tracing::info;
 
-use super::connection::{ensure_feed_base_poll_column, ensure_feed_state_note_column};
+use super::connection::{
+    ensure_feed_base_poll_column, ensure_feed_category_column, ensure_feed_state_note_column,
+};
 
 const SQLITE_SCHEMA: &str = include_str!(concat!(
     env!("CARGO_MANIFEST_DIR"),
@@ -21,6 +23,9 @@ pub async fn migrate(
         .execute(pool)
         .await
         .map_err(|e| format!("migrate error (pragma): {e}"))?;
+
+    // Ensure category exists before schema indexes use it on existing DBs.
+    ensure_feed_category_column(pool).await?;
 
     for ddl in schema_statements() {
         sqlx::query(ddl)

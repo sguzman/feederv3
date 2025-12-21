@@ -1,10 +1,18 @@
+CREATE TABLE IF NOT EXISTS categories(
+  name TEXT PRIMARY KEY,
+  created_at TIMESTAMPTZ NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS feeds(
   id TEXT PRIMARY KEY,
   url TEXT NOT NULL,
   domain TEXT NOT NULL,
+  category TEXT NOT NULL REFERENCES categories(name),
   base_poll_seconds BIGINT NOT NULL,
   created_at TIMESTAMPTZ NOT NULL
 );
+
+ALTER TABLE feeds ADD COLUMN IF NOT EXISTS category TEXT;
 
 CREATE TABLE IF NOT EXISTS feed_state_history(
   id BIGSERIAL PRIMARY KEY,
@@ -90,3 +98,4 @@ CREATE TABLE IF NOT EXISTS feed_items(
 CREATE INDEX IF NOT EXISTS idx_feed_items_payload ON feed_items(payload_id);
 CREATE INDEX IF NOT EXISTS idx_feed_items_feed ON feed_items(feed_id);
 CREATE INDEX IF NOT EXISTS idx_feeds_domain ON feeds(domain);
+CREATE INDEX IF NOT EXISTS idx_feeds_category ON feeds(category);

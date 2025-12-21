@@ -18,6 +18,7 @@ pub async fn run_tick<R, H, C, G>(
     ctx: &AppContext<R, H, C, G>,
     concurrency: &ConcurrencyGuards,
     tick_started: Instant,
+    category: &str,
 ) -> Result<(), String>
 where
     R: Repo + ?Sized + 'static,
@@ -32,11 +33,15 @@ where
 
     let now_ms = ctx.clock.now_epoch_ms().await;
     let due_started = Instant::now();
-    let due = ctx.repo.due_feeds(now_ms, due_batch_size).await?;
+    let due = ctx
+        .repo
+        .due_feeds_for_category(category, now_ms, due_batch_size)
+        .await?;
     let due_elapsed = due_started.elapsed();
 
     info!(
       tick_time = %format_epoch_ms(now_ms, &cfg.timezone),
+      category = category,
       due = due.len(),
       due_batch_limit = due_batch_size,
       due_query_ms = due_elapsed.as_millis(),
@@ -72,6 +77,7 @@ where
 
     info!(
       tick_time = %format_epoch_ms(now_ms, &cfg.timezone),
+      category = category,
       total_ms = tick_started.elapsed().as_millis(),
       "Scheduler tick complete"
     );

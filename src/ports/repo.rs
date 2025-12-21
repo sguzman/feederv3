@@ -37,9 +37,15 @@ pub trait Repo: Send + Sync {
         chunk_size: usize,
         zone: &Tz,
     ) -> Result<(), String>;
+    async fn upsert_categories(&self, categories: Vec<String>, zone: &Tz) -> Result<(), String>;
 
     async fn latest_state(&self, feed_id: &str) -> Result<Option<StateRow>, String>;
-    async fn due_feeds(&self, now_ms: i64, limit: i64) -> Result<Vec<FeedConfig>, String>;
+    async fn due_feeds_for_category(
+        &self,
+        category: &str,
+        now_ms: i64,
+        limit: i64,
+    ) -> Result<Vec<FeedConfig>, String>;
 
     async fn insert_state(
         &self,

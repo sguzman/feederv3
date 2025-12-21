@@ -26,6 +26,7 @@ pub struct DueFeedRow {
     pub id: String,
     pub url: String,
     pub domain: String,
+    pub category: String,
     pub base_poll_seconds: i64,
 }
 
@@ -57,6 +58,7 @@ impl From<DueFeedRow> for FeedConfig {
             id: row.id,
             url: row.url,
             domain: row.domain,
+            category: row.category,
             base_poll_seconds: row.base_poll_seconds.max(0) as u64,
         }
     }
