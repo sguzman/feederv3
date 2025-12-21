@@ -14,33 +14,8 @@ url = "https://www.federalreserve.gov/feeds/reportforms-rss.xml"
 base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-cp_outstanding"
-url = "https://www.federalreserve.gov/feeds/cp_outstanding.htm"
-base_poll_seconds = 720
-
-[[feeds]]
-id = "federalreserve-cp_rates"
-url = "https://www.federalreserve.gov/feeds/cp_rates.htm"
-base_poll_seconds = 720
-
-[[feeds]]
-id = "federalreserve-h10_data"
-url = "https://www.federalreserve.gov/feeds/h10_data.htm"
-base_poll_seconds = 720
-
-[[feeds]]
-id = "federalreserve-h15_data"
-url = "https://www.federalreserve.gov/feeds/h15_data.htm"
-base_poll_seconds = 720
-
-[[feeds]]
 id = "federalreserve-datadownload"
 url = "https://www.federalreserve.gov/feeds/datadownload.xml"
-base_poll_seconds = 720
-
-[[feeds]]
-id = "federalreserve-h3"
-url = "https://www.federalreserve.gov/feeds/h3.html"
 base_poll_seconds = 720
 
 [[feeds]]
@@ -96,11 +71,6 @@ base_poll_seconds = 720
 [[feeds]]
 id = "federalreserve-g17"
 url = "https://www.federalreserve.gov/feeds/g17.xml"
-base_poll_seconds = 720
-
-[[feeds]]
-id = "federalreserve-h6"
-url = "https://www.federalreserve.gov/feeds/h6.html"
 base_poll_seconds = 720
 
 [[feeds]]
