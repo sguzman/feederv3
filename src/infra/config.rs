@@ -294,23 +294,7 @@ impl ConfigLoader {
     }
 
     async fn load_all_feeds(feeds_dir: &Path) -> Result<RawFeedsFile, ConfigError> {
-        let mut entries = fs::read_dir(feeds_dir).await.map_err(|_| {
-            ConfigError::Invalid(format!("feeds dir not found at {}", feeds_dir.display()))
-        })?;
-
-        let mut files: Vec<PathBuf> = Vec::new();
-        while let Some(e) = entries.next_entry().await? {
-            let p = e.path();
-            if p.is_file()
-                && p.extension()
-                    .and_then(|s| s.to_str())
-                    .map(|s| s.eq_ignore_ascii_case("toml"))
-                    .unwrap_or(false)
-            {
-                files.push(p);
-            }
-        }
-        files.sort();
+        let files = collect_feed_files(feeds_dir).await?;
 
         if files.is_empty() {
             return Err(ConfigError::Invalid(format!(
@@ -327,6 +311,40 @@ impl ConfigLoader {
         }
         Ok(RawFeedsFile { feeds: all })
     }
+}
+
+async fn collect_feed_files(feeds_dir: &Path) -> Result<Vec<PathBuf>, ConfigError> {
+    let mut entries = fs::read_dir(feeds_dir).await.map_err(|_| {
+        ConfigError::Invalid(format!("feeds dir not found at {}", feeds_dir.display()))
+    })?;
+
+    let mut files: Vec<PathBuf> = Vec::new();
+    while let Some(e) = entries.next_entry().await? {
+        let p = e.path();
+        let ty = e.file_type().await?;
+        if ty.is_file() && is_toml_file(&p) {
+            files.push(p);
+        } else if ty.is_dir() {
+            let mut sub_entries = fs::read_dir(&p).await?;
+            while let Some(sub) = sub_entries.next_entry().await? {
+                let sub_path = sub.path();
+                let sub_ty = sub.file_type().await?;
+                if sub_ty.is_file() && is_toml_file(&sub_path) {
+                    files.push(sub_path);
+                }
+            }
+        }
+    }
+
+    files.sort();
+    Ok(files)
+}
+
+fn is_toml_file(path: &Path) -> bool {
+    path.extension()
+        .and_then(|s| s.to_str())
+        .map(|s| s.eq_ignore_ascii_case("toml"))
+        .unwrap_or(false)
 }
 
 fn parse_dialect(s: Option<&str>) -> Result<SqlDialect, ConfigError> {
