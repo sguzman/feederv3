@@ -2,62 +2,62 @@
 
 [[feeds]]
 id = "UC--BMyA2X4a9PGAo3lTuopg"
-url = "http://www.youtube.com/channel/UC--BMyA2X4a9PGAo3lTuopg"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC--BMyA2X4a9PGAo3lTuopg"
 base_poll_seconds = 500
 
 # Gaelic Neoreactionary
 
 [[feeds]]
 id = "UC--Ru-Cve1fxhZ8m8xXxeUg"
-url = "http://www.youtube.com/channel/UC--Ru-Cve1fxhZ8m8xXxeUg"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC--Ru-Cve1fxhZ8m8xXxeUg"
 base_poll_seconds = 500
 
 # Deep Look
 
 [[feeds]]
 id = "UC-3SbfTPJsL8fJAPKiVqBLg"
-url = "http://www.youtube.com/channel/UC-3SbfTPJsL8fJAPKiVqBLg"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC-3SbfTPJsL8fJAPKiVqBLg"
 base_poll_seconds = 500
 
 # Astrum
 
 [[feeds]]
 id = "UC-9b7aDP6ZN0coj9-xFnrtw"
-url = "http://www.youtube.com/channel/UC-9b7aDP6ZN0coj9-xFnrtw"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC-9b7aDP6ZN0coj9-xFnrtw"
 base_poll_seconds = 500
 
 # Frostbreak
 
 [[feeds]]
 id = "UC-Bww5W52E1FFgU89TPxBVA"
-url = "http://www.youtube.com/channel/UC-Bww5W52E1FFgU89TPxBVA"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC-Bww5W52E1FFgU89TPxBVA"
 base_poll_seconds = 500
 
 # M. Laser History
 
 [[feeds]]
 id = "UC-JWw2juO3Ikj5C9VsNoGIw"
-url = "http://www.youtube.com/channel/UC-JWw2juO3Ikj5C9VsNoGIw"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC-JWw2juO3Ikj5C9VsNoGIw"
 base_poll_seconds = 500
 
 # SubAnima
 
 [[feeds]]
 id = "UC-Jj_eFkIwnA5m75ral8_HQ"
-url = "http://www.youtube.com/channel/UC-Jj_eFkIwnA5m75ral8_HQ"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC-Jj_eFkIwnA5m75ral8_HQ"
 base_poll_seconds = 500
 
 # Hidden Machine
 
 [[feeds]]
 id = "UC-KxYWLV-u3-rE8-_k16dUQ"
-url = "http://www.youtube.com/channel/UC-KxYWLV-u3-rE8-_k16dUQ"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC-KxYWLV-u3-rE8-_k16dUQ"
 base_poll_seconds = 500
 
 # Palu n' Sora
 
 [[feeds]]
 id = "UC-L2KtiGCmf4l6Y_WeA2Zdg"
-url = "http://www.youtube.com/channel/UC-L2KtiGCmf4l6Y_WeA2Zdg"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC-L2KtiGCmf4l6Y_WeA2Zdg"
 base_poll_seconds = 500
 
