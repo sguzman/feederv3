@@ -102,6 +102,16 @@ struct RawLogging {
     file_rotation: String,
     #[serde(default = "default_log_file_level")]
     file_level: String,
+    #[serde(default = "default_log_tick_warn_seconds")]
+    tick_warn_seconds: u64,
+    #[serde(default)]
+    feed_timing_enabled: bool,
+    #[serde(default)]
+    feed_timing_domains: Vec<String>,
+    #[serde(default = "default_log_feed_timing_warn_ms")]
+    feed_timing_warn_ms: u64,
+    #[serde(default)]
+    feed_timing_log_all: bool,
 }
 
 #[derive(Debug, Deserialize)]
@@ -191,6 +201,7 @@ impl ConfigLoader {
         let log_file_level = normalize_log_level(&raw_cfg.logging.file_level)?;
         let log_file_rotation = normalize_log_rotation(&raw_cfg.logging.file_rotation)?;
         let log_dir = resolve_log_dir(config_path, &raw_cfg.logging.file_directory);
+        let feed_timing_domains = normalize_domains(&raw_cfg.logging.feed_timing_domains)?;
 
         let db_base = resolve_db_base_dir(config_path);
         let db_path = db_base.join(raw_cfg.sqlite.path);
@@ -298,6 +309,11 @@ impl ConfigLoader {
                 log_file_directory: log_dir,
                 log_file_name: raw_cfg.logging.file_name,
                 log_file_rotation,
+                log_tick_warn_seconds: raw_cfg.logging.tick_warn_seconds,
+                log_feed_timing_enabled: raw_cfg.logging.feed_timing_enabled,
+                log_feed_timing_domains: feed_timing_domains,
+                log_feed_timing_warn_ms: raw_cfg.logging.feed_timing_warn_ms,
+                log_feed_timing_log_all: raw_cfg.logging.feed_timing_log_all,
                 mode,
                 timezone,
                 domains,
@@ -424,6 +440,14 @@ fn default_log_file_level() -> String {
     "info".to_string()
 }
 
+fn default_log_tick_warn_seconds() -> u64 {
+    600
+}
+
+fn default_log_feed_timing_warn_ms() -> u64 {
+    30_000
+}
+
 fn default_max_consecutive_errors() -> u32 {
     5
 }
@@ -487,6 +511,20 @@ fn resolve_log_dir(config_path: &Path, log_dir: &str) -> PathBuf {
         .parent()
         .unwrap_or_else(|| Path::new("."))
         .join(p)
+}
+
+fn normalize_domains(domains: &[String]) -> Result<Vec<String>, ConfigError> {
+    let mut normalized = Vec::with_capacity(domains.len());
+    for d in domains {
+        let domain = d.trim().to_ascii_lowercase();
+        if domain.is_empty() {
+            return Err(ConfigError::Invalid(
+                "logging.feed_timing_domains contains empty domain".into(),
+            ));
+        }
+        normalized.push(domain);
+    }
+    Ok(normalized)
 }
 
 fn url_host(url: &str) -> Option<String> {

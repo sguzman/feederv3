@@ -56,6 +56,35 @@ where
     let clock = ctx.clock.clone();
     let rng = ctx.rng.clone();
 
+    let warn_after = cfg.log_tick_warn_seconds;
+    let tick_guard = if warn_after > 0 {
+        let (tx, rx) = tokio::sync::oneshot::channel::<()>();
+        let category = category.to_string();
+        let due_count = due.len();
+        let timezone = cfg.timezone;
+        let tick_time = format_epoch_ms(now_ms, &timezone);
+        let started = tick_started;
+        tokio::spawn(async move {
+            let sleep = tokio::time::sleep(std::time::Duration::from_secs(warn_after));
+            tokio::pin!(sleep);
+            tokio::select! {
+                _ = &mut sleep => {
+                    warn!(
+                        category = category,
+                        due = due_count,
+                        tick_time = %tick_time,
+                        elapsed_ms = started.elapsed().as_millis(),
+                        "Scheduler tick still running"
+                    );
+                }
+                _ = rx => {}
+            }
+        });
+        Some(tx)
+    } else {
+        None
+    };
+
     stream::iter(due)
         .map(|feed| {
             let cfg = cfg.clone();
@@ -74,6 +103,10 @@ where
         .buffer_unordered(parallelism)
         .collect::<Vec<_>>()
         .await;
+
+    if let Some(tx) = tick_guard {
+        let _ = tx.send(());
+    }
 
     info!(
       tick_time = %format_epoch_ms(now_ms, &cfg.timezone),
@@ -117,6 +150,12 @@ where
         });
 
     let action = LinkState::decide_next_action(&state, now_ms);
+    let log_feed_timing = cfg.log_feed_timing_enabled
+        && (cfg.log_feed_timing_domains.is_empty()
+            || cfg
+                .log_feed_timing_domains
+                .iter()
+                .any(|d| d == &feed.domain));
 
     debug!(
       feed_id = %feed.id,
@@ -129,7 +168,8 @@ where
         crate::domain::link_state::NextAction::SleepUntil { .. } => Ok(()),
         crate::domain::link_state::NextAction::DoHead { state } => {
             let record_history = should_record_history(&cfg, rng.as_ref()).await;
-            do_head(
+            let started = Instant::now();
+            let res = do_head(
                 &cfg,
                 &repo,
                 &http,
@@ -140,11 +180,34 @@ where
                 rand,
                 record_history,
             )
-            .await
+            .await;
+            let elapsed_ms = started.elapsed().as_millis() as u64;
+            if log_feed_timing {
+                if cfg.log_feed_timing_log_all {
+                    info!(
+                        feed_id = %feed.id,
+                        domain = %feed.domain,
+                        action = "HEAD",
+                        elapsed_ms,
+                        "Feed timing"
+                    );
+                } else if elapsed_ms >= cfg.log_feed_timing_warn_ms {
+                    warn!(
+                        feed_id = %feed.id,
+                        domain = %feed.domain,
+                        action = "HEAD",
+                        elapsed_ms,
+                        warn_after_ms = cfg.log_feed_timing_warn_ms,
+                        "Slow feed action"
+                    );
+                }
+            }
+            res
         }
         crate::domain::link_state::NextAction::DoGet { state } => {
             let record_history = should_record_history(&cfg, rng.as_ref()).await;
-            do_get(
+            let started = Instant::now();
+            let res = do_get(
                 &cfg,
                 &repo,
                 &http,
@@ -155,7 +218,29 @@ where
                 rand,
                 record_history,
             )
-            .await
+            .await;
+            let elapsed_ms = started.elapsed().as_millis() as u64;
+            if log_feed_timing {
+                if cfg.log_feed_timing_log_all {
+                    info!(
+                        feed_id = %feed.id,
+                        domain = %feed.domain,
+                        action = "GET",
+                        elapsed_ms,
+                        "Feed timing"
+                    );
+                } else if elapsed_ms >= cfg.log_feed_timing_warn_ms {
+                    warn!(
+                        feed_id = %feed.id,
+                        domain = %feed.domain,
+                        action = "GET",
+                        elapsed_ms,
+                        warn_after_ms = cfg.log_feed_timing_warn_ms,
+                        "Slow feed action"
+                    );
+                }
+            }
+            res
         }
     }
 }
