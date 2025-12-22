@@ -12,7 +12,9 @@ use tokio::fs;
 
 use crate::domain::model::{AppConfig, CategoryConfig, DomainConfig, FeedConfig, PostgresConfig};
 
-use defaults::{normalize_domains, normalize_log_level, normalize_log_rotation};
+use defaults::{
+    normalize_domains, normalize_log_level, normalize_log_rotation, normalize_status_codes,
+};
 use feeds::load_all_feeds;
 use parse::{parse_dialect, parse_mode, parse_postgres, url_host};
 use paths::{resolve_db_base_dir, resolve_log_dir};
@@ -77,6 +79,8 @@ impl ConfigLoader {
         let log_file_rotation = normalize_log_rotation(&raw_cfg.logging.file_rotation)?;
         let log_dir = resolve_log_dir(config_path, &raw_cfg.logging.file_directory);
         let feed_timing_domains = normalize_domains(&raw_cfg.logging.feed_timing_domains)?;
+        let immediate_error_statuses =
+            normalize_status_codes(&raw_cfg.backoff.immediate_error_statuses)?;
 
         let db_base = resolve_db_base_dir(config_path);
         let db_path = db_base.join(raw_cfg.sqlite.path);
@@ -175,6 +179,7 @@ impl ConfigLoader {
                 error_backoff_base_seconds: raw_cfg.backoff.error_base_seconds,
                 max_error_backoff_seconds: raw_cfg.backoff.max_error_seconds,
                 max_consecutive_errors: raw_cfg.backoff.max_consecutive_errors,
+                immediate_error_statuses,
                 jitter_fraction: raw_cfg.polling.jitter_fraction,
                 global_max_concurrent_requests: raw_cfg.requests.global_max_concurrent_requests,
                 user_agent: raw_cfg.requests.user_agent,

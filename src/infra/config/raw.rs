@@ -3,8 +3,8 @@ use serde::Deserialize;
 use super::defaults::{
     default_log_feed_timing_warn_ms, default_log_file_directory, default_log_file_level,
     default_log_file_name, default_log_file_rotation, default_log_tick_warn_seconds,
-    default_max_consecutive_errors, default_pg_database, default_pg_host, default_pg_password,
-    default_pg_port, default_pg_user, default_sqlite_path,
+    default_immediate_error_statuses, default_max_consecutive_errors, default_pg_database,
+    default_pg_host, default_pg_password, default_pg_port, default_pg_user, default_sqlite_path,
 };
 
 #[derive(Debug, Deserialize)]
@@ -68,6 +68,8 @@ pub(crate) struct RawBackoff {
     pub max_error_seconds: u64,
     #[serde(default = "default_max_consecutive_errors")]
     pub max_consecutive_errors: u32,
+    #[serde(default = "default_immediate_error_statuses")]
+    pub immediate_error_statuses: Vec<u16>,
 }
 
 #[derive(Debug, Deserialize)]

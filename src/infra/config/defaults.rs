@@ -52,6 +52,10 @@ pub(crate) fn default_max_consecutive_errors() -> u32 {
     5
 }
 
+pub(crate) fn default_immediate_error_statuses() -> Vec<u16> {
+    vec![404]
+}
+
 pub(crate) fn normalize_log_level(level: &str) -> Result<String, ConfigError> {
     let l = level.trim().to_ascii_lowercase();
     if l.is_empty() {
@@ -90,6 +94,19 @@ pub(crate) fn normalize_domains(domains: &[String]) -> Result<Vec<String>, Confi
             ));
         }
         normalized.push(domain);
+    }
+    Ok(normalized)
+}
+
+pub(crate) fn normalize_status_codes(codes: &[u16]) -> Result<Vec<u16>, ConfigError> {
+    let mut normalized = Vec::with_capacity(codes.len());
+    for &code in codes {
+        if !(100..=599).contains(&code) {
+            return Err(ConfigError::Invalid(format!(
+            "invalid backoff.immediate_error_statuses code '{code}', expected 100-599"
+        )));
+        }
+        normalized.push(code);
     }
     Ok(normalized)
 }

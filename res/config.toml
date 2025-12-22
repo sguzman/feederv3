@@ -24,6 +24,7 @@ jitter_fraction = 0.2
 error_base_seconds = 30
 max_error_seconds = 7200
 max_consecutive_errors = 3
+immediate_error_statuses = [404]
 
 [requests]
 global_max_concurrent_requests = 16

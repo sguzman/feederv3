@@ -40,6 +40,7 @@ pub struct AppConfig {
     pub error_backoff_base_seconds: u64,
     pub max_error_backoff_seconds: u64,
     pub max_consecutive_errors: u32,
+    pub immediate_error_statuses: Vec<u16>,
     pub jitter_fraction: f64,
     pub global_max_concurrent_requests: Option<usize>,
     pub user_agent: String,

@@ -48,7 +48,22 @@ where
     repo.insert_state(&updated, now_ms, &cfg.timezone, record_history)
         .await?;
 
-    if cfg.max_consecutive_errors > 0
+    if is_immediate_error(cfg, res.status) {
+        error!(
+            feed_id = %feed.id,
+            status = res.status,
+            "Feed hit immediate error status"
+        );
+        repo.mark_feed_error(
+            &feed.id,
+            res.error,
+            res.status.map(|s| s as i64),
+            updated.consecutive_error_count as i64,
+            now_ms,
+            &cfg.timezone,
+        )
+        .await?;
+    } else if cfg.max_consecutive_errors > 0
         && updated.consecutive_error_count >= cfg.max_consecutive_errors
     {
         error!(
@@ -131,7 +146,22 @@ where
 
     repo.insert_state(&updated, now_ms, &cfg.timezone, record_history)
         .await?;
-    if cfg.max_consecutive_errors > 0
+    if is_immediate_error(cfg, res.status) {
+        error!(
+            feed_id = %feed.id,
+            status = res.status,
+            "Feed hit immediate error status"
+        );
+        repo.mark_feed_error(
+            &feed.id,
+            res.error,
+            res.status.map(|s| s as i64),
+            updated.consecutive_error_count as i64,
+            now_ms,
+            &cfg.timezone,
+        )
+        .await?;
+    } else if cfg.max_consecutive_errors > 0
         && updated.consecutive_error_count >= cfg.max_consecutive_errors
     {
         error!(
@@ -151,4 +181,11 @@ where
         .await?;
     }
     Ok(())
+}
+
+fn is_immediate_error(cfg: &AppConfig, status: Option<u16>) -> bool {
+    let Some(code) = status else {
+        return false;
+    };
+    cfg.immediate_error_statuses.iter().any(|s| *s == code)
 }
