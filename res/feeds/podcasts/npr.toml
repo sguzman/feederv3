@@ -1,0 +1,62 @@
+# News Now
+
+[[feeds]]
+id = "podcast-npr-news-now"
+url = "https://feeds.npr.org/500005/podcast.xml"
+base_poll_seconds = 1000
+
+# Up First
+
+[[feeds]]
+id = "podcast-npr-up-first"
+url = "https://feeds.npr.org/510318/podcast.xml"
+base_poll_seconds = 1000
+
+# Consider This
+
+[[feeds]]
+id = "podcast-npr-consider-this"
+url = "https://feeds.npr.org/510355/podcast.xml"
+base_poll_seconds = 1000
+
+# The NPR Politics Podcast
+
+[[feeds]]
+id = "podcast-npr-politics-podcast"
+url = "https://feeds.npr.org/510310/podcast.xml"
+base_poll_seconds = 1000
+
+# Trump's Terms
+
+[[feeds]]
+id = "podcast-npr-trumps-terms"
+url = "https://feeds.npr.org/510374/podcast.xml"
+base_poll_seconds = 1000
+
+# State of the World
+
+[[feeds]]
+id = "podcast-npr-state-of-the-world"
+url = "https://feeds.npr.org/510366/podcast.xml"
+base_poll_seconds = 1000
+
+# Here & Now Anytime
+
+[[feeds]]
+id = "podcast-npr-here-and-now-anytime"
+url = "https://feeds.npr.org/510051/podcast.xml"
+base_poll_seconds = 1000
+
+# 1A
+
+[[feeds]]
+id = "podcast-npr-1a"
+url = "https://feeds.npr.org/510316/podcast.xml"
+base_poll_seconds = 1000
+
+# Sources & Methods
+
+[[feeds]]
+id = "podcast-npr-sources-and-methods"
+url = "https://feeds.npr.org/g-s1-84651/podcast.xml"
+base_poll_seconds = 1000
