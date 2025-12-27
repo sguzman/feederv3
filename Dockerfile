@@ -1,16 +1,23 @@
-FROM rust:1.78-bookworm AS builder
+FROM rust:1.78-alpine AS builder
+ARG TARGET=x86_64-unknown-linux-musl
 WORKDIR /app
+RUN apk add --no-cache musl-dev ca-certificates \
+    && update-ca-certificates
+RUN rustup target add ${TARGET}
 COPY Cargo.toml Cargo.lock ./
 COPY src ./src
 COPY res/sql ./res/sql
-RUN cargo build --release
-RUN strip /app/target/release/feedrv3
+RUN cargo build --release --target ${TARGET}
+RUN strip /app/target/${TARGET}/release/feedrv3
 
-FROM gcr.io/distroless/cc-debian12
+FROM scratch
+ARG TARGET=x86_64-unknown-linux-musl
 WORKDIR /app
-COPY --from=builder /app/target/release/feedrv3 /usr/local/bin/feedrv3
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+COPY --from=builder /app/target/${TARGET}/release/feedrv3 /usr/local/bin/feedrv3
 COPY res/config.toml res/docker.toml res/domains.toml res/categories.toml /app/res/
 COPY res/feeds /app/res/feeds
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 ENV CONFIG_PATH=/app/res/docker.toml
 ENV FEEDS_DIR=/app/res/feeds
 VOLUME ["/app/res/feeds"]
