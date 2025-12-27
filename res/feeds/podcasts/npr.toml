@@ -60,3 +60,115 @@ base_poll_seconds = 1000
 id = "podcast-npr-sources-and-methods"
 url = "https://feeds.npr.org/g-s1-84651/podcast.xml"
 base_poll_seconds = 1000
+
+# How To Do Everything
+
+[[feeds]]
+id = "podcast-npr-how-to-do-everything"
+url = "https://feeds.npr.org/510384/podcast.xml"
+base_poll_seconds = 1000
+
+# Wild Card with Rachel Martin
+
+[[feeds]]
+id = "podcast-npr-wild-card-with-rachel-martin"
+url = "https://feeds.npr.org/510379/podcast.xml"
+base_poll_seconds = 1000
+
+# Wait Wait... Don't Tell Me!
+
+[[feeds]]
+id = "podcast-npr-wait-wait-dont-tell-me"
+url = "https://feeds.npr.org/344098539/podcast.xml"
+base_poll_seconds = 1000
+
+# Fresh Air
+
+[[feeds]]
+id = "podcast-npr-fresh-air"
+url = "https://feeds.npr.org/381444908/podcast.xml"
+base_poll_seconds = 1000
+
+# Pop Culture Happy Hour
+
+[[feeds]]
+id = "podcast-npr-pop-culture-happy-hour"
+url = "https://feeds.npr.org/510282/podcast.xml"
+base_poll_seconds = 1000
+
+# Code Switch
+
+[[feeds]]
+id = "podcast-npr-code-switch"
+url = "https://feeds.npr.org/510312/podcast.xml"
+base_poll_seconds = 1000
+
+# The Best of Car Talk
+
+[[feeds]]
+id = "podcast-npr-the-best-of-car-talk"
+url = "https://feeds.npr.org/510208/podcast.xml"
+base_poll_seconds = 1000
+
+# Book of the Day
+
+[[feeds]]
+id = "podcast-npr-book-of-the-day"
+url = "https://feeds.npr.org/510364/podcast.xml"
+base_poll_seconds = 1000
+
+# It's Been a Minute
+
+[[feeds]]
+id = "podcast-npr-its-been-a-minute"
+url = "https://feeds.npr.org/510317/podcast.xml"
+base_poll_seconds = 1000
+
+# Bullseye with Jesse Thorn
+
+[[feeds]]
+id = "podcast-npr-bullseye-with-jesse-thorn"
+url = "https://feeds.npr.org/510309/podcast.xml"
+base_poll_seconds = 1000
+
+# StoryCorps
+
+[[feeds]]
+id = "podcast-npr-storycorps"
+url = "https://feeds.npr.org/510200/podcast.xml"
+base_poll_seconds = 1000
+
+# Alt.Latino
+
+[[feeds]]
+id = "podcast-npr-alt-latino"
+url = "https://feeds.npr.org/510305/podcast.xml"
+base_poll_seconds = 1000
+
+# All Songs Considered
+
+[[feeds]]
+id = "podcast-npr-all-songs-considered"
+url = "https://feeds.npr.org/510019/podcast.xml"
+base_poll_seconds = 1000
+
+# From the Top
+
+[[feeds]]
+id = "podcast-npr-from-the-top"
+url = "https://feeds.npr.org/510026/podcast.xml"
+base_poll_seconds = 1000
+
+# World Cafe Words and Music Podcast
+
+[[feeds]]
+id = "podcast-npr-world-cafe-words-and-music-podcast"
+url = "https://feeds.npr.org/510008/podcast.xml"
+base_poll_seconds = 1000
+
+# Louder Than A Riot
+
+[[feeds]]
+id = "podcast-npr-louder-than-a-riot"
+url = "https://feeds.npr.org/510357/podcast.xml"
+base_poll_seconds = 1000
