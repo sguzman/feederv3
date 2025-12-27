@@ -200,3 +200,38 @@ base_poll_seconds = 1000
 id = "bloomberg-daybreak-america-latina"
 url = "https://omny.fm/shows/bloomberg-daybreak-america-latina/playlists/podcast.rss"
 base_poll_seconds = 1000
+
+# Bloomberg Crypto
+
+[[feeds]]
+id = "bloomberg-crypto"
+url = "https://omny.fm/shows/bloomberg-crypto/playlists/podcast.rss"
+base_poll_seconds = 1000
+
+# Listen to the Story
+
+[[feeds]]
+id = "bloomberg-listen-to-the-story"
+url = "https://omny.fm/shows/listen-to-the-story/playlists/podcast.rss"
+base_poll_seconds = 1000
+
+# What Goes Up
+
+[[feeds]]
+id = "bloomberg-what-goes-up"
+url = "https://omny.fm/shows/what-goes-up/playlists/podcast.rss"
+base_poll_seconds = 1000
+
+# In The City
+
+[[feeds]]
+id = "bloomberg-in-the-city"
+url = "https://omny.fm/shows/in-the-city/playlists/podcast.rss"
+base_poll_seconds = 1000
+
+# Bloomberg Daybreak: Brasil
+
+[[feeds]]
+id = "bloomberg-daybreak-brasil"
+url = "https://omny.fm/shows/bloomberg-daybreak-brasil/playlists/podcast.rss"
+base_poll_seconds = 1000
