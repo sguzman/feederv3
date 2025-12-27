@@ -1,0 +1,209 @@
+# Ancient History
+
+[[feeds]]
+id = "podcast-new-books-network-ancient-history"
+url = "https://feeds.megaphone.fm/NBN7930284079"
+base_poll_seconds = 1000
+
+# Arguing History
+
+[[feeds]]
+id = "podcast-new-books-network-arguing-history"
+url = "https://feeds.megaphone.fm/LIT5051178858"
+base_poll_seconds = 1000
+
+# Biography
+
+[[feeds]]
+id = "podcast-new-books-network-biography"
+url = "https://feeds.megaphone.fm/LIT3954564801"
+base_poll_seconds = 1000
+
+# Diplomatic History
+
+[[feeds]]
+id = "podcast-new-books-network-diplomatic-history"
+url = "https://feeds.megaphone.fm/NBN4221620160"
+base_poll_seconds = 1000
+
+# Early Modern History
+
+[[feeds]]
+id = "podcast-new-books-network-early-modern-history"
+url = "https://feeds.megaphone.fm/NBN3010927619"
+base_poll_seconds = 1000
+
+# Economic and Business History
+
+[[feeds]]
+id = "podcast-new-books-network-economic-and-business-history"
+url = "https://feeds.megaphone.fm/NBN8101037583"
+base_poll_seconds = 1000
+
+# General History
+
+[[feeds]]
+id = "podcast-new-books-network-general-history"
+url = "https://feeds.megaphone.fm/LIT3360275696"
+base_poll_seconds = 1000
+
+# Intellectual History
+
+[[feeds]]
+id = "podcast-new-books-network-intellectual-history"
+url = "https://feeds.megaphone.fm/LIT3169108505"
+base_poll_seconds = 1000
+
+# Late Antiquity
+
+[[feeds]]
+id = "podcast-new-books-network-late-antiquity"
+url = "https://feeds.megaphone.fm/NBNK7959080489"
+base_poll_seconds = 1000
+
+# Medieval History
+
+[[feeds]]
+id = "podcast-new-books-network-medieval-history"
+url = "https://feeds.megaphone.fm/NBN6213996495"
+base_poll_seconds = 1000
+
+# Military History
+
+[[feeds]]
+id = "podcast-new-books-network-military-history"
+url = "https://feeds.megaphone.fm/LIT5868539187"
+base_poll_seconds = 1000
+
+# Women's History
+
+[[feeds]]
+id = "podcast-new-books-network-womens-history"
+url = "https://feeds.megaphone.fm/NBN5185885598"
+base_poll_seconds = 1000
+
+# Architecture
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-architecture"
+url = "https://feeds.megaphone.fm/LIT5569218006"
+base_poll_seconds = 1000
+
+# Art
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-art"
+url = "https://feeds.megaphone.fm/LIT4705177591"
+base_poll_seconds = 1000
+
+# Children's Literature
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-childrens-literature"
+url = "https://feeds.megaphone.fm/NBN4085303954"
+base_poll_seconds = 1000
+
+# Comics and Graphic Novels
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-comics-and-graphic-novels"
+url = "https://feeds.megaphone.fm/NSR1143330870"
+base_poll_seconds = 1000
+
+# Digital Humanities
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-digital-humanities"
+url = "https://feeds.megaphone.fm/digitalhumanties"
+base_poll_seconds = 1000
+
+# Fantasy
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-fantasy"
+url = "https://feeds.megaphone.fm/LIT3826935375"
+base_poll_seconds = 1000
+
+# Film
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-film"
+url = "https://feeds.megaphone.fm/LIT6660444378"
+base_poll_seconds = 1000
+
+# Folklore
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-folklore"
+url = "https://feeds.megaphone.fm/LIT6330413236"
+base_poll_seconds = 1000
+
+# Food
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-food"
+url = "https://feeds.megaphone.fm/LIT3477516260"
+base_poll_seconds = 1000
+
+# Game Studies
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-game-studies"
+url = "https://feeds.megaphone.fm/NSR5362328079"
+base_poll_seconds = 1000
+
+# Historical Fiction
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-historical-fiction"
+url = "https://feeds.megaphone.fm/LIT6932828125"
+base_poll_seconds = 1000
+
+# Library Science
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-library-science"
+url = "https://feeds.megaphone.fm/NBN1152836190"
+base_poll_seconds = 1000
+
+# Literary Studies
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-literary-studies"
+url = "https://feeds.megaphone.fm/LIT7489921391"
+base_poll_seconds = 1000
+
+# Literature
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-literature"
+url = "https://feeds.megaphone.fm/LIT3662756671"
+base_poll_seconds = 1000
+
+# Museum Studies
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-museum-studies"
+url = "https://feeds.megaphone.fm/NBN7936496793"
+base_poll_seconds = 1000
+
+# Music
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-music"
+url = "https://feeds.megaphone.fm/LIT1985735353"
+base_poll_seconds = 1000
+
+# Performing Arts
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-performing-arts"
+url = "https://feeds.megaphone.fm/LIT9810498522"
+base_poll_seconds = 1000
+
+# Photography
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-photography"
+url = "https://feeds.megaphone.fm/LIT7602147273"
+base_poll_seconds = 1000
+
+# Poetry
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-poetry"
+url = "https://feeds.megaphone.fm/LIT1279112701"
+base_poll_seconds = 1000
+
+# Popular Culture
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-popular-culture"
+url = "https://feeds.megaphone.fm/LIT2984583128"
+base_poll_seconds = 1000
+
+# Science Fiction
+[[feeds]]
+id = "podcast-newbooksnetwork-arts-letters-science-fiction"
+url = "https://feeds.megaphone.fm/LIT6037340033"
+base_poll_seconds = 1000

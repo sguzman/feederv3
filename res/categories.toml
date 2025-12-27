@@ -20,4 +20,4 @@ domains = ["hnrss.org"]
 
 [[categories]]
 name = "podcasts"
-domains = ["omny.fm", "www.omny.fm", "feeds.simplecast.com"]
+domains = ["omny.fm", "www.omny.fm", "feeds.simplecast.com", "feeds.megaphone.fm"]

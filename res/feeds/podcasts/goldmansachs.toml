@@ -1,0 +1,20 @@
+# Exchanges
+
+[[feeds]]
+id = "podcast-goldman-sachs-exchanges"
+url = "https://feeds.megaphone.fm/GLD9218176758"
+base_poll_seconds = 1000
+
+# The Markets
+
+[[feeds]]
+id = "podcast-goldman-sachs-the-markets"
+url = "https://feeds.megaphone.fm/GLD9322922848"
+base_poll_seconds = 1000
+
+#  Talks at GS
+
+[[feeds]]
+id = "podcast-goldman-sachs-talks-at-gs"
+url = "https://feeds.megaphone.fm/GLD3069230077"
+base_poll_seconds = 1000
