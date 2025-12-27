@@ -1,0 +1,139 @@
+# The Daily
+
+[[feeds]]
+id = "podcast-new-york-times-the-daily"
+url = "https://feeds.simplecast.com/54nAGcIl"
+base_poll_seconds = 1000
+
+# The Ezra Klein Show
+
+[[feeds]]
+id = "podcast-new-york-times-ezra-klein-show"
+url = "https://feeds.simplecast.com/kEKXbjuJ"
+base_poll_seconds = 1000
+
+# Hard Fork
+
+[[feeds]]
+id = "podcast-new-york-times-hard-fork"
+url = "https://feeds.simplecast.com/6HKOhNgS"
+base_poll_seconds = 1000
+
+# Modern Love
+
+[[feeds]]
+id = "podcast-new-york-times-modern-love"
+url = "https://feeds.simplecast.com/0N8Hs1MH"
+base_poll_seconds = 1000
+
+# The Opinion
+
+[[feeds]]
+id = "podcast-new-york-times-the-opinion"
+url = "https://feeds.simplecast.com/kphrlDnb"
+base_poll_seconds = 1000
+
+# The Interview
+
+[[feeds]]
+id = "podcast-new-york-times-the-interview"
+url = "https://feeds.simplecast.com/HpGMoS4g"
+base_poll_seconds = 1000
+
+# The Headlines
+
+[[feeds]]
+id = "podcast-new-york-times-the-headlines"
+url = "https://feeds.simplecast.com/ydACIPHO"
+base_poll_seconds = 1000
+
+# Popcast
+
+[[feeds]]
+id = "podcast-new-york-times-popcast"
+url = "https://feeds.simplecast.com/TzbxCT1l"
+base_poll_seconds = 1000
+
+# The Book Review
+
+[[feeds]]
+id = "podcast-new-york-times-the-book-review"
+url = "https://feeds.simplecast.com/MssIhx9y"
+base_poll_seconds = 1000
+
+# The Latest
+
+[[feeds]]
+id = "podcast-new-york-times-the-latest"
+url = "https://feeds.simplecast.com/h3B4DmZM"
+base_poll_seconds = 1000
+
+# Cannonball with Wesley Morris
+
+[[feeds]]
+id = "podcast-new-york-times-cannonball-with-wesley-morris"
+url = "https://feeds.simplecast.com/JJrAJ_VY"
+base_poll_seconds = 1000
+
+# The New York Times Narrated
+
+[[feeds]]
+id = "podcast-new-york-times-the-new-york-times-narrated"
+url = "https://feeds.simplecast.com/WHvRQ7B1"
+base_poll_seconds = 1000
+
+# The Run-Up
+
+[[feeds]]
+id = "podcast-new-york-times-the-run-up"
+url = "https://feeds.simplecast.com/Kctn1RDB"
+base_poll_seconds = 1000
+
+# Interesting Times with Ross Douthat
+
+[[feeds]]
+id = "podcast-new-york-times-interesting-times-with-ross-douthat"
+url = "https://feeds.simplecast.com/bS1LZG8m"
+base_poll_seconds = 1000
+
+# Cannonball with Wesley Morris
+
+[[feeds]]
+id = "podcast-new-york-times-cannonball-with-wesley-morris"
+url = "https://feeds.simplecast.com/XguOuIhG"
+base_poll_seconds = 1000
+
+# Rabbit Hole
+
+[[feeds]]
+id = "podcast-new-york-times-rabbit-hole"
+url = "https://feeds.simplecast.com/oCXij9l2"
+base_poll_seconds = 1000
+
+# Change Agent
+
+[[feeds]]
+id = "podcast-new-york-times-change-agent"
+url = "https://feeds.simplecast.com/l_5ad_l7"
+base_poll_seconds = 1000
+
+# Jungle Prince
+
+[[feeds]]
+id = "podcast-new-york-times-jungle-prince"
+url = "https://feeds.simplecast.com/RCWrSQj0"
+base_poll_seconds = 1000
+
+# Sway
+
+[[feeds]]
+id = "podcast-new-york-times-sway"
+url = "https://feeds.simplecast.com/ZJt36p4I"
+base_poll_seconds = 1000
+
+# Dealbook Summit
+
+[[feeds]]
+id = "podcast-new-york-times-dealbook-summit"
+url = "https://feeds.simplecast.com/HZtr0HV5"
+base_poll_seconds = 1000
