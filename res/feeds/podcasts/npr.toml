@@ -172,3 +172,88 @@ base_poll_seconds = 1000
 id = "podcast-npr-louder-than-a-riot"
 url = "https://feeds.npr.org/510357/podcast.xml"
 base_poll_seconds = 1000
+
+# Planet Money
+
+[[feeds]]
+id = "podcast-npr-planet-money"
+url = "https://feeds.npr.org/510289/podcast.xml"
+base_poll_seconds = 1000
+
+# The Indicator
+
+[[feeds]]
+id = "podcast-npr-the-indicator"
+url = "https://feeds.npr.org/510325/podcast.xml"
+base_poll_seconds = 1000
+
+# Short Wave
+
+[[feeds]]
+id = "podcast-npr-short-wave"
+url = "https://feeds.npr.org/510351/podcast.xml"
+base_poll_seconds = 1000
+
+# TED Radio Hour
+
+[[feeds]]
+id = "podcast-npr-ted-radio-hour"
+url = "https://feeds.npr.org/510298/podcast.xml"
+base_poll_seconds = 1000
+
+# Life Kit
+
+[[feeds]]
+id = "podcast-npr-life-kit"
+url = "https://feeds.npr.org/510338/podcast.xml"
+base_poll_seconds = 1000
+
+# Body Electric
+
+[[feeds]]
+id = "podcast-npr-body-electric"
+url = "https://feeds.npr.org/510375/podcast.xml"
+base_poll_seconds = 1000
+
+# Throughline
+
+[[feeds]]
+id = "podcast-npr-throughline"
+url = "https://feeds.npr.org/510333/podcast.xml"
+base_poll_seconds = 1000
+
+# Embedded
+
+[[feeds]]
+id = "podcast-npr-embedded"
+url = "https://feeds.npr.org/510311/podcast.xml"
+base_poll_seconds = 1000
+
+# Radio Ambulante
+
+[[feeds]]
+id = "podcast-npr-radio-ambulante"
+url = "https://feeds.npr.org/510315/podcast.xml"
+base_poll_seconds = 1000
+
+# Invisibilia
+
+[[feeds]]
+id = "podcast-npr-invisibilia"
+url = "https://feeds.npr.org/510307/podcast.xml"
+base_poll_seconds = 1000
+
+# Rough Translation
+
+[[feeds]]
+id = "podcast-npr-rough-translation"
+url = "https://feeds.npr.org/510324/podcast.xml"
+base_poll_seconds = 1000
+
+# How Wild
+
+[[feeds]]
+id = "podcast-npr-how-wild"
+url = "https://feeds.npr.org/510383/podcast.xml"
+base_poll_seconds = 1000
+
