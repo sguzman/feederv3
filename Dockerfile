@@ -1,4 +1,4 @@
-FROM rust:1.78-alpine AS builder
+FROM rust:1.91-alpine AS builder
 ARG TARGET=x86_64-unknown-linux-musl
 WORKDIR /app
 RUN apk add --no-cache musl-dev ca-certificates \
