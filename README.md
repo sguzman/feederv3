@@ -22,8 +22,9 @@ Rust async worker that polls a set of RSS/Atom feeds, tracks HTTP state with ada
 ## Configuration
 Config is resolved from:
 1) CLI argument path (if provided), else
-2) `res/config.toml` when present, else
-3) `src/main/resources/config/config.toml` (legacy layout).
+2) `CONFIG_PATH` environment variable (if set), else
+3) `res/config.toml` when present, else
+4) `src/main/resources/config/config.toml` (legacy layout).
 
 `config.toml` (app-wide sections):
 - `[app]` – `mode` (`dev` deletes the DB on boot; `prod` leaves it intact) and `timezone` (IANA TZ for timestamps/logging).
@@ -70,3 +71,8 @@ Config is resolved from:
 - Build/test: `cargo test` (no extra setup needed; uses the traits to avoid network access in tests).
 - Logs: configure via `logging.level` or `RUST_LOG`; log output includes targets and thread info.
 - HTTP client: reqwest with rustls, 30s timeout, gzip/brotli/deflate enabled.
+
+## Docker
+- Image expects a full config bundle (config/domains/categories/feeds) to be present on disk.
+- Default path inside the container is `/app/res/config.toml`; override with `CONFIG_PATH`.
+- For environment-specific settings, mount a config directory and point `CONFIG_PATH` at it.

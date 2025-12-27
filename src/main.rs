@@ -141,6 +141,12 @@ fn pick_config_path(arg1: Option<String>) -> PathBuf {
         return PathBuf::from(p);
     }
 
+    if let Ok(p) = std::env::var("CONFIG_PATH") {
+        if !p.trim().is_empty() {
+            return PathBuf::from(p);
+        }
+    }
+
     // Prefer repo-local res/ config; fall back to old resources path for compatibility.
     let candidates = [
         PathBuf::from("res/config.toml"),
