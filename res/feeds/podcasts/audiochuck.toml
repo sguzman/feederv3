@@ -24,11 +24,6 @@ url = "https://feeds.simplecast.com/kC8PV5p6"
 base_poll_seconds = 1000
 
 [[feeds]]
-id = "podcasts-audiochuck-1489482036"
-url = "null"
-base_poll_seconds = 1000
-
-[[feeds]]
 id = "podcasts-audiochuck-1483252435"
 url = "https://feeds.simplecast.com/6E74sk6q"
 base_poll_seconds = 1000
