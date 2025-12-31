@@ -20,7 +20,7 @@ domains = ["hnrss.org"]
 
 [[categories]]
 name = "news"
-domains = ["rss.politico.com", "feeds.content.dowjones.io", "www.washingtonpost.com", "feeds.washingtonpost.com", "www.nytimes.com", "rss.nytimes.com"] 
+domains = ["edition.cnn.com", "rss.politico.com", "feeds.content.dowjones.io", "www.washingtonpost.com", "feeds.washingtonpost.com", "www.nytimes.com", "rss.nytimes.com"] 
 
 [[categories]]
 name = "podcasts"
