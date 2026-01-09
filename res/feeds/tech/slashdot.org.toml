@@ -1,0 +1,4 @@
+[[feeds]]
+id = "slashdot-main"
+url = "http://rss.slashdot.org/Slashdot/slashdotMain"
+base_poll_seconds = 1800

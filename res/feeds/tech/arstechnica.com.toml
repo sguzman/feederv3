@@ -1,0 +1,54 @@
+[[feeds]]
+id = "ars-all"
+url = "https://feeds.arstechnica.com/arstechnica/index"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "ars-features"
+url = "https://feeds.arstechnica.com/arstechnica/features"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "ai-technology-lab"
+url = "https://feeds.arstechnica.com/arstechnica/technology-lab"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "ars-gears-and-gadgets"
+url = "https://feeds.arstechnica.com/arstechnica/gadgets"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "ars-law-and-order"
+url = "https://feeds.arstechnica.com/arstechnica/tech-policy"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "ars-apple"
+url = "https://feeds.arstechnica.com/arstechnica/apple"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "ars-gaming"
+url = "https://feeds.arstechnica.com/arstechnica/gaming"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "ars-science"
+url = "https://feeds.arstechnica.com/arstechnica/science"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "ars-cars"
+url = "https://feeds.arstechnica.com/arstechnica/cars"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "ars-security"
+url = "https://feeds.arstechnica.com/arstechnica/staff-blogs"
+base_poll_seconds = 500
+
+[[feeds]]
+id = "ars-boardgames"
+url = "https://feeds.arstechnica.com/arstechnica/cardboard"
+base_poll_seconds = 500

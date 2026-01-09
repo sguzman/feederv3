@@ -16,7 +16,7 @@ domains = ["xkcd.com"]
 
 [[categories]]
 name = "tech"
-domains = ["hnrss.org"]
+domains = ["feeds.arstechnica.com", "hnrss.org", "rss.slashdot.org"]
 
 [[categories]]
 name = "news"
