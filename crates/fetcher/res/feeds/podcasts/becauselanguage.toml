@@ -1,4 +1,13 @@
-[[feeds]]
-id = "podcast-becauselanguage"
-url = "https://rss.libsyn.com/shows/142466/destinations/897956.xml"
 base_poll_seconds = 1000
+id_prefix = "becauselanguage"
+category = "podcasts"
+provenance = "becauselanguage"
+tags = [
+    "podcasts",
+]
+language = "en"
+content_type = "xml"
+
+[[feeds]]
+id = "main"
+url = "https://rss.libsyn.com/shows/142466/destinations/897956.xml"

@@ -1,237 +1,246 @@
 # Odd Lots
 
-[[feeds]]
-id = "podcast-bloomberg-odd-lots"
-url = "https://omny.fm/shows/odd-lots/playlists/podcast.rss"
 base_poll_seconds = 1000
+id_prefix = "bloomberg"
+category = "podcasts"
+provenance = "bloomberg"
+tags = [
+    "podcasts",
+]
+language = "en"
+content_type = "xml"
+
+[[feeds]]
+id = "odd-lots"
+url = "https://omny.fm/shows/odd-lots/playlists/podcast.rss"
 
 # Daybreak
 
+
 [[feeds]]
-id = "podcast-bloomberg-daybreak"
+id = "daybreak"
 url = "https://omny.fm/shows/bloomberg-daybreak/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Surveillance
 
+
 [[feeds]]
-id = "podcast-bloomberg-surveillance"
+id = "surveillance"
 url = "https://omny.fm/shows/bloomberg-surveillance/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Masters in Business
 
+
 [[feeds]]
-id = "podcast-bloomberg-masters-in-business"
+id = "masters-in-business"
 url = "https://omny.fm/shows/masters-in-business/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Big Take
 
+
 [[feeds]]
-id = "podcast-bloomberg-big-take"
+id = "big-take"
 url = "https://omny.fm/shows/the-big-take/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Disclosure
 
+
 [[feeds]]
-id = "podcast-bloomberg-disclosure"
+id = "disclosure"
 url = "https://omny.fm/shows/disclosure/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Money Stuff
 
+
 [[feeds]]
-id = "podcast-bloomberg-money-stuff"
+id = "money-stuff"
 url = "https://omny.fm/shows/money-stuff-the-podcast/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Bloomberg Intelligence
 
+
 [[feeds]]
-id = "podcast-bloomberg-intelligence"
+id = "intelligence"
 url = "https://omny.fm/shows/the-tape/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # News Now
 
+
 [[feeds]]
-id = "podcast-bloomberg-news-now"
+id = "news-now"
 url = "https://omny.fm/shows/bloomberg-news-now/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Bloomberg Businessweek Daily
 
+
 [[feeds]]
-id = "podcast-bloomberg-businessweek-daily"
+id = "businessweek-daily"
 url = "https://omny.fm/shows/bloomberg-businessweek/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Bloomberg Tech
 
+
 [[feeds]]
-id = "podcast-bloomberg-tech"
+id = "tech"
 url = "https://omny.fm/shows/bloomberg-tech/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Merryn Talks Money
 
+
 [[feeds]]
-id = "podcast-bloomberg-merryn-talks-money"
+id = "merryn-talks-money"
 url = "https://omny.fm/shows/merryn-talks-money/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Bloomberg Law
 
+
 [[feeds]]
-id = "podcast-bloomberg-law"
+id = "law"
 url = "https://omny.fm/shows/bloomberg-law/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Bloomberg Wall Street Week
 
+
 [[feeds]]
-id = "podcast-bloomberg-wall-street-week"
+id = "wall-street-week"
 url = "https://omny.fm/shows/wall-street-week/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Trumponomics
 
+
 [[feeds]]
-id = "podcast-bloomberg-trumponomics"
+id = "trumponomics"
 url = "https://omny.fm/shows/stephanomics/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Zero: The Climate Race
 
+
 [[feeds]]
-id = "podcast-bloomberg-zero-the-climate-race"
+id = "zero-the-climate-race"
 url = "https://omny.fm/shows/zero/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Everybody's Business
 
+
 [[feeds]]
-id = "podcast-bloomberg-everybodys-business"
+id = "everybodys-business"
 url = "https://omny.fm/shows/bloomberg-businessweek/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Trillions
 
+
 [[feeds]]
-id = "podcast-bloomberg-trillions"
+id = "trillions"
 url = "https://omny.fm/shows/trillions/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Here's Why
 
+
 [[feeds]]
-id = "podcast-bloomberg-heres-why"
+id = "heres-why"
 url = "https://omny.fm/shows/here-is-why/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Bloomberg Business of Sports
 
+
 [[feeds]]
-id = "podcast-bloomberg-business-of-sports"
+id = "business-of-sports"
 url = "https://omny.fm/shows/bloomberg-business-of-sports/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # The Deal with Alex Rodriguez and Jason Kelly
 
+
 [[feeds]]
-id = "podcast-bloomberg-the-deal-with-alex-rodriguez-and-jason-kelly"
+id = "the-deal-with-alex-rodriguez-and-jason-kelly"
 url = "https://omny.fm/shows/the-deal-with-alex-rodriguez-and-jason-kelly/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Balance of Power
 
+
 [[feeds]]
-id = "podcast-bloomberg-balance-of-power"
+id = "balance-of-power"
 url = "https://omny.fm/shows/balance-of-power/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Bloomberg Talks
 
+
 [[feeds]]
-id = "podcast-bloomberg-bloomberg-talks"
+id = "bloomberg-talks"
 url = "https://omny.fm/shows/bloomberg-talks/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Bloomberg Daybreak: Europe Edition
 
+
 [[feeds]]
-id = "podcast-bloomberg-daybreak-europe-edition"
+id = "daybreak-europe-edition"
 url = "https://omny.fm/shows/bloomberg-daybreak-europe/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Switched On
 
+
 [[feeds]]
-id = "podcast-bloomberg-switched-on"
+id = "switched-on"
 url = "https://omny.fm/shows/switched-on-1/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Bloomberg Daybreak: Asia
 
+
 [[feeds]]
-id = "podcast-bloomberg-daybreak-asia"
+id = "daybreak-asia"
 url = "https://omny.fm/shows/bloomberg-daybreak-asia/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Big Take Asia
 
+
 [[feeds]]
-id = "podcast-bloomberg-big-take-asia"
+id = "big-take-asia"
 url = "https://omny.fm/shows/big-take-asia/playlists/big-take-asia.rss"
-base_poll_seconds = 1000
 
 # Next Africa
 
+
 [[feeds]]
-id = "podcast-bloomberg-next-africa"
+id = "next-africa"
 url = "https://omny.fm/shows/next-africa/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Bloomberg Daybreak América Latina
 
+
 [[feeds]]
-id = "podcast-bloomberg-daybreak-america-latina"
+id = "daybreak-america-latina"
 url = "https://omny.fm/shows/bloomberg-daybreak-am-rica-latina/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Bloomberg Crypto
 
+
 [[feeds]]
-id = "podcast-bloomberg-crypto"
+id = "crypto"
 url = "https://omny.fm/shows/bloomberg-crypto/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Listen to the Story
 
+
 [[feeds]]
-id = "podcast-bloomberg-listen-to-the-story"
+id = "listen-to-the-story"
 url = "https://omny.fm/shows/listen-to-the-story/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # What Goes Up
 
+
 [[feeds]]
-id = "podcast-bloomberg-what-goes-up"
+id = "what-goes-up"
 url = "https://omny.fm/shows/what-goes-up/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # In The City
 
+
 [[feeds]]
-id = "podcast-bloomberg-in-the-city"
+id = "in-the-city"
 url = "https://omny.fm/shows/in-the-city/playlists/podcast.rss"
-base_poll_seconds = 1000
 
 # Bloomberg Daybreak: Brasil
 
+
 [[feeds]]
-id = "podcast-bloomberg-daybreak-brasil"
+id = "daybreak-brasil"
 url = "https://omny.fm/shows/bloomberg-daybreak-brasil/playlists/podcast.rss"
-base_poll_seconds = 1000
