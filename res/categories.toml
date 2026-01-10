@@ -19,6 +19,10 @@ name = "tech"
 domains = ["feeds.arstechnica.com", "hnrss.org", "rss.slashdot.org"]
 
 [[categories]]
+name = "finance"
+domains = ["seekingalpha.com"]
+
+[[categories]]
 name = "news"
 domains = ["edition.cnn.com", "rss.politico.com", "feeds.content.dowjones.io", "www.washingtonpost.com", "feeds.washingtonpost.com", "www.nytimes.com", "rss.nytimes.com"] 
 
