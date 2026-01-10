@@ -1,1 +1,10 @@
 base_poll_seconds = 500
+id_prefix = "youtube"
+category = "youtube"
+provenance = "youtube"
+tags = [
+    "video",
+    "youtube",
+]
+language = "en"
+content_type = "xml"
