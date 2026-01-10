@@ -1,99 +1,90 @@
+base_poll_seconds = 720
+id_prefix = "fed"
+category = "gov"
+provenance = "federalreserve"
+tags = [
+    "gov",
+    "economy",
+]
+language = "en"
+content_type = "xml"
+
 [[feeds]]
-id = "federalreserve-clp"
+id = "clp"
 url = "https://www.federalreserve.gov/feeds/clp.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-boardmeetings"
+id = "boardmeetings"
 url = "https://www.federalreserve.gov/feeds/boardmeetings.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-reportforms-rss"
+id = "reportforms-rss"
 url = "https://www.federalreserve.gov/feeds/reportforms-rss.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-datadownload"
+id = "datadownload"
 url = "https://www.federalreserve.gov/feeds/datadownload.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-h8"
+id = "h8"
 url = "https://www.federalreserve.gov/feeds/h8.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-chgdel"
+id = "chgdel"
 url = "https://www.federalreserve.gov/feeds/chgdel.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-cp"
+id = "cp"
 url = "https://www.federalreserve.gov/feeds/cp.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-g19"
+id = "g19"
 url = "https://www.federalreserve.gov/feeds/g19.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-h41"
+id = "h41"
 url = "https://www.federalreserve.gov/feeds/h41.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-g20"
+id = "g20"
 url = "https://www.federalreserve.gov/feeds/g20.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-for"
+id = "for"
 url = "https://www.federalreserve.gov/feeds/for.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-z1"
+id = "z1"
 url = "https://www.federalreserve.gov/feeds/z1.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-fofguide"
+id = "fofguide"
 url = "https://www.federalreserve.gov/feeds/fofguide.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-h10"
+id = "h10"
 url = "https://www.federalreserve.gov/feeds/h10.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-g17"
+id = "g17"
 url = "https://www.federalreserve.gov/feeds/g17.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-prates"
+id = "prates"
 url = "https://www.federalreserve.gov/feeds/prates.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-h15"
+id = "h15"
 url = "https://www.federalreserve.gov/feeds/h15.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-scoos"
+id = "scoos"
 url = "https://www.federalreserve.gov/feeds/scoos.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-sloos"
+id = "sloos"
 url = "https://www.federalreserve.gov/feeds/sloos.xml"
-base_poll_seconds = 720
 
 [[feeds]]
-id = "federalreserve-e2"
+id = "e2"
 url = "https://www.federalreserve.gov/feeds/e2.xml"
-base_poll_seconds = 720

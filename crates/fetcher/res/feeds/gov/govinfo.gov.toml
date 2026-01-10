@@ -1,1054 +1,853 @@
+base_poll_seconds = 360
+id_prefix = "govinfo"
+category = "gov"
+provenance = "govinfo"
+tags = [
+    "gov",
+]
+language = "en"
+content_type = "xml"
+
 [[feeds]]
-id = "govinfo-bills"
+id = "bills"
 url = "https://www.govinfo.gov/rss/bills.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "bills-govinfo-enr"
+id = "bills-enr"
 url = "https://www.govinfo.gov/rss/bills-enr.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-plaw"
+id = "plaw"
 url = "https://www.govinfo.gov/rss/plaw.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-comps"
+id = "comps"
 url = "https://www.govinfo.gov/rss/comps.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-statute"
+id = "statute"
 url = "https://www.govinfo.gov/rss/statute.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-uscode"
+id = "uscode"
 url = "https://www.govinfo.gov/rss/uscode.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-budget"
+id = "budget"
 url = "https://www.govinfo.gov/rss/budget.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-dcpd"
+id = "dcpd"
 url = "https://www.govinfo.gov/rss/dcpd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-erp"
+id = "erp"
 url = "https://www.govinfo.gov/rss/erp.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-ppp"
+id = "ppp"
 url = "https://www.govinfo.gov/rss/ppp.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-cprt"
+id = "cprt"
 url = "https://www.govinfo.gov/rss/cprt.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-cdoc"
+id = "cdoc"
 url = "https://www.govinfo.gov/rss/cdoc.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-chrg"
+id = "chrg"
 url = "https://www.govinfo.gov/rss/chrg.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-crpt"
+id = "crpt"
 url = "https://www.govinfo.gov/rss/crpt.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-serialset"
+id = "serialset"
 url = "https://www.govinfo.gov/rss/serialset.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-cmr"
+id = "cmr"
 url = "https://www.govinfo.gov/rss/cmr.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-econi"
+id = "econi"
 url = "https://www.govinfo.gov/rss/econi.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-hman"
+id = "hman"
 url = "https://www.govinfo.gov/rss/hman.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-sman"
+id = "sman"
 url = "https://www.govinfo.gov/rss/sman.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-cdir"
+id = "cdir"
 url = "https://www.govinfo.gov/rss/cdir.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-govman"
+id = "govman"
 url = "https://www.govinfo.gov/rss/govman.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "gpo-govinfo-fcc"
+id = "gpo-fcc"
 url = "https://www.govinfo.gov/rss/gpo-fcc.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-gaoreports"
+id = "gaoreports"
 url = "https://www.govinfo.gov/rss/gaoreports.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-ccal"
+id = "ccal"
 url = "https://www.govinfo.gov/rss/ccal.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-crec"
+id = "crec"
 url = "https://www.govinfo.gov/rss/crec.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-crecb"
+id = "crecb"
 url = "https://www.govinfo.gov/rss/crecb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-cri"
+id = "cri"
 url = "https://www.govinfo.gov/rss/cri.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-hob"
+id = "hob"
 url = "https://www.govinfo.gov/rss/hob.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-hjournal"
+id = "hjournal"
 url = "https://www.govinfo.gov/rss/hjournal.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-cfr"
+id = "cfr"
 url = "https://www.govinfo.gov/rss/cfr.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-fr"
+id = "fr"
 url = "https://www.govinfo.gov/rss/fr.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-lsa"
+id = "lsa"
 url = "https://www.govinfo.gov/rss/lsa.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-pai"
+id = "pai"
 url = "https://www.govinfo.gov/rss/pai.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "govinfo-usreports"
+id = "usreports"
 url = "https://www.govinfo.gov/rss/usreports.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-alnd"
+id = "uscourts-alnd"
 url = "https://www.govinfo.gov/rss/uscourts-alnd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-alsd"
+id = "uscourts-alsd"
 url = "https://www.govinfo.gov/rss/uscourts-alsd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-almd"
+id = "uscourts-almd"
 url = "https://www.govinfo.gov/rss/uscourts-almd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-akd"
+id = "uscourts-akd"
 url = "https://www.govinfo.gov/rss/uscourts-akd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-azd"
+id = "uscourts-azd"
 url = "https://www.govinfo.gov/rss/uscourts-azd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ared"
+id = "uscourts-ared"
 url = "https://www.govinfo.gov/rss/uscourts-ared.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-caed"
+id = "uscourts-caed"
 url = "https://www.govinfo.gov/rss/uscourts-caed.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-cand"
+id = "uscourts-cand"
 url = "https://www.govinfo.gov/rss/uscourts-cand.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-casd"
+id = "uscourts-casd"
 url = "https://www.govinfo.gov/rss/uscourts-casd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-cod"
+id = "uscourts-cod"
 url = "https://www.govinfo.gov/rss/uscourts-cod.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ctd"
+id = "uscourts-ctd"
 url = "https://www.govinfo.gov/rss/uscourts-ctd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-dcd"
+id = "uscourts-dcd"
 url = "https://www.govinfo.gov/rss/uscourts-dcd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ded"
+id = "uscourts-ded"
 url = "https://www.govinfo.gov/rss/uscourts-ded.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-flsd"
+id = "uscourts-flsd"
 url = "https://www.govinfo.gov/rss/uscourts-flsd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-flnd"
+id = "uscourts-flnd"
 url = "https://www.govinfo.gov/rss/uscourts-flnd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-gamd"
+id = "uscourts-gamd"
 url = "https://www.govinfo.gov/rss/uscourts-gamd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-gand"
+id = "uscourts-gand"
 url = "https://www.govinfo.gov/rss/uscourts-gand.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-gud"
+id = "uscourts-gud"
 url = "https://www.govinfo.gov/rss/uscourts-gud.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-hid"
+id = "uscourts-hid"
 url = "https://www.govinfo.gov/rss/uscourts-hid.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-idd"
+id = "uscourts-idd"
 url = "https://www.govinfo.gov/rss/uscourts-idd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ilnd"
+id = "uscourts-ilnd"
 url = "https://www.govinfo.gov/rss/uscourts-ilnd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ilsd"
+id = "uscourts-ilsd"
 url = "https://www.govinfo.gov/rss/uscourts-ilsd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-insd"
+id = "uscourts-insd"
 url = "https://www.govinfo.gov/rss/uscourts-insd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-iand"
+id = "uscourts-iand"
 url = "https://www.govinfo.gov/rss/uscourts-iand.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ksd"
+id = "uscourts-ksd"
 url = "https://www.govinfo.gov/rss/uscourts-ksd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-kyed"
+id = "uscourts-kyed"
 url = "https://www.govinfo.gov/rss/uscourts-kyed.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-kywd"
+id = "uscourts-kywd"
 url = "https://www.govinfo.gov/rss/uscourts-kywd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-laed"
+id = "uscourts-laed"
 url = "https://www.govinfo.gov/rss/uscourts-laed.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-lamd"
+id = "uscourts-lamd"
 url = "https://www.govinfo.gov/rss/uscourts-lamd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-med"
+id = "uscourts-med"
 url = "https://www.govinfo.gov/rss/uscourts-med.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-mdd"
+id = "uscourts-mdd"
 url = "https://www.govinfo.gov/rss/uscourts-mdd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-mad"
+id = "uscourts-mad"
 url = "https://www.govinfo.gov/rss/uscourts-mad.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-mied"
+id = "uscourts-mied"
 url = "https://www.govinfo.gov/rss/uscourts-mied.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-miwd"
+id = "uscourts-miwd"
 url = "https://www.govinfo.gov/rss/uscourts-miwd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-mnd"
+id = "uscourts-mnd"
 url = "https://www.govinfo.gov/rss/uscourts-mnd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-moed"
+id = "uscourts-moed"
 url = "https://www.govinfo.gov/rss/uscourts-moed.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-mowd"
+id = "uscourts-mowd"
 url = "https://www.govinfo.gov/rss/uscourts-mowd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-mtd"
+id = "uscourts-mtd"
 url = "https://www.govinfo.gov/rss/uscourts-mtd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ned"
+id = "uscourts-ned"
 url = "https://www.govinfo.gov/rss/uscourts-ned.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-nhd"
+id = "uscourts-nhd"
 url = "https://www.govinfo.gov/rss/uscourts-nhd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-njd"
+id = "uscourts-njd"
 url = "https://www.govinfo.gov/rss/uscourts-njd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-nmd"
+id = "uscourts-nmd"
 url = "https://www.govinfo.gov/rss/uscourts-nmd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-nyed"
+id = "uscourts-nyed"
 url = "https://www.govinfo.gov/rss/uscourts-nyed.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-nynd"
+id = "uscourts-nynd"
 url = "https://www.govinfo.gov/rss/uscourts-nynd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ncmd"
+id = "uscourts-ncmd"
 url = "https://www.govinfo.gov/rss/uscourts-ncmd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ncwd"
+id = "uscourts-ncwd"
 url = "https://www.govinfo.gov/rss/uscourts-ncwd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ndd"
+id = "uscourts-ndd"
 url = "https://www.govinfo.gov/rss/uscourts-ndd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-nmid"
+id = "uscourts-nmid"
 url = "https://www.govinfo.gov/rss/uscourts-nmid.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ohnd"
+id = "uscourts-ohnd"
 url = "https://www.govinfo.gov/rss/uscourts-ohnd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ohsd"
+id = "uscourts-ohsd"
 url = "https://www.govinfo.gov/rss/uscourts-ohsd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-oked"
+id = "uscourts-oked"
 url = "https://www.govinfo.gov/rss/uscourts-oked.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-okwd"
+id = "uscourts-okwd"
 url = "https://www.govinfo.gov/rss/uscourts-okwd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ord"
+id = "uscourts-ord"
 url = "https://www.govinfo.gov/rss/uscourts-ord.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-paed"
+id = "uscourts-paed"
 url = "https://www.govinfo.gov/rss/uscourts-paed.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-pamd"
+id = "uscourts-pamd"
 url = "https://www.govinfo.gov/rss/uscourts-pamd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-pawd"
+id = "uscourts-pawd"
 url = "https://www.govinfo.gov/rss/uscourts-pawd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-prd"
+id = "uscourts-prd"
 url = "https://www.govinfo.gov/rss/uscourts-prd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-rid"
+id = "uscourts-rid"
 url = "https://www.govinfo.gov/rss/uscourts-rid.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-sdd"
+id = "uscourts-sdd"
 url = "https://www.govinfo.gov/rss/uscourts-sdd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-tned"
+id = "uscourts-tned"
 url = "https://www.govinfo.gov/rss/uscourts-tned.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-tnwd"
+id = "uscourts-tnwd"
 url = "https://www.govinfo.gov/rss/uscourts-tnwd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-tnmd"
+id = "uscourts-tnmd"
 url = "https://www.govinfo.gov/rss/uscourts-tnmd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-txed"
+id = "uscourts-txed"
 url = "https://www.govinfo.gov/rss/uscourts-txed.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-txnd"
+id = "uscourts-txnd"
 url = "https://www.govinfo.gov/rss/uscourts-txnd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-txsd"
+id = "uscourts-txsd"
 url = "https://www.govinfo.gov/rss/uscourts-txsd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-txwd"
+id = "uscourts-txwd"
 url = "https://www.govinfo.gov/rss/uscourts-txwd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-utd"
+id = "uscourts-utd"
 url = "https://www.govinfo.gov/rss/uscourts-utd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-vid"
+id = "uscourts-vid"
 url = "https://www.govinfo.gov/rss/uscourts-vid.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-vtd"
+id = "uscourts-vtd"
 url = "https://www.govinfo.gov/rss/uscourts-vtd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-waed"
+id = "uscourts-waed"
 url = "https://www.govinfo.gov/rss/uscourts-waed.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-wiwd"
+id = "uscourts-wiwd"
 url = "https://www.govinfo.gov/rss/uscourts-wiwd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-wvnd"
+id = "uscourts-wvnd"
 url = "https://www.govinfo.gov/rss/uscourts-wvnd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-wyd"
+id = "uscourts-wyd"
 url = "https://www.govinfo.gov/rss/uscourts-wyd.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ca1"
+id = "uscourts-ca1"
 url = "https://www.govinfo.gov/rss/uscourts-ca1.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ca2"
+id = "uscourts-ca2"
 url = "https://www.govinfo.gov/rss/uscourts-ca2.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ca3"
+id = "uscourts-ca3"
 url = "https://www.govinfo.gov/rss/uscourts-ca3.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ca4"
+id = "uscourts-ca4"
 url = "https://www.govinfo.gov/rss/uscourts-ca4.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ca5"
+id = "uscourts-ca5"
 url = "https://www.govinfo.gov/rss/uscourts-ca5.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ca6"
+id = "uscourts-ca6"
 url = "https://www.govinfo.gov/rss/uscourts-ca6.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ca7"
+id = "uscourts-ca7"
 url = "https://www.govinfo.gov/rss/uscourts-ca7.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ca8"
+id = "uscourts-ca8"
 url = "https://www.govinfo.gov/rss/uscourts-ca8.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ca9"
+id = "uscourts-ca9"
 url = "https://www.govinfo.gov/rss/uscourts-ca9.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ca10"
+id = "uscourts-ca10"
 url = "https://www.govinfo.gov/rss/uscourts-ca10.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ca11"
+id = "uscourts-ca11"
 url = "https://www.govinfo.gov/rss/uscourts-ca11.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-cadc"
+id = "uscourts-cadc"
 url = "https://www.govinfo.gov/rss/uscourts-cadc.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ca13"
+id = "uscourts-ca13"
 url = "https://www.govinfo.gov/rss/uscourts-ca13.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-almb"
+id = "uscourts-almb"
 url = "https://www.govinfo.gov/rss/uscourts-almb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-alnb"
+id = "uscourts-alnb"
 url = "https://www.govinfo.gov/rss/uscourts-alnb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-alsb"
+id = "uscourts-alsb"
 url = "https://www.govinfo.gov/rss/uscourts-alsb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-akb"
+id = "uscourts-akb"
 url = "https://www.govinfo.gov/rss/uscourts-akb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-areb"
+id = "uscourts-areb"
 url = "https://www.govinfo.gov/rss/uscourts-areb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-arwb"
+id = "uscourts-arwb"
 url = "https://www.govinfo.gov/rss/uscourts-arwb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-azb"
+id = "uscourts-azb"
 url = "https://www.govinfo.gov/rss/uscourts-azb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-caeb"
+id = "uscourts-caeb"
 url = "https://www.govinfo.gov/rss/uscourts-caeb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-canb"
+id = "uscourts-canb"
 url = "https://www.govinfo.gov/rss/uscourts-canb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-cacb"
+id = "uscourts-cacb"
 url = "https://www.govinfo.gov/rss/uscourts-cacb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-cob"
+id = "uscourts-cob"
 url = "https://www.govinfo.gov/rss/uscourts-cob.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-dcb"
+id = "uscourts-dcb"
 url = "https://www.govinfo.gov/rss/uscourts-dcb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ctb"
+id = "uscourts-ctb"
 url = "https://www.govinfo.gov/rss/uscourts-ctb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-deb"
+id = "uscourts-deb"
 url = "https://www.govinfo.gov/rss/uscourts-deb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-flsb"
+id = "uscourts-flsb"
 url = "https://www.govinfo.gov/rss/uscourts-flsb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-flmb"
+id = "uscourts-flmb"
 url = "https://www.govinfo.gov/rss/uscourts-flmb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ganb"
+id = "uscourts-ganb"
 url = "https://www.govinfo.gov/rss/uscourts-ganb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-gamb"
+id = "uscourts-gamb"
 url = "https://www.govinfo.gov/rss/uscourts-gamb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-hib"
+id = "uscourts-hib"
 url = "https://www.govinfo.gov/rss/uscourts-hib.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ilnb"
+id = "uscourts-ilnb"
 url = "https://www.govinfo.gov/rss/uscourts-ilnb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ilsb"
+id = "uscourts-ilsb"
 url = "https://www.govinfo.gov/rss/uscourts-ilsb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ilcb"
+id = "uscourts-ilcb"
 url = "https://www.govinfo.gov/rss/uscourts-ilcb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-insb"
+id = "uscourts-insb"
 url = "https://www.govinfo.gov/rss/uscourts-insb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ianb"
+id = "uscourts-ianb"
 url = "https://www.govinfo.gov/rss/uscourts-ianb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-kyeb"
+id = "uscourts-kyeb"
 url = "https://www.govinfo.gov/rss/uscourts-kyeb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-kywb"
+id = "uscourts-kywb"
 url = "https://www.govinfo.gov/rss/uscourts-kywb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-laeb"
+id = "uscourts-laeb"
 url = "https://www.govinfo.gov/rss/uscourts-laeb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-lawb"
+id = "uscourts-lawb"
 url = "https://www.govinfo.gov/rss/uscourts-lawb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-lamb"
+id = "uscourts-lamb"
 url = "https://www.govinfo.gov/rss/uscourts-lamb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-meb"
+id = "uscourts-meb"
 url = "https://www.govinfo.gov/rss/uscourts-meb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-mdb"
+id = "uscourts-mdb"
 url = "https://www.govinfo.gov/rss/uscourts-mdb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-mab"
+id = "uscourts-mab"
 url = "https://www.govinfo.gov/rss/uscourts-mab.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-miwb"
+id = "uscourts-miwb"
 url = "https://www.govinfo.gov/rss/uscourts-miwb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-mnb"
+id = "uscourts-mnb"
 url = "https://www.govinfo.gov/rss/uscourts-mnb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-msnb"
+id = "uscourts-msnb"
 url = "https://www.govinfo.gov/rss/uscourts-msnb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-moeb"
+id = "uscourts-moeb"
 url = "https://www.govinfo.gov/rss/uscourts-moeb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-mowb"
+id = "uscourts-mowb"
 url = "https://www.govinfo.gov/rss/uscourts-mowb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-mtb"
+id = "uscourts-mtb"
 url = "https://www.govinfo.gov/rss/uscourts-mtb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-neb"
+id = "uscourts-neb"
 url = "https://www.govinfo.gov/rss/uscourts-neb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-nvb"
+id = "uscourts-nvb"
 url = "https://www.govinfo.gov/rss/uscourts-nvb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-nhb"
+id = "uscourts-nhb"
 url = "https://www.govinfo.gov/rss/uscourts-nhb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-njb"
+id = "uscourts-njb"
 url = "https://www.govinfo.gov/rss/uscourts-njb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-nmb"
+id = "uscourts-nmb"
 url = "https://www.govinfo.gov/rss/uscourts-nmb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-nyeb"
+id = "uscourts-nyeb"
 url = "https://www.govinfo.gov/rss/uscourts-nyeb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-nynb"
+id = "uscourts-nynb"
 url = "https://www.govinfo.gov/rss/uscourts-nynb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-nysb"
+id = "uscourts-nysb"
 url = "https://www.govinfo.gov/rss/uscourts-nysb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-nywb"
+id = "uscourts-nywb"
 url = "https://www.govinfo.gov/rss/uscourts-nywb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-nceb"
+id = "uscourts-nceb"
 url = "https://www.govinfo.gov/rss/uscourts-nceb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ncwb"
+id = "uscourts-ncwb"
 url = "https://www.govinfo.gov/rss/uscourts-ncwb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ndb"
+id = "uscourts-ndb"
 url = "https://www.govinfo.gov/rss/uscourts-ndb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ohnb"
+id = "uscourts-ohnb"
 url = "https://www.govinfo.gov/rss/uscourts-ohnb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-ohsb"
+id = "uscourts-ohsb"
 url = "https://www.govinfo.gov/rss/uscourts-ohsb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-okeb"
+id = "uscourts-okeb"
 url = "https://www.govinfo.gov/rss/uscourts-okeb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-oknb"
+id = "uscourts-oknb"
 url = "https://www.govinfo.gov/rss/uscourts-oknb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-okwb"
+id = "uscourts-okwb"
 url = "https://www.govinfo.gov/rss/uscourts-okwb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-orb"
+id = "uscourts-orb"
 url = "https://www.govinfo.gov/rss/uscourts-orb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-paeb"
+id = "uscourts-paeb"
 url = "https://www.govinfo.gov/rss/uscourts-paeb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-pamb"
+id = "uscourts-pamb"
 url = "https://www.govinfo.gov/rss/uscourts-pamb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-pawb"
+id = "uscourts-pawb"
 url = "https://www.govinfo.gov/rss/uscourts-pawb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-prb"
+id = "uscourts-prb"
 url = "https://www.govinfo.gov/rss/uscourts-prb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-rib"
+id = "uscourts-rib"
 url = "https://www.govinfo.gov/rss/uscourts-rib.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-scb"
+id = "uscourts-scb"
 url = "https://www.govinfo.gov/rss/uscourts-scb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-sdb"
+id = "uscourts-sdb"
 url = "https://www.govinfo.gov/rss/uscourts-sdb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-tneb"
+id = "uscourts-tneb"
 url = "https://www.govinfo.gov/rss/uscourts-tneb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-tnmb"
+id = "uscourts-tnmb"
 url = "https://www.govinfo.gov/rss/uscourts-tnmb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-txsb"
+id = "uscourts-txsb"
 url = "https://www.govinfo.gov/rss/uscourts-txsb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-txwb"
+id = "uscourts-txwb"
 url = "https://www.govinfo.gov/rss/uscourts-txwb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-vawb"
+id = "uscourts-vawb"
 url = "https://www.govinfo.gov/rss/uscourts-vawb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-vib"
+id = "uscourts-vib"
 url = "https://www.govinfo.gov/rss/uscourts-vib.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-waeb"
+id = "uscourts-waeb"
 url = "https://www.govinfo.gov/rss/uscourts-waeb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-wawb"
+id = "uscourts-wawb"
 url = "https://www.govinfo.gov/rss/uscourts-wawb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-wvnb"
+id = "uscourts-wvnb"
 url = "https://www.govinfo.gov/rss/uscourts-wvnb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-wieb"
+id = "uscourts-wieb"
 url = "https://www.govinfo.gov/rss/uscourts-wieb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-wiwb"
+id = "uscourts-wiwb"
 url = "https://www.govinfo.gov/rss/uscourts-wiwb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-wyb"
+id = "uscourts-wyb"
 url = "https://www.govinfo.gov/rss/uscourts-wyb.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-jpml"
+id = "uscourts-jpml"
 url = "https://www.govinfo.gov/rss/uscourts-jpml.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-cit"
+id = "uscourts-cit"
 url = "https://www.govinfo.gov/rss/uscourts-cit.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "uscourts-govinfo-cofc"
+id = "uscourts-cofc"
 url = "https://www.govinfo.gov/rss/uscourts-cofc.xml"
-base_poll_seconds = 360
 
 [[feeds]]
-id = "bills-govinfo-bulkdata"
+id = "bills-bulkdata"
 url = "https://www.govinfo.gov/rss/bills-bulkdata.xml"
-base_poll_seconds = 360
 
 [[feeds]]
 id = "billstatus-govinfo-bulkdata"
 url = "https://www.govinfo.gov/rss/billstatus-bulkdata.xml"
-base_poll_seconds = 360
 
 [[feeds]]
 id = "billstatus-govinfo-batch"
 url = "https://www.govinfo.gov/rss/billstatus-batch.xml"
-base_poll_seconds = 360
 
 [[feeds]]
 id = "billsum-govinfo-bulkdata"
 url = "https://www.govinfo.gov/rss/billsum-bulkdata.xml"
-base_poll_seconds = 360
 
 [[feeds]]
 id = "cfr-govinfo-bulkdata"
 url = "https://www.govinfo.gov/rss/cfr-bulkdata.xml"
-base_poll_seconds = 360
 
 [[feeds]]
 id = "ecfr-govinfo-bulkdata"
 url = "https://www.govinfo.gov/rss/ecfr-bulkdata.xml"
-base_poll_seconds = 360
 
 [[feeds]]
 id = "fr-govinfo-bulkdata"
 url = "https://www.govinfo.gov/rss/fr-bulkdata.xml"
-base_poll_seconds = 360
 
 [[feeds]]
 id = "govman-govinfo-bulkdata"
 url = "https://www.govinfo.gov/rss/govman-bulkdata.xml"
-base_poll_seconds = 360
 
 [[feeds]]
 id = "hman-govinfo-bulkdata"
 url = "https://www.govinfo.gov/rss/hman-bulkdata.xml"
-base_poll_seconds = 360
 
 [[feeds]]
 id = "pai-govinfo-bulkdata"
 url = "https://www.govinfo.gov/rss/pai-bulkdata.xml"
-base_poll_seconds = 360
 
 [[feeds]]
 id = "ppp-govinfo-bulkdata"
 url = "https://www.govinfo.gov/rss/ppp-bulkdata.xml"
-base_poll_seconds = 360
 
 [[feeds]]
 id = "statute-govinfo-bulkdata"
 url = "https://www.govinfo.gov/rss/statute-bulkdata.xml"
-base_poll_seconds = 360
 
 [[feeds]]
 id = "comps-govinfo-bulkdata"
 url = "https://www.govinfo.gov/rss/comps-bulkdata.xml"
-base_poll_seconds = 360
