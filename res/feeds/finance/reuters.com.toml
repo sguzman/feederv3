@@ -1,0 +1,14 @@
+[[feeds]]
+id = "reuters-finance"
+url = "https://ir.thomsonreuters.com/rss/news-releases.xml?items=15"
+base_poll_seconds = 600
+
+[[feeds]]
+id = "reuters-calendar"
+url = "https://ir.thomsonreuters.com/rss/events.xml?items=15"
+base_poll_seconds = 600
+
+[[feeds]]
+id = "reuters-sec-filings"
+url = "https://ir.thomsonreuters.com/rss/sec-filings.xml?items=15"
+base_poll_seconds = 600

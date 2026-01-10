@@ -1,0 +1,39 @@
+[[feeds]]
+id = "sec-press-releases"
+url = "https://www.sec.gov/news/pressreleases.rss"
+base_poll_seconds = 600
+
+[[feeds]]
+id = "sec-speeches-and-statements"
+url = "https://www.sec.gov/news/speeches-statements.rss"
+base_poll_seconds = 600
+
+[[feeds]]
+id = "sec-testimony"
+url = "https://www.sec.gov/news/testimony.rss"
+base_poll_seconds = 600
+
+[[feeds]]
+id = "sec-statements"
+url = "https://www.sec.gov/news/statements.rss"
+base_poll_seconds = 600
+
+[[feeds]]
+id = "sec-litigation"
+url = "https://www.sec.gov/enforcement-litigation/litigation-releases/rss"
+base_poll_seconds = 600
+
+[[feeds]]
+id = "sec-administrative-proceedings"
+url = "https://www.sec.gov/enforcement-litigation/administrative-proceedings/rss"
+base_poll_seconds = 600
+
+[[feeds]]
+id = "sec-trading_suspensions"
+url = "https://www.sec.gov/enforcement-litigation/trading-suspensions/rss"
+base_poll_seconds = 600
+
+[[feeds]]
+id = "sec-latest-filings"
+url = "https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&CIK=&type=&company=&dateb=&owner=include&start=0&count=40&output=atom"
+base_poll_seconds = 400

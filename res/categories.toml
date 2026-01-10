@@ -4,7 +4,7 @@ domains = ["youtube.com", "youtu.be", "www.youtube.com"]
 
 [[categories]]
 name = "gov"
-domains = ["govinfo.gov", "www.govinfo.gov", "www.bls.gov", "bls.gov", "federalregister.gov", "www.federalreserve.gov"]
+domains = ["govinfo.gov", "www.govinfo.gov", "www.bls.gov", "bls.gov", "federalregister.gov", "www.federalreserve.gov", "sec.gov", "www.sec.gov"]
 
 [[categories]]
 name = "journals"
@@ -20,7 +20,7 @@ domains = ["feeds.arstechnica.com", "hnrss.org", "rss.slashdot.org"]
 
 [[categories]]
 name = "finance"
-domains = ["seekingalpha.com"]
+domains = ["ir.thomsonreuters.com", "seekingalpha.com", "feeds.bloomberg.com", "www.coindesk.com", "cointelegraph.com"]
 
 [[categories]]
 name = "news"

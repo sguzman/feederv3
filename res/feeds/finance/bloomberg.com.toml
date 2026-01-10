@@ -1,0 +1,4 @@
+[[feeds]]
+id = "bloomberg"
+url = "https://feeds.bloomberg.com/markets/news.rss"
+base_poll_seconds = 600

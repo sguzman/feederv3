@@ -1,0 +1,4 @@
+[[feeds]]
+id = "cointelegraph"
+url = "https://cointelegraph.com/rss"
+base_poll_seconds = 600

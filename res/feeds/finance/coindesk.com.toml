@@ -1,0 +1,4 @@
+[[feeds]]
+id = "coindesk"
+url = "https://www.coindesk.com/arc/outboundfeeds/rss"
+base_poll_seconds = 600
