@@ -14,12 +14,12 @@ struct Args {
 enum Command {
     /// Validate TOML config (schema + semantic checks).
     Validate {
-        /// Path to config.toml (defaults to CONFIG_PATH or fetcher/res/config.toml).
+        /// Path to config.toml (defaults to CONFIG_PATH or crates/fetcher/res/config.toml).
         config_path: Option<PathBuf>,
     },
     /// Clean local dev artifacts (SQLite + logs) with a safety flag.
     Clean {
-        /// Path to config.toml (defaults to CONFIG_PATH or fetcher/res/config.toml).
+        /// Path to config.toml (defaults to CONFIG_PATH or crates/fetcher/res/config.toml).
         config_path: Option<PathBuf>,
         /// Required to perform destructive actions.
         #[arg(long)]
@@ -89,5 +89,5 @@ fn pick_config_path(arg: Option<PathBuf>) -> PathBuf {
         }
     }
 
-    PathBuf::from("fetcher/res/config.toml")
+    PathBuf::from("crates/fetcher/res/config.toml")
 }

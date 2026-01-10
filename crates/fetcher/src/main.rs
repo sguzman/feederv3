@@ -153,6 +153,7 @@ fn pick_config_path(arg1: Option<String>) -> PathBuf {
 
     // Prefer repo-local res/ config; fall back to old resources path for compatibility.
     let candidates = [
+        PathBuf::from("crates/fetcher/res/config.toml"),
         PathBuf::from("fetcher/res/config.toml"),
         PathBuf::from("res/config.toml"),
         PathBuf::from("src/main/resources/config/config.toml"),

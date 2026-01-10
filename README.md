@@ -10,17 +10,17 @@ Rust async worker that polls a set of RSS/Atom feeds, tracks HTTP state with ada
 - Logging uses `tracing` with env-filter override support. Dev mode wipes the DB on startup for a clean slate.
 
 ## Code Layout
-- `core/src/` – shared runtime logic (config, scheduler, infra, ports, domain, feed parsing).
-- `core/tests/` – shared property-style tests.
-- `fetcher/src/main.rs` – entrypoint; argument parsing, config loading, repo init/migrations, optional ingest benchmark, then scheduler loop.
-- `fetcher/res/` – example config bundle (`config.toml`, `domains.toml`, `feeds/*.toml`) and a sample SQLite DB snapshot.
-- `cli/src/main.rs` – ops CLI for validation/cleanup commands.
+- `crates/core/src/` – shared runtime logic (config, scheduler, infra, ports, domain, feed parsing).
+- `crates/core/tests/` – shared property-style tests.
+- `crates/fetcher/src/main.rs` – entrypoint; argument parsing, config loading, repo init/migrations, optional ingest benchmark, then scheduler loop.
+- `crates/fetcher/res/` – example config bundle (`config.toml`, `domains.toml`, `feeds/*.toml`) and a sample SQLite DB snapshot.
+- `crates/cli/src/main.rs` – ops CLI for validation/cleanup commands.
 
 ## Configuration
 Config is resolved from:
 1) CLI argument path (if provided), else
 2) `CONFIG_PATH` environment variable (if set), else
-3) `fetcher/res/config.toml` when present, else
+3) `crates/fetcher/res/config.toml` when present, else
 4) `src/main/resources/config/config.toml` (legacy layout).
 Feed definitions default to `feeds/` under the config directory, but can be overridden with `FEEDS_DIR`.
 
@@ -75,10 +75,10 @@ Metrics exported at `/metrics` when enabled:
 
 ## Data & Schema Notes
 - SQLite path comes from `[sqlite].path`; WAL mode and `synchronous` toggling are used to speed bulk upserts.
-- Creation DDLs live in `fetcher/res/sql/sqlite/schema.sql` and `fetcher/res/sql/postgres/schema.sql` and are applied at startup; non-schema migrations remain in code.
+- Creation DDLs live in `crates/core/res/sql/sqlite/schema.sql` and `crates/core/res/sql/postgres/schema.sql` and are applied at startup; non-schema migrations remain in code.
 - Postgres stores timestamps as `timestamptz`, using the timezone from config when converting epoch milliseconds to database values.
 - Key tables: `feeds` (definitions), `feed_state_current` + `feed_state_history`, `fetch_events`, `feed_payloads`, `feed_items`.
-- A prebuilt DB snapshot is checked in under `fetcher/res/` for quick inspection; dev mode will delete it on boot.
+- A prebuilt DB snapshot is checked in under `crates/fetcher/res/` for quick inspection; dev mode will delete it on boot.
 
 ## Development
 - Build/test: `cargo test -p feedrv3-core` (no extra setup needed; uses the traits to avoid network access in tests).
@@ -86,7 +86,7 @@ Metrics exported at `/metrics` when enabled:
 - HTTP client: reqwest with rustls, 30s timeout, gzip/brotli/deflate enabled.
 
 ## Docker
-- Dockerfile now lives under `fetcher/Dockerfile`.
+- Dockerfile now lives under `crates/fetcher/Dockerfile`.
 - Image expects a full config bundle (config/domains/categories/feeds) to be present on disk.
 - Default path inside the container is `/app/res/config.toml`; override with `CONFIG_PATH`.
 - Feed definitions default to `/app/res/feeds`; override with `FEEDS_DIR`.
