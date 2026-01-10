@@ -3,9 +3,9 @@ use serde::Deserialize;
 use super::defaults::{
     default_log_feed_timing_warn_ms, default_log_file_directory, default_log_file_enabled,
     default_log_file_level, default_log_file_name, default_log_file_rotation,
-    default_log_tick_warn_seconds, default_immediate_error_statuses,
-    default_max_consecutive_errors, default_pg_database, default_pg_host, default_pg_password,
-    default_pg_port, default_pg_user, default_sqlite_path,
+    default_log_tick_warn_seconds, default_immediate_error_statuses, default_max_consecutive_errors,
+    default_metrics_bind, default_metrics_enabled, default_pg_database, default_pg_host,
+    default_pg_password, default_pg_port, default_pg_user, default_sqlite_path,
 };
 
 #[derive(Debug, Deserialize)]
@@ -20,6 +20,8 @@ pub(crate) struct RawAppFile {
     pub backoff: RawBackoff,
     pub requests: RawRequests,
     pub logging: RawLogging,
+    #[serde(default)]
+    pub metrics: Option<RawMetrics>,
     #[serde(default)]
     pub state_history: Option<RawStateHistory>,
 }
@@ -102,6 +104,14 @@ pub(crate) struct RawLogging {
     pub feed_timing_warn_ms: u64,
     #[serde(default)]
     pub feed_timing_log_all: bool,
+}
+
+#[derive(Debug, Deserialize)]
+pub(crate) struct RawMetrics {
+    #[serde(default = "default_metrics_enabled")]
+    pub enabled: bool,
+    #[serde(default = "default_metrics_bind")]
+    pub bind: String,
 }
 
 #[derive(Debug, Deserialize)]

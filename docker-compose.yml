@@ -9,6 +9,8 @@ services:
       FEEDS_DIR: /app/res/feeds
     volumes:
       - ./res:/app/res:ro
+    expose:
+      - "9898"
     networks:
       - services
 

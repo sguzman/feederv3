@@ -38,6 +38,16 @@ Feed definitions default to `feeds/` under the config directory, but can be over
 - `[state_history]` – `sample_rate` between 0–1 for persisting historical state rows (current state is always stored).
 - `[logging]` – `level` base log level (can be overridden by `RUST_LOG`).
 - `[logging]` – `file_enabled` toggles file logging (defaults to false), `file_level`/`file_directory`/`file_rotation` configure file output when enabled.
+- `[metrics]` – `enabled` toggles the Prometheus endpoint (defaults to false), `bind` sets the listen address (default `0.0.0.0:9898`).
+
+Metrics exported at `/metrics` when enabled:
+- `feedrv3_up`, `feedrv3_start_time_seconds`
+- `feedrv3_scheduler_ticks_total{category=...}`, `feedrv3_due_feeds{category=...}`, `feedrv3_due_feeds_total{category=...}`
+- `feedrv3_inflight_actions`
+- `feedrv3_feed_actions_total{action=...,outcome=...}`
+- `feedrv3_http_status_total{action=...,status=...}`
+- `feedrv3_http_latency_ms{action=...,domain=...}` (histogram)
+- `feedrv3_db_query_ms{query=...}` (histogram)
 
 `domains.toml`: list of `{ name, max_concurrent_requests }` entries limiting concurrent requests per host. Domains not listed default to a limit of 1.
 

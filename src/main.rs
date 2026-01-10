@@ -6,6 +6,7 @@ use feedrv3::infra::{
     config::{ConfigLoader, LoadedConfig},
     database,
     logging::{init_logging, BootError},
+    metrics,
     random::MutexRng,
     reqwest_http::ReqwestHttp,
     system_clock::SystemClock,
@@ -32,6 +33,9 @@ async fn main() -> Result<(), BootError> {
         .await
         .map_err(|e| BootError::Fatal(e.to_string()))?;
     init_logging(&app_cfg);
+    metrics::init(&app_cfg.metrics, &categories)
+        .await
+        .map_err(BootError::Fatal)?;
 
     info!(timezone = %app_cfg.timezone, "Using timezone");
     let db_desc = match app_cfg.db_dialect {

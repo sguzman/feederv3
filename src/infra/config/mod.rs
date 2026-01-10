@@ -10,7 +10,9 @@ use std::{collections::HashMap, path::Path};
 use chrono_tz::Tz;
 use tokio::fs;
 
-use crate::domain::model::{AppConfig, CategoryConfig, DomainConfig, FeedConfig, PostgresConfig};
+use crate::domain::model::{
+    AppConfig, CategoryConfig, DomainConfig, FeedConfig, MetricsConfig, PostgresConfig,
+};
 
 use defaults::{
     normalize_domains, normalize_log_level, normalize_log_rotation, normalize_status_codes,
@@ -172,6 +174,11 @@ impl ConfigLoader {
             });
         }
 
+        let metrics_cfg = raw_cfg.metrics.unwrap_or(raw::RawMetrics {
+            enabled: defaults::default_metrics_enabled(),
+            bind: defaults::default_metrics_bind(),
+        });
+
         Ok(LoadedConfig {
             app: AppConfig {
                 db_dialect,
@@ -197,6 +204,10 @@ impl ConfigLoader {
                 log_feed_timing_domains: feed_timing_domains,
                 log_feed_timing_warn_ms: raw_cfg.logging.feed_timing_warn_ms,
                 log_feed_timing_log_all: raw_cfg.logging.feed_timing_log_all,
+                metrics: MetricsConfig {
+                    enabled: metrics_cfg.enabled,
+                    bind: metrics_cfg.bind,
+                },
                 mode,
                 timezone,
                 domains,

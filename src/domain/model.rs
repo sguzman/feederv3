@@ -55,10 +55,17 @@ pub struct AppConfig {
     pub log_feed_timing_domains: Vec<String>,
     pub log_feed_timing_warn_ms: u64,
     pub log_feed_timing_log_all: bool,
+    pub metrics: MetricsConfig,
     pub mode: AppMode,
     pub timezone: Tz,
     pub domains: HashMap<String, DomainConfig>,
     pub state_history_sample_rate: f64,
+}
+
+#[derive(Debug, Clone)]
+pub struct MetricsConfig {
+    pub enabled: bool,
+    pub bind: String,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

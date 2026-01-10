@@ -7,6 +7,7 @@ use tracing::{debug, info, warn};
 use crate::app::context::AppContext;
 use crate::domain::link_state::LinkState;
 use crate::domain::model::FeedConfig;
+use crate::infra::metrics;
 use crate::infra::time::format_epoch_ms;
 use crate::ports::{clock::Clock, http::Http, random::RandomSource, repo::Repo};
 
@@ -38,6 +39,8 @@ where
         .due_feeds_for_category(category, now_ms, due_batch_size)
         .await?;
     let due_elapsed = due_started.elapsed();
+    metrics::record_tick(category, due.len() as u64);
+    metrics::record_db_time("due_feeds_for_category", due_elapsed.as_millis() as u64);
 
     info!(
       tick_time = %format_epoch_ms(now_ms, &cfg.timezone),
@@ -136,7 +139,9 @@ where
     let now_ms = clock.now_epoch_ms().await;
     let rand = rng.next_f64().await;
 
+    let started = Instant::now();
     let stored = repo.latest_state(&feed.id).await?;
+    metrics::record_db_time("latest_state", started.elapsed().as_millis() as u64);
     let state = stored
         .and_then(|r| to_link_state(&r, &cfg))
         .unwrap_or_else(|| {

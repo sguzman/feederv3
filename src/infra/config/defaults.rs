@@ -44,6 +44,13 @@ pub(crate) fn default_log_file_enabled() -> bool {
     false
 }
 
+pub(crate) fn default_metrics_enabled() -> bool {
+    false
+}
+
+pub(crate) fn default_metrics_bind() -> String {
+    "0.0.0.0:9898".to_string()
+}
 pub(crate) fn default_log_tick_warn_seconds() -> u64 {
     600
 }
