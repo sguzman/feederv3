@@ -1,89 +1,82 @@
+base_poll_seconds = 500
+id_prefix = "arxiv"
+category = "journals"
+provenance = "arxiv"
+tags = [
+    "journals",
+    "research",
+]
+language = "en"
+content_type = "xml"
+
 [[feeds]]
-id = "arxiv-econ"
+id = "econ"
 url = "https://rss.arxiv.org/rss/econ"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "arxiv-eess"
+id = "eess"
 url = "https://rss.arxiv.org/rss/eess"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "arxiv-stat"
+id = "stat"
 url = "https://rss.arxiv.org/rss/stat"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "arxiv-q-fin"
+id = "q-fin"
 url = "https://rss.arxiv.org/rss/q-fin"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "arxiv-q-bio"
+id = "q-bio"
 url = "https://rss.arxiv.org/rss/q-bio"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "arxiv-cs"
+id = "cs"
 url = "https://rss.arxiv.org/rss/cs"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "arxiv-quant-ph"
+id = "quant-ph"
 url = "https://rss.arxiv.org/rss/quant-ph"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "arxiv-physics"
+id = "physics"
 url = "https://rss.arxiv.org/rss/physics"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "arxiv-nucl-th"
+id = "nucl-th"
 url = "https://rss.arxiv.org/rss/nucl-th"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "arxiv-nucl-ex"
+id = "nucl-ex"
 url = "https://rss.arxiv.org/rss/nucl-ex"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "arxiv-nlin"
+id = "nlin"
 url = "https://rss.arxiv.org/rss/nlin"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "arxiv-math-ph"
+id = "math-ph"
 url = "https://rss.arxiv.org/rss/math-ph"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "arxiv-hep-th"
+id = "hep-th"
 url = "https://rss.arxiv.org/rss/hep-th"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "arxiv-hep-lat"
+id = "hep-lat"
 url = "https://rss.arxiv.org/rss/hep-lat"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "arxiv-hep-ex"
+id = "hep-ex"
 url = "https://rss.arxiv.org/rss/hep-ex"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "arxiv-gr-qc"
+id = "gr-qc"
 url = "https://rss.arxiv.org/rss/gr-qc"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "arxiv-cond-mat"
+id = "cond-mat"
 url = "https://rss.arxiv.org/rss/cond-mat"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "arxiv-astro-ph"
+id = "astro-ph"
 url = "https://rss.arxiv.org/rss/astro-ph"
-base_poll_seconds = 500
