@@ -1,4 +1,13 @@
-[[feeds]]
-id = "slashdot-main"
-url = "http://rss.slashdot.org/Slashdot/slashdotMain"
 base_poll_seconds = 1800
+id_prefix = "slashdot"
+category = "tech"
+provenance = "slashdot"
+tags = [
+    "tech",
+]
+language = "en"
+content_type = "xml"
+
+[[feeds]]
+id = "main"
+url = "http://rss.slashdot.org/Slashdot/slashdotMain"

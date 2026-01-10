@@ -1,4 +1,13 @@
-[[feeds]]
-id = "xkcd"
-url = "https://xkcd.com/rss.xml"
 base_poll_seconds = 180
+id_prefix = "xkcd"
+category = "comics"
+provenance = "xkcd"
+tags = [
+    "comics",
+]
+language = "en"
+content_type = "xml"
+
+[[feeds]]
+id = "main"
+url = "https://xkcd.com/rss.xml"

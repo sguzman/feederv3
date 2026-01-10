@@ -1,4 +1,13 @@
-[[feeds]]
-id = "hn-frontpage"
-url = "https://hnrss.org/frontpage"
 base_poll_seconds = 120
+id_prefix = "hn"
+category = "tech"
+provenance = "hn"
+tags = [
+    "tech",
+]
+language = "en"
+content_type = "xml"
+
+[[feeds]]
+id = "frontpage"
+url = "https://hnrss.org/frontpage"

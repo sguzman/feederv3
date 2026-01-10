@@ -1,54 +1,53 @@
-[[feeds]]
-id = "ars-all"
-url = "https://feeds.arstechnica.com/arstechnica/index"
 base_poll_seconds = 500
+id_prefix = "ars"
+category = "tech"
+provenance = "arstechnica"
+tags = [
+    "tech",
+]
+language = "en"
+content_type = "xml"
 
 [[feeds]]
-id = "ars-features"
+id = "all"
+url = "https://feeds.arstechnica.com/arstechnica/index"
+
+[[feeds]]
+id = "features"
 url = "https://feeds.arstechnica.com/arstechnica/features"
-base_poll_seconds = 500
 
 [[feeds]]
 id = "ai-technology-lab"
 url = "https://feeds.arstechnica.com/arstechnica/technology-lab"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "ars-gears-and-gadgets"
+id = "gears-and-gadgets"
 url = "https://feeds.arstechnica.com/arstechnica/gadgets"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "ars-law-and-order"
+id = "law-and-order"
 url = "https://feeds.arstechnica.com/arstechnica/tech-policy"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "ars-apple"
+id = "apple"
 url = "https://feeds.arstechnica.com/arstechnica/apple"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "ars-gaming"
+id = "gaming"
 url = "https://feeds.arstechnica.com/arstechnica/gaming"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "ars-science"
+id = "science"
 url = "https://feeds.arstechnica.com/arstechnica/science"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "ars-cars"
+id = "cars"
 url = "https://feeds.arstechnica.com/arstechnica/cars"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "ars-security"
+id = "security"
 url = "https://feeds.arstechnica.com/arstechnica/staff-blogs"
-base_poll_seconds = 500
 
 [[feeds]]
-id = "ars-boardgames"
+id = "boardgames"
 url = "https://feeds.arstechnica.com/arstechnica/cardboard"
-base_poll_seconds = 500
