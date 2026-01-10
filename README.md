@@ -85,7 +85,8 @@ Metrics exported at `/metrics` when enabled:
 - HTTP client: reqwest with rustls, 30s timeout, gzip/brotli/deflate enabled.
 
 ## Docker
+- Dockerfile now lives under `fetcher/Dockerfile`.
 - Image expects a full config bundle (config/domains/categories/feeds) to be present on disk.
-- Default path inside the container is `/app/fetcher/res/config.toml`; override with `CONFIG_PATH`.
-- Feed definitions default to `/app/fetcher/res/feeds`; override with `FEEDS_DIR`.
+- Default path inside the container is `/app/res/config.toml`; override with `CONFIG_PATH`.
+- Feed definitions default to `/app/res/feeds`; override with `FEEDS_DIR`.
 - For environment-specific settings, mount a config directory and point `CONFIG_PATH` at it.
