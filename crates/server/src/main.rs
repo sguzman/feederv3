@@ -18,6 +18,7 @@ use sha2::{Digest, Sha256};
 use sqlx::{Pool, Postgres, Sqlite};
 use sqlx::postgres::PgPoolOptions;
 use tracing_subscriber::EnvFilter;
+use tokio::fs;
 
 
 #[derive(Clone)]
@@ -108,6 +109,7 @@ async fn main() -> Result<(), ConfigError> {
     tracing::info!(host = %config.http.host, port = config.http.port, "server http bind");
 
     let state = connect_db(&config, Path::new(&config_path)).await?;
+    apply_server_schema(&config, &state, Path::new(&config_path)).await?;
 
     if config.app.mode == AppMode::Dev && config.dev.reset_on_start {
         reset_server_data(&config, &state).await?;
@@ -525,6 +527,77 @@ fn init_tracing(config: &ServerConfig) -> Result<(), ConfigError> {
         .map_err(|e| ConfigError::Invalid(format!("invalid logging.level: {e}")))?;
 
     tracing_subscriber::fmt().with_env_filter(filter).init();
+    Ok(())
+}
+
+
+async fn apply_server_schema(
+    config: &ServerConfig,
+    state: &AppState,
+    config_path: &Path,
+) -> Result<(), ConfigError> {
+    let base_dir = config_path
+        .parent()
+        .ok_or_else(|| ConfigError::Invalid("config path has no parent".into()))?;
+    match config.dialect()? {
+        SqlDialect::Sqlite => {
+            let pool = state
+                .sqlite
+                .as_ref()
+                .ok_or_else(|| ConfigError::Invalid("sqlite pool missing".into()))?;
+            let schema_path = base_dir.join("sql").join("sqlite").join("schema.sql");
+            let content = fs::read_to_string(&schema_path).await.map_err(|_| {
+                ConfigError::Invalid(format!("schema not found at {}", schema_path.display()))
+            })?;
+            execute_schema_sqlite(pool, &content).await?;
+        }
+        SqlDialect::Postgres => {
+            let pool = state
+                .postgres
+                .as_ref()
+                .ok_or_else(|| ConfigError::Invalid("postgres pool missing".into()))?;
+            let schema_path = base_dir.join("sql").join("postgres").join("schema.sql");
+            let content = fs::read_to_string(&schema_path).await.map_err(|_| {
+                ConfigError::Invalid(format!("schema not found at {}", schema_path.display()))
+            })?;
+            execute_schema_postgres(pool, &content).await?;
+        }
+    }
+    Ok(())
+}
+
+
+async fn execute_schema_sqlite(
+    pool: &sqlx::Pool<Sqlite>,
+    content: &str,
+) -> Result<(), ConfigError> {
+    for stmt in content.split(';') {
+        let trimmed = stmt.trim();
+        if trimmed.is_empty() {
+            continue;
+        }
+        sqlx::query(trimmed)
+            .execute(pool)
+            .await
+            .map_err(|e| ConfigError::Invalid(format!("schema apply error: {e}")))?;
+    }
+    Ok(())
+}
+
+async fn execute_schema_postgres(
+    pool: &sqlx::Pool<Postgres>,
+    content: &str,
+) -> Result<(), ConfigError> {
+    for stmt in content.split(';') {
+        let trimmed = stmt.trim();
+        if trimmed.is_empty() {
+            continue;
+        }
+        sqlx::query(trimmed)
+            .execute(pool)
+            .await
+            .map_err(|e| ConfigError::Invalid(format!("schema apply error: {e}")))?;
+    }
     Ok(())
 }
 
