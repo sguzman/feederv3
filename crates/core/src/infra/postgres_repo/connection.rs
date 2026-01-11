@@ -32,12 +32,12 @@ pub async fn create_pool(cfg: &PostgresConfig, timezone: &Tz) -> Result<PgPool, 
 pub async fn wipe_database(cfg: &PostgresConfig, timezone: &Tz) -> Result<(), String> {
     let pool = create_pool(cfg, timezone).await?;
     let schema = quote_ident(&cfg.schema);
-    let drop_sql = format!("DROP SCHEMA {schema} CASCADE");
+    let drop_sql = format!("DROP SCHEMA IF EXISTS {schema} CASCADE");
     sqlx::query(&drop_sql)
         .execute(&pool)
         .await
         .map_err(|e| format!("postgres drop schema error: {e}"))?;
-    let create_sql = format!("CREATE SCHEMA {schema}");
+    let create_sql = format!("CREATE SCHEMA IF NOT EXISTS {schema}");
     sqlx::query(&create_sql)
         .execute(&pool)
         .await
