@@ -24,6 +24,9 @@ pub fn router(state: AppState) -> Router {
         .route("/v1/users", post(create_user))
         .route("/v1/auth/login", post(login))
         .route("/v1/auth/logout", post(logout))
+        .route("/v1/entries/:item_id/read", get(read_state))
+        .route("/v1/entries/:item_id/read", post(mark_read))
+        .route("/v1/entries/:item_id/read", delete(mark_unread))
         .route("/v1/subscriptions", get(list_subscriptions))
         .route("/v1/subscriptions", post(create_subscription))
         .route("/v1/subscriptions/:feed_id", delete(delete_subscription))
@@ -216,6 +219,112 @@ async fn logout(State(state): State<AppState>, headers: HeaderMap) -> Result<Sta
             .ok_or_else(|| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, "database pool missing"))?;
         sqlx::query("DELETE FROM user_tokens WHERE token_hash = ?1")
             .bind(&token_hash)
+            .execute(pool)
+            .await
+            .map_err(|e| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
+    }
+
+    Ok(StatusCode::NO_CONTENT)
+}
+
+async fn read_state(
+    State(state): State<AppState>,
+    headers: HeaderMap,
+    AxumPath(item_id): AxumPath<i64>,
+) -> Result<StatusCode, ServerError> {
+    let user_id = auth_user_id(&state, &headers).await?;
+
+    let exists = if let Some(pool) = &state.postgres {
+        sqlx::query_scalar::<_, i64>(
+            "SELECT 1::BIGINT FROM entry_states WHERE user_id = $1 AND item_id = $2 AND read_at IS NOT NULL",
+        )
+        .bind(user_id)
+        .bind(item_id)
+        .fetch_optional(pool)
+        .await
+        .map_err(|e| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?
+        .is_some()
+    } else {
+        let pool = state
+            .sqlite
+            .as_ref()
+            .ok_or_else(|| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, "database pool missing"))?;
+        sqlx::query_scalar::<_, i64>(
+            "SELECT 1 FROM entry_states WHERE user_id = ?1 AND item_id = ?2 AND read_at IS NOT NULL",
+        )
+        .bind(user_id)
+        .bind(item_id)
+        .fetch_optional(pool)
+        .await
+        .map_err(|e| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?
+        .is_some()
+    };
+
+    if exists {
+        Ok(StatusCode::NO_CONTENT)
+    } else {
+        Err(ServerError::new(StatusCode::NOT_FOUND, "unread"))
+    }
+}
+
+async fn mark_read(
+    State(state): State<AppState>,
+    headers: HeaderMap,
+    AxumPath(item_id): AxumPath<i64>,
+) -> Result<StatusCode, ServerError> {
+    let user_id = auth_user_id(&state, &headers).await?;
+
+    if let Some(pool) = &state.postgres {
+        sqlx::query(
+            "INSERT INTO entry_states (user_id, item_id, read_at) VALUES ($1, $2, NOW()) \
+            ON CONFLICT (user_id, item_id) DO UPDATE SET read_at = EXCLUDED.read_at",
+        )
+        .bind(user_id)
+        .bind(item_id)
+        .execute(pool)
+        .await
+        .map_err(|e| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
+    } else {
+        let pool = state
+            .sqlite
+            .as_ref()
+            .ok_or_else(|| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, "database pool missing"))?;
+        sqlx::query(
+            "INSERT INTO entry_states (user_id, item_id, read_at) VALUES (?1, ?2, datetime('now')) \
+            ON CONFLICT(user_id, item_id) DO UPDATE SET read_at = excluded.read_at",
+        )
+        .bind(user_id)
+        .bind(item_id)
+        .execute(pool)
+        .await
+        .map_err(|e| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
+    }
+
+    Ok(StatusCode::NO_CONTENT)
+}
+
+async fn mark_unread(
+    State(state): State<AppState>,
+    headers: HeaderMap,
+    AxumPath(item_id): AxumPath<i64>,
+) -> Result<StatusCode, ServerError> {
+    let user_id = auth_user_id(&state, &headers).await?;
+
+    if let Some(pool) = &state.postgres {
+        sqlx::query("DELETE FROM entry_states WHERE user_id = $1 AND item_id = $2")
+            .bind(user_id)
+            .bind(item_id)
+            .execute(pool)
+            .await
+            .map_err(|e| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
+    } else {
+        let pool = state
+            .sqlite
+            .as_ref()
+            .ok_or_else(|| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, "database pool missing"))?;
+        sqlx::query("DELETE FROM entry_states WHERE user_id = ?1 AND item_id = ?2")
+            .bind(user_id)
+            .bind(item_id)
             .execute(pool)
             .await
             .map_err(|e| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
