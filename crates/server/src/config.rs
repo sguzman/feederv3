@@ -68,6 +68,7 @@ pub struct PostgresConfig {
     pub password: String,
     pub ssl_mode: String,
     pub schema: String,
+    pub fetcher_schema: String,
 }
 
 #[derive(Debug, Deserialize)]

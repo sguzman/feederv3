@@ -20,6 +20,7 @@ user = "admin"
 password = "admin"
 ssl_mode = "disable"
 schema = "server"
+fetcher_schema = "fetcher"
 
 [logging]
 level = "info"

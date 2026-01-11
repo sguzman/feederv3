@@ -3,12 +3,37 @@ mod config;
 use std::net::SocketAddr;
 use std::path::Path;
 
-use axum::{routing::get, Router};
+use axum::{extract::State, response::IntoResponse, routing::get, Json, Router};
 use config::{validate_schema_name, AppMode, ConfigError, ServerConfig, SqlDialect};
 use sqlx::{Pool, Postgres, Sqlite};
 use sqlx::postgres::PgPoolOptions;
 use tracing_subscriber::EnvFilter;
 
+
+#[derive(Clone)]
+struct AppState {
+    sqlite: Option<Pool<Sqlite>>,
+    postgres: Option<Pool<Postgres>>,
+    fetcher_schema: Option<String>,
+}
+
+#[derive(Debug, serde::Serialize, sqlx::FromRow)]
+struct FeedSummary {
+    id: String,
+    url: String,
+    domain: String,
+    category: String,
+    base_poll_seconds: i64,
+}
+
+#[derive(Debug)]
+struct ServerError(String);
+
+impl IntoResponse for ServerError {
+    fn into_response(self) -> axum::response::Response {
+        (axum::http::StatusCode::INTERNAL_SERVER_ERROR, self.0).into_response()
+    }
+}
 #[tokio::main]
 async fn main() -> Result<(), ConfigError> {
     let config_path = std::env::var("SERVER_CONFIG_PATH")
@@ -23,17 +48,20 @@ async fn main() -> Result<(), ConfigError> {
     tracing::info!(mode = ?config.app.mode, "server mode configured");
     tracing::info!(host = %config.http.host, port = config.http.port, "server http bind");
 
-    let (sqlite_pool, postgres_pool) = connect_db(&config, Path::new(&config_path)).await?;
+    let state = connect_db(&config, Path::new(&config_path)).await?;
 
     if config.app.mode == AppMode::Dev && config.dev.reset_on_start {
-        reset_server_data(&config, &sqlite_pool, &postgres_pool).await?;
+        reset_server_data(&config, &state).await?;
     }
 
     let addr: SocketAddr = format!("{}:{}", config.http.host, config.http.port)
         .parse()
         .map_err(|e| ConfigError::Invalid(format!("invalid http bind: {e}")))?;
 
-    let app = Router::new().route("/health", get(health));
+    let app = Router::new()
+        .route("/health", get(health))
+        .route("/v1/feeds", get(list_feeds))
+        .with_state(state);
 
     let listener = tokio::net::TcpListener::bind(addr).await?;
     axum::serve(listener, app).await.map_err(|e| {
@@ -46,6 +74,37 @@ async fn main() -> Result<(), ConfigError> {
 async fn health() -> &'static str {
     "ok"
 }
+
+async fn list_feeds(State(state): State<AppState>) -> Result<Json<Vec<FeedSummary>>, ServerError> {
+    if let Some(pool) = &state.postgres {
+        let schema = state
+            .fetcher_schema
+            .as_deref()
+            .unwrap_or("fetcher");
+        let query = format!(
+            "SELECT id, url, domain, category, base_poll_seconds FROM {}.feeds ORDER BY id",
+            quote_ident(schema)
+        );
+        let rows = sqlx::query_as::<_, FeedSummary>(&query)
+            .fetch_all(pool)
+            .await
+            .map_err(|e| ServerError(format!("feeds query failed: {e}")))?;
+        return Ok(Json(rows));
+    }
+
+    let pool = state
+        .sqlite
+        .as_ref()
+        .ok_or_else(|| ServerError("database pool missing".into()))?;
+    let rows = sqlx::query_as::<_, FeedSummary>(
+        "SELECT id, url, domain, category, base_poll_seconds FROM feeds ORDER BY id",
+    )
+    .fetch_all(pool)
+    .await
+    .map_err(|e| ServerError(format!("feeds query failed: {e}")))?;
+    Ok(Json(rows))
+}
+
 
 fn init_tracing(config: &ServerConfig) -> Result<(), ConfigError> {
     let level = config
@@ -65,7 +124,7 @@ fn init_tracing(config: &ServerConfig) -> Result<(), ConfigError> {
 async fn connect_db(
     config: &ServerConfig,
     config_path: &Path,
-) -> Result<(Option<Pool<Sqlite>>, Option<Pool<Postgres>>), ConfigError> {
+) -> Result<AppState, ConfigError> {
     match config.dialect()? {
         SqlDialect::Sqlite => {
             let base_dir = config_path
@@ -76,7 +135,11 @@ async fn connect_db(
             let pool = sqlx::SqlitePool::connect(&url)
                 .await
                 .map_err(|e| ConfigError::Invalid(format!("sqlite connect failed: {e}")))?;
-            Ok((Some(pool), None))
+            Ok(AppState {
+                sqlite: Some(pool),
+                postgres: None,
+                fetcher_schema: None,
+            })
         }
         SqlDialect::Postgres => {
             let pg = config
@@ -84,6 +147,7 @@ async fn connect_db(
                 .as_ref()
                 .ok_or_else(|| ConfigError::Invalid("postgres section missing".into()))?;
             let schema = validate_schema_name(&pg.schema)?;
+            let fetcher_schema = validate_schema_name(&pg.fetcher_schema)?;
             let url = format!(
                 "postgres://{}:{}@{}:{}/{}?sslmode={}",
                 pg.user, pg.password, pg.host, pg.port, pg.database, pg.ssl_mode
@@ -94,15 +158,18 @@ async fn connect_db(
                 .connect(&url)
                 .await
                 .map_err(|e| ConfigError::Invalid(format!("postgres connect failed: {e}")))?;
-            Ok((None, Some(pool)))
+            Ok(AppState {
+                sqlite: None,
+                postgres: Some(pool),
+                fetcher_schema: Some(fetcher_schema),
+            })
         }
     }
 }
 
 async fn reset_server_data(
     config: &ServerConfig,
-    sqlite_pool: &Option<Pool<Sqlite>>,
-    postgres_pool: &Option<Pool<Postgres>>,
+    state: &AppState,
 ) -> Result<(), ConfigError> {
     let tables = [
         "user_tokens",
@@ -116,7 +183,7 @@ async fn reset_server_data(
 
     match config.dialect()? {
         SqlDialect::Sqlite => {
-            let pool = sqlite_pool
+            let pool = state.sqlite
                 .as_ref()
                 .ok_or_else(|| ConfigError::Invalid("sqlite pool missing".into()))?;
             for table in tables {
@@ -129,7 +196,7 @@ async fn reset_server_data(
             }
         }
         SqlDialect::Postgres => {
-            let pool = postgres_pool
+            let pool = state.postgres
                 .as_ref()
                 .ok_or_else(|| ConfigError::Invalid("postgres pool missing".into()))?;
             let schema = config
