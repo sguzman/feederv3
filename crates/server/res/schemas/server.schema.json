@@ -3,7 +3,7 @@
   "title": "feedrv3 server config",
   "type": "object",
   "additionalProperties": false,
-  "required": ["app", "http", "database", "sqlite", "logging", "dev"],
+  "required": ["app", "http", "database", "sqlite", "logging", "dev", "auth"],
   "properties": {
     "app": {
       "type": "object",
@@ -60,6 +60,14 @@
       "required": ["level"],
       "properties": {
         "level": { "type": "string" }
+      }
+    },
+    "auth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["token_ttl_seconds"],
+      "properties": {
+        "token_ttl_seconds": { "type": "integer", "minimum": 1 }
       }
     },
     "dev": {

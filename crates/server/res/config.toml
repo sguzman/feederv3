@@ -25,5 +25,8 @@ fetcher_schema = "fetcher"
 [logging]
 level = "info"
 
+[auth]
+token_ttl_seconds = 86400
+
 [dev]
 reset_on_start = true

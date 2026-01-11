@@ -34,6 +34,7 @@ pub struct ServerConfig {
     pub sqlite: SqliteConfig,
     pub postgres: Option<PostgresConfig>,
     pub logging: LoggingConfig,
+    pub auth: AuthConfig,
     pub dev: DevConfig,
 }
 
@@ -74,6 +75,11 @@ pub struct PostgresConfig {
 #[derive(Debug, Deserialize)]
 pub struct LoggingConfig {
     pub level: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct AuthConfig {
+    pub token_ttl_seconds: u64,
 }
 
 #[derive(Debug, Deserialize)]
