@@ -710,16 +710,15 @@ async fn reset_server_data(
                 .schema
                 .as_str();
             let schema = validate_schema_name(schema)?;
-            for table in tables {
-                let stmt = format!(
-                    "TRUNCATE TABLE {}.{} RESTART IDENTITY",
-                    quote_ident(&schema),
-                    quote_ident(table)
-                );
-                if let Err(e) = sqlx::query(&stmt).execute(pool).await {
-                    if !is_missing_table_error(&e) {
-                        return Err(ConfigError::Invalid(format!("cleanup failed: {e}")));
-                    }
+            let table_list = tables
+                .iter()
+                .map(|t| format!("{}.{}", quote_ident(&schema), quote_ident(t)))
+                .collect::<Vec<_>>()
+                .join(", ");
+            let stmt = format!("TRUNCATE TABLE {table_list} RESTART IDENTITY CASCADE");
+            if let Err(e) = sqlx::query(&stmt).execute(pool).await {
+                if !is_missing_table_error(&e) {
+                    return Err(ConfigError::Invalid(format!("cleanup failed: {e}")));
                 }
             }
         }
