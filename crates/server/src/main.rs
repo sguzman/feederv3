@@ -19,6 +19,9 @@ async fn main() -> Result<(), ConfigError> {
         tracing::info!(timezone = tz, "server timezone configured");
     }
 
+    tracing::info!(mode = ?config.app.mode, "server mode configured");
+    tracing::info!(host = %config.http.host, port = config.http.port, "server http bind");
+
     let (sqlite_pool, postgres_pool) = connect_db(&config, Path::new(&config_path)).await?;
 
     if config.app.mode == AppMode::Dev && config.dev.reset_on_start {
