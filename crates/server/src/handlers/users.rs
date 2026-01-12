@@ -1,9 +1,9 @@
 use axum::{extract::State, http::StatusCode, Json};
 
 use crate::app_state::AppState;
-use crate::auth::hash_password;
+use crate::auth::{auth_user_id, hash_password, verify_password};
 use crate::errors::{map_db_error, ServerError};
-use crate::models::{CreateUserRequest, UserResponse};
+use crate::models::{CreateUserRequest, PasswordChangeRequest, UserResponse};
 
 pub async fn create_user(
     State(state): State<AppState>,
@@ -54,4 +54,68 @@ pub async fn create_user(
         id: user_id,
         username: username.to_string(),
     }))
+}
+
+pub async fn change_password(
+    State(state): State<AppState>,
+    headers: axum::http::HeaderMap,
+    Json(payload): Json<PasswordChangeRequest>,
+) -> Result<StatusCode, ServerError> {
+    let user_id = auth_user_id(&state, &headers).await?;
+    let current_password = payload.current_password.trim();
+    let new_password = payload.new_password.trim();
+    if current_password.is_empty() || new_password.is_empty() {
+        return Err(ServerError::new(
+            StatusCode::BAD_REQUEST,
+            "current_password and new_password required",
+        ));
+    }
+
+    let password_hash = if let Some(pool) = &state.postgres {
+        sqlx::query_scalar::<_, String>("SELECT password_hash FROM users WHERE id = $1")
+            .bind(user_id)
+            .fetch_optional(pool)
+            .await
+            .map_err(|e| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?
+            .ok_or_else(|| ServerError::new(StatusCode::NOT_FOUND, "user not found"))?
+    } else {
+        let pool = state
+            .sqlite
+            .as_ref()
+            .ok_or_else(|| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, "database pool missing"))?;
+        sqlx::query_scalar::<_, String>("SELECT password_hash FROM users WHERE id = ?1")
+            .bind(user_id)
+            .fetch_optional(pool)
+            .await
+            .map_err(|e| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?
+            .ok_or_else(|| ServerError::new(StatusCode::NOT_FOUND, "user not found"))?
+    };
+
+    verify_password(&password_hash, current_password)
+        .map_err(|_| ServerError::new(StatusCode::UNAUTHORIZED, "invalid credentials"))?;
+
+    let new_hash =
+        hash_password(new_password).map_err(|e| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, e))?;
+
+    if let Some(pool) = &state.postgres {
+        sqlx::query("UPDATE users SET password_hash = $1 WHERE id = $2")
+            .bind(&new_hash)
+            .bind(user_id)
+            .execute(pool)
+            .await
+            .map_err(|e| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
+    } else {
+        let pool = state
+            .sqlite
+            .as_ref()
+            .ok_or_else(|| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, "database pool missing"))?;
+        sqlx::query("UPDATE users SET password_hash = ?1 WHERE id = ?2")
+            .bind(&new_hash)
+            .bind(user_id)
+            .execute(pool)
+            .await
+            .map_err(|e| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
+    }
+
+    Ok(StatusCode::NO_CONTENT)
 }

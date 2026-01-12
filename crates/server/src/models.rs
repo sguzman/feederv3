@@ -132,6 +132,20 @@ pub struct FavoriteListQuery {
     pub offset: Option<u32>,
 }
 
+
+#[derive(Debug, Deserialize)]
+pub struct PasswordChangeRequest {
+    pub current_password: String,
+    pub new_password: String,
+}
+
+#[derive(Debug, Serialize, sqlx::FromRow)]
+pub struct TokenSummary {
+    pub id: i64,
+    pub expires_at: String,
+    pub created_at: String,
+}
+
 #[derive(Debug, Serialize)]
 pub struct TokenResponse {
     pub token: String,
