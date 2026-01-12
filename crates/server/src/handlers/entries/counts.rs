@@ -163,9 +163,10 @@ pub async fn feed_unread_counts(
 
 #[derive(Debug, sqlx::FromRow)]
 struct FeedEntryCountsRow {
-  feed_id:      String,
-  total_count:  i64,
-  unread_count: i64
+  feed_id:              String,
+  total_count:          i64,
+  unread_count:         i64,
+  last_published_at_ms: Option<i64>
 }
 
 pub async fn feed_entry_counts(
@@ -186,18 +187,21 @@ pub async fn feed_entry_counts(
       .unwrap_or("fetcher");
 
     let query = format!(
-      "SELECT fi.feed_id, \
-       COUNT(*)::BIGINT AS \
-       total_count, COUNT(*) FILTER \
-       (WHERE es.read_at IS \
-       NULL)::BIGINT AS unread_count \
-       FROM {}.feed_items fi JOIN \
-       subscriptions s ON s.feed_id = \
-       fi.feed_id AND s.user_id = $1 \
-       LEFT JOIN entry_states es ON \
-       es.item_id = fi.id AND \
-       es.user_id = $1 GROUP BY \
-       fi.feed_id ORDER BY fi.feed_id",
+      "SELECT f.id AS feed_id, \
+       COUNT(fi.id)::BIGINT AS \
+       total_count, COUNT(fi.id) \
+       FILTER (WHERE es.read_at IS \
+       NULL)::BIGINT AS unread_count, \
+       MAX(CAST(EXTRACT(EPOCH FROM \
+       fi.published_at) * 1000 AS \
+       BIGINT)) AS \
+       last_published_at_ms FROM \
+       {0}.feeds f LEFT JOIN \
+       {0}.feed_items fi ON \
+       fi.feed_id = f.id LEFT JOIN \
+       entry_states es ON es.item_id \
+       = fi.id AND es.user_id = $1 \
+       GROUP BY f.id ORDER BY f.id",
       quote_ident(schema)
     );
 
@@ -225,7 +229,9 @@ pub async fn feed_entry_counts(
           total_count: row.total_count,
           unread_count: row
             .unread_count,
-          read_count
+          read_count,
+          last_published_at_ms: row
+            .last_published_at_ms
         }
       })
       .collect::<Vec<_>>();
@@ -242,16 +248,19 @@ pub async fn feed_entry_counts(
     _,
     FeedEntryCountsRow
   >(
-    "SELECT fi.feed_id, COUNT(*) AS \
-     total_count, SUM(CASE WHEN \
-     es.read_at_ms IS NULL THEN 1 \
-     ELSE 0 END) AS unread_count FROM \
-     feed_items fi JOIN subscriptions \
-     s ON s.feed_id = fi.feed_id AND \
-     s.user_id = ?1 LEFT JOIN \
+    "SELECT f.id AS feed_id, \
+     COUNT(fi.id) AS total_count, \
+     COALESCE(SUM(CASE WHEN \
+     es.read_at_ms IS NULL AND fi.id \
+     IS NOT NULL THEN 1 ELSE 0 END), \
+     0) AS unread_count, \
+     MAX(fi.published_at_ms) AS \
+     last_published_at_ms FROM feeds \
+     f LEFT JOIN feed_items fi ON \
+     fi.feed_id = f.id LEFT JOIN \
      entry_states es ON es.item_id = \
      fi.id AND es.user_id = ?1 GROUP \
-     BY fi.feed_id ORDER BY fi.feed_id"
+     BY f.id ORDER BY f.id"
   )
   .bind(user_id)
   .fetch_all(pool)
@@ -274,7 +283,9 @@ pub async fn feed_entry_counts(
         feed_id: row.feed_id,
         total_count: row.total_count,
         unread_count: row.unread_count,
-        read_count
+        read_count,
+        last_published_at_ms: row
+          .last_published_at_ms
       }
     })
     .collect::<Vec<_>>();

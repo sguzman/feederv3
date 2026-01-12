@@ -32,35 +32,42 @@ pub(crate) struct AuthConfig {
 
 #[derive(Debug, Deserialize)]
 pub(crate) struct UiConfig {
-  pub(crate) page_size:           u32,
+  pub(crate) entries_page_size: u32,
+  pub(crate) feeds_page_size: u32,
+  pub(crate) favorites_page_size: u32,
+  pub(crate) folders_page_size: u32,
+  pub(crate) subscriptions_page_size:
+    u32,
   pub(crate) refresh_interval_ms: u64
 }
 
 #[derive(Debug, Deserialize)]
 pub(crate) struct Keybindings {
-  pub(crate) quit: String,
-  pub(crate) refresh: String,
-  pub(crate) next_tab: String,
-  pub(crate) prev_tab: String,
-  pub(crate) tab_feeds: String,
-  pub(crate) tab_entries: String,
-  pub(crate) tab_favorites: String,
-  pub(crate) tab_folders: String,
-  pub(crate) tab_subscriptions: String,
-  pub(crate) move_down: String,
-  pub(crate) move_up: String,
-  pub(crate) filter_category_next:
-    String,
-  pub(crate) filter_category_prev:
-    String,
-  pub(crate) filter_tag_next: String,
-  pub(crate) filter_tag_prev: String,
-  pub(crate) clear_filters: String,
-  pub(crate) open_entries: String,
-  pub(crate) toggle_read: String,
-  pub(crate) toggle_subscribe: String,
-  pub(crate) entries_next: String,
-  pub(crate) entries_prev: String
+  pub(crate) quit:               String,
+  pub(crate) refresh:            String,
+  pub(crate) next_tab:           String,
+  pub(crate) prev_tab:           String,
+  pub(crate) tab_feeds:          String,
+  pub(crate) tab_entries:        String,
+  pub(crate) tab_favorites:      String,
+  pub(crate) tab_folders:        String,
+  pub(crate) tab_subscriptions:  String,
+  pub(crate) move_down:          String,
+  pub(crate) move_up:            String,
+  pub(crate) go_top:             String,
+  pub(crate) go_middle:          String,
+  pub(crate) go_bottom:          String,
+  pub(crate) open_category_menu: String,
+  pub(crate) open_tag_menu:      String,
+  pub(crate) open_sort_menu:     String,
+  pub(crate) clear_filters:      String,
+  pub(crate) open_entries:       String,
+  pub(crate) toggle_read:        String,
+  pub(crate) toggle_subscribe:   String,
+  pub(crate) entries_next:       String,
+  pub(crate) entries_prev:       String,
+  pub(crate) feeds_next:         String,
+  pub(crate) feeds_prev:         String
 }
 
 #[derive(Debug, Clone)]
@@ -82,21 +89,22 @@ pub(crate) struct ResolvedKeybindings {
     KeyBinding,
   pub(crate) move_down: KeyBinding,
   pub(crate) move_up: KeyBinding,
-  pub(crate) filter_category_next:
+  pub(crate) go_top: KeyBinding,
+  pub(crate) go_middle: KeyBinding,
+  pub(crate) go_bottom: KeyBinding,
+  pub(crate) open_category_menu:
     KeyBinding,
-  pub(crate) filter_category_prev:
-    KeyBinding,
-  pub(crate) filter_tag_next:
-    KeyBinding,
-  pub(crate) filter_tag_prev:
-    KeyBinding,
+  pub(crate) open_tag_menu: KeyBinding,
+  pub(crate) open_sort_menu: KeyBinding,
   pub(crate) clear_filters: KeyBinding,
   pub(crate) open_entries: KeyBinding,
   pub(crate) toggle_read: KeyBinding,
   pub(crate) toggle_subscribe:
     KeyBinding,
   pub(crate) entries_next: KeyBinding,
-  pub(crate) entries_prev: KeyBinding
+  pub(crate) entries_prev: KeyBinding,
+  pub(crate) feeds_next: KeyBinding,
+  pub(crate) feeds_prev: KeyBinding
 }
 
 #[derive(Debug)]
@@ -175,80 +183,88 @@ impl TuiConfig {
     ConfigError
   > {
     Ok(ResolvedKeybindings {
-      quit:                 parse_key(
+      quit:               parse_key(
         &self.keybindings.quit
       )?,
-      refresh:              parse_key(
+      refresh:            parse_key(
         &self.keybindings.refresh
       )?,
-      next_tab:             parse_key(
+      next_tab:           parse_key(
         &self.keybindings.next_tab
       )?,
-      prev_tab:             parse_key(
+      prev_tab:           parse_key(
         &self.keybindings.prev_tab
       )?,
-      tab_feeds:            parse_key(
+      tab_feeds:          parse_key(
         &self.keybindings.tab_feeds
       )?,
-      tab_entries:          parse_key(
+      tab_entries:        parse_key(
         &self.keybindings.tab_entries
       )?,
-      tab_favorites:        parse_key(
+      tab_favorites:      parse_key(
         &self.keybindings.tab_favorites
       )?,
-      tab_folders:          parse_key(
+      tab_folders:        parse_key(
         &self.keybindings.tab_folders
       )?,
-      tab_subscriptions:    parse_key(
+      tab_subscriptions:  parse_key(
         &self
           .keybindings
           .tab_subscriptions
       )?,
-      move_down:            parse_key(
+      move_down:          parse_key(
         &self.keybindings.move_down
       )?,
-      move_up:              parse_key(
+      move_up:            parse_key(
         &self.keybindings.move_up
       )?,
-      filter_category_next: parse_key(
+      go_top:             parse_key(
+        &self.keybindings.go_top
+      )?,
+      go_middle:          parse_key(
+        &self.keybindings.go_middle
+      )?,
+      go_bottom:          parse_key(
+        &self.keybindings.go_bottom
+      )?,
+      open_category_menu: parse_key(
         &self
           .keybindings
-          .filter_category_next
+          .open_category_menu
       )?,
-      filter_category_prev: parse_key(
+      open_tag_menu:      parse_key(
+        &self.keybindings.open_tag_menu
+      )?,
+      open_sort_menu:     parse_key(
         &self
           .keybindings
-          .filter_category_prev
+          .open_sort_menu
       )?,
-      filter_tag_next:      parse_key(
-        &self
-          .keybindings
-          .filter_tag_next
-      )?,
-      filter_tag_prev:      parse_key(
-        &self
-          .keybindings
-          .filter_tag_prev
-      )?,
-      clear_filters:        parse_key(
+      clear_filters:      parse_key(
         &self.keybindings.clear_filters
       )?,
-      open_entries:         parse_key(
+      open_entries:       parse_key(
         &self.keybindings.open_entries
       )?,
-      toggle_read:          parse_key(
+      toggle_read:        parse_key(
         &self.keybindings.toggle_read
       )?,
-      toggle_subscribe:     parse_key(
+      toggle_subscribe:   parse_key(
         &self
           .keybindings
           .toggle_subscribe
       )?,
-      entries_next:         parse_key(
+      entries_next:       parse_key(
         &self.keybindings.entries_next
       )?,
-      entries_prev:         parse_key(
+      entries_prev:       parse_key(
         &self.keybindings.entries_prev
+      )?,
+      feeds_next:         parse_key(
+        &self.keybindings.feeds_next
+      )?,
+      feeds_prev:         parse_key(
+        &self.keybindings.feeds_prev
       )?
     })
   }

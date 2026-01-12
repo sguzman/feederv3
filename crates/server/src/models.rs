@@ -159,10 +159,11 @@ pub struct FeedUnreadCount {
 #[derive(Debug, Serialize)]
 
 pub struct FeedEntryCounts {
-  pub feed_id:      String,
-  pub total_count:  i64,
-  pub unread_count: i64,
-  pub read_count:   i64
+  pub feed_id:              String,
+  pub total_count:          i64,
+  pub unread_count:         i64,
+  pub read_count:           i64,
+  pub last_published_at_ms: Option<i64>
 }
 
 #[derive(Debug, Serialize)]

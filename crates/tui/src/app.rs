@@ -44,6 +44,28 @@ pub(crate) enum LoginField {
   Password
 }
 
+#[derive(Debug, Clone, Copy)]
+pub(crate) enum ModalKind {
+  Category,
+  Tag,
+  Sort
+}
+
+#[derive(Debug, Clone, Copy)]
+pub(crate) enum SortMode {
+  Unread,
+  Total,
+  Ratio,
+  Recent
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct ModalState {
+  pub(crate) kind:     ModalKind,
+  pub(crate) options:  Vec<String>,
+  pub(crate) selected: usize
+}
+
 pub(crate) struct App {
   pub(crate) screen: Screen,
   pub(crate) focus: LoginField,
@@ -65,8 +87,10 @@ pub(crate) struct App {
   pub(crate) categories: Vec<String>,
   pub(crate) tags: Vec<String>,
   pub(crate) filter_category:
-    Option<usize>,
-  pub(crate) filter_tag: Option<usize>,
+    Option<String>,
+  pub(crate) filter_tag: Option<String>,
+  pub(crate) sort_mode: SortMode,
+  pub(crate) modal: Option<ModalState>,
   pub(crate) entries: Vec<EntrySummary>,
   pub(crate) tab: usize,
   pub(crate) selected_feed: usize,
@@ -75,7 +99,12 @@ pub(crate) struct App {
   pub(crate) selected_folder: usize,
   pub(crate) selected_subscription:
     usize,
-  pub(crate) page_size: u32,
+  pub(crate) entries_page_size: u32,
+  pub(crate) feeds_page_size: u32,
+  pub(crate) favorites_page_size: u32,
+  pub(crate) folders_page_size: u32,
+  pub(crate) subscriptions_page_size:
+    u32,
   pub(crate) feeds_offset: usize,
   pub(crate) favorites_offset: usize,
   pub(crate) folders_offset: usize,
@@ -127,6 +156,8 @@ impl App {
       tags: Vec::new(),
       filter_category: None,
       filter_tag: None,
+      sort_mode: SortMode::Unread,
+      modal: None,
       entries: Vec::new(),
       tab: 0,
       selected_feed: 0,
@@ -134,7 +165,21 @@ impl App {
       selected_favorite: 0,
       selected_folder: 0,
       selected_subscription: 0,
-      page_size: config.ui.page_size,
+      entries_page_size: config
+        .ui
+        .entries_page_size,
+      feeds_page_size: config
+        .ui
+        .feeds_page_size,
+      favorites_page_size: config
+        .ui
+        .favorites_page_size,
+      folders_page_size: config
+        .ui
+        .folders_page_size,
+      subscriptions_page_size: config
+        .ui
+        .subscriptions_page_size,
       feeds_offset: 0,
       favorites_offset: 0,
       folders_offset: 0,
@@ -177,6 +222,10 @@ impl App {
           == KeyModifiers::CONTROL)
     {
       return Ok(true);
+    }
+
+    if self.modal.is_some() {
+      return self.handle_modal_key(key);
     }
 
     match key {
@@ -244,6 +293,10 @@ impl App {
           == KeyModifiers::CONTROL)
     {
       return Ok(true);
+    }
+
+    if self.modal.is_some() {
+      return self.handle_modal_key(key);
     }
 
     if self.key_matches(
@@ -331,34 +384,50 @@ impl App {
     }
 
     if self.key_matches(
-      &self.keys.filter_category_next,
+      &self.keys.go_top,
       key
     ) {
-      self.advance_category_filter(1);
+      self.jump_top();
       return Ok(false);
     }
 
     if self.key_matches(
-      &self.keys.filter_category_prev,
+      &self.keys.go_middle,
       key
     ) {
-      self.advance_category_filter(-1);
+      self.jump_middle();
       return Ok(false);
     }
 
     if self.key_matches(
-      &self.keys.filter_tag_next,
+      &self.keys.go_bottom,
       key
     ) {
-      self.advance_tag_filter(1);
+      self.jump_bottom();
       return Ok(false);
     }
 
     if self.key_matches(
-      &self.keys.filter_tag_prev,
+      &self.keys.open_category_menu,
       key
     ) {
-      self.advance_tag_filter(-1);
+      self.open_category_menu();
+      return Ok(false);
+    }
+
+    if self.key_matches(
+      &self.keys.open_tag_menu,
+      key
+    ) {
+      self.open_tag_menu();
+      return Ok(false);
+    }
+
+    if self.key_matches(
+      &self.keys.open_sort_menu,
+      key
+    ) {
+      self.open_sort_menu();
       return Ok(false);
     }
 
@@ -413,6 +482,26 @@ impl App {
       if self.tab == 1 {
         self.prev_entries_page()?;
       } else {
+        self.prev_list_page();
+      }
+      return Ok(false);
+    }
+
+    if self.key_matches(
+      &self.keys.feeds_next,
+      key
+    ) {
+      if self.tab == 0 {
+        self.next_list_page();
+      }
+      return Ok(false);
+    }
+
+    if self.key_matches(
+      &self.keys.feeds_prev,
+      key
+    ) {
+      if self.tab == 0 {
         self.prev_list_page();
       }
       return Ok(false);
@@ -595,6 +684,8 @@ impl App {
         "failed to parse favorites"
       )?;
 
+    self.sort_favorites();
+
     if self.selected_favorite
       >= self.favorites.len()
     {
@@ -606,7 +697,8 @@ impl App {
       ensure_offset(
         self.selected_favorite,
         self.favorites_offset,
-        self.page_size as usize,
+        self.favorites_page_size
+          as usize,
         self.favorites.len()
       );
 
@@ -664,7 +756,7 @@ impl App {
     self.folders_offset = ensure_offset(
       self.selected_folder,
       self.folders_offset,
-      self.page_size as usize,
+      self.folders_page_size as usize,
       self.folders.len()
     );
 
@@ -718,6 +810,8 @@ impl App {
       .into_iter()
       .map(|row| row.feed_id)
       .collect();
+
+    self.rebuild_views();
 
     Ok(())
   }
@@ -793,7 +887,7 @@ impl App {
        limit={}&offset={}&read=all",
       self.base_url,
       feed_id,
-      self.page_size,
+      self.entries_page_size,
       self.entries_offset
     );
 
@@ -896,7 +990,8 @@ impl App {
       return Ok(());
     }
 
-    let size = self.page_size as i64;
+    let size =
+      self.entries_page_size as i64;
     self.entries_offset =
       (self.entries_offset - size)
         .max(0);
@@ -1043,6 +1138,8 @@ impl App {
         "Subscribed".to_string();
     }
 
+    self.rebuild_views();
+
     Ok(())
   }
 
@@ -1068,16 +1165,20 @@ impl App {
     self.tags =
       tags.into_iter().collect();
 
-    if let Some(idx) =
-      self.filter_category
+    if let Some(category) =
+      &self.filter_category
     {
-      if idx >= self.categories.len() {
+      if !self
+        .categories
+        .contains(category)
+      {
         self.filter_category = None;
       }
     }
 
-    if let Some(idx) = self.filter_tag {
-      if idx >= self.tags.len() {
+    if let Some(tag) = &self.filter_tag
+    {
+      if !self.tags.contains(tag) {
         self.filter_tag = None;
       }
     }
@@ -1091,6 +1192,13 @@ impl App {
       })
       .map(|(idx, _)| idx)
       .collect();
+
+    Self::sort_feed_indices(
+      &self.feeds,
+      &self.feed_counts,
+      self.sort_mode,
+      &mut self.feeds_view
+    );
 
     self.subscriptions_view = self
       .feeds_view
@@ -1121,42 +1229,132 @@ impl App {
     self.feeds_offset = ensure_offset(
       self.selected_feed,
       self.feeds_offset,
-      self.page_size as usize,
+      self.feeds_page_size as usize,
       self.feeds_view.len()
     );
     self.subscriptions_offset =
       ensure_offset(
         self.selected_subscription,
         self.subscriptions_offset,
-        self.page_size as usize,
+        self.subscriptions_page_size
+          as usize,
         self.subscriptions_view.len()
       );
+  }
+
+  fn sort_feed_indices(
+    feeds: &[FeedSummary],
+    counts: &HashMap<
+      String,
+      FeedEntryCounts
+    >,
+    mode: SortMode,
+    indices: &mut Vec<usize>
+  ) {
+    indices.sort_by(|a, b| {
+      let left = &feeds[*a];
+      let right = &feeds[*b];
+      let left_key =
+        Self::sort_key_from(
+          counts, &left.id, mode
+        );
+      let right_key =
+        Self::sort_key_from(
+          counts, &right.id, mode
+        );
+
+      right_key
+        .0
+        .cmp(&left_key.0)
+        .then_with(|| {
+          right_key.1.cmp(&left_key.1)
+        })
+        .then_with(|| {
+          right.id.cmp(&left.id)
+        })
+    });
+  }
+
+  fn sort_favorites(&mut self) {
+    let mode = self.sort_mode;
+    let counts =
+      self.feed_counts.clone();
+    self.favorites.sort_by(|a, b| {
+      let left_key =
+        Self::sort_key_from(
+          &counts, &a.id, mode
+        );
+      let right_key =
+        Self::sort_key_from(
+          &counts, &b.id, mode
+        );
+
+      right_key
+        .0
+        .cmp(&left_key.0)
+        .then_with(|| {
+          right_key.1.cmp(&left_key.1)
+        })
+        .then_with(|| b.id.cmp(&a.id))
+    });
+  }
+
+  fn sort_key_from(
+    counts: &HashMap<
+      String,
+      FeedEntryCounts
+    >,
+    feed_id: &str,
+    mode: SortMode
+  ) -> (i64, i64) {
+    let counts = counts.get(feed_id);
+    let unread = counts
+      .map(|row| row.unread_count)
+      .unwrap_or(0);
+    let total = counts
+      .map(|row| row.total_count)
+      .unwrap_or(0);
+    let recent = counts
+      .and_then(|row| {
+        row.last_published_at_ms
+      })
+      .unwrap_or(0);
+
+    match mode {
+      | SortMode::Unread => {
+        (unread, total)
+      }
+      | SortMode::Total => {
+        (total, unread)
+      }
+      | SortMode::Ratio => {
+        let ratio = if total > 0 {
+          (unread * 1000) / total
+        } else {
+          0
+        };
+        (ratio, total)
+      }
+      | SortMode::Recent => {
+        (recent, total)
+      }
+    }
   }
 
   fn matches_filters(
     &self,
     feed: &FeedSummary
   ) -> bool {
-    if let Some(idx) =
-      self.filter_category
+    if let Some(category) =
+      &self.filter_category
     {
-      if self
-        .categories
-        .get(idx)
-        .map(|c| c != &feed.category)
-        .unwrap_or(true)
-      {
+      if &feed.category != category {
         return false;
       }
     }
 
-    if let Some(idx) = self.filter_tag {
-      let Some(tag) =
-        self.tags.get(idx)
-      else {
-        return false;
-      };
-
+    if let Some(tag) = &self.filter_tag
+    {
       let matches = feed
         .tags
         .as_ref()
@@ -1173,39 +1371,9 @@ impl App {
     true
   }
 
-  fn advance_category_filter(
-    &mut self,
-    delta: i32
-  ) {
-    self.filter_category =
-      advance_filter_index(
-        self.filter_category,
-        self.categories.len(),
-        delta
-      );
-    self.apply_filter_change();
-  }
-
-  fn advance_tag_filter(
-    &mut self,
-    delta: i32
-  ) {
-    self.filter_tag =
-      advance_filter_index(
-        self.filter_tag,
-        self.tags.len(),
-        delta
-      );
-    self.apply_filter_change();
-  }
-
   fn clear_filters(&mut self) {
     self.filter_category = None;
     self.filter_tag = None;
-    self.apply_filter_change();
-  }
-
-  fn apply_filter_change(&mut self) {
     self.selected_feed = 0;
     self.selected_subscription = 0;
     self.feeds_offset = 0;
@@ -1220,20 +1388,14 @@ impl App {
   fn filter_summary(&self) -> String {
     let category = self
       .filter_category
-      .and_then(|idx| {
-        self.categories.get(idx)
-      })
-      .cloned()
+      .clone()
       .unwrap_or_else(|| {
         "all".to_string()
       });
 
     let tag = self
       .filter_tag
-      .and_then(|idx| {
-        self.tags.get(idx)
-      })
-      .cloned()
+      .clone()
       .unwrap_or_else(|| {
         "all".to_string()
       });
@@ -1249,7 +1411,7 @@ impl App {
       return;
     }
 
-    let page = self.page_size as usize;
+    let page = self.page_size_for_tab();
     let offset =
       self.list_offset_value();
     if offset + page >= len {
@@ -1271,7 +1433,7 @@ impl App {
       return;
     }
 
-    let page = self.page_size as usize;
+    let page = self.page_size_for_tab();
     let offset =
       self.list_offset_value();
     if offset == 0 {
@@ -1291,7 +1453,7 @@ impl App {
     &mut self,
     offset: usize
   ) {
-    let page = self.page_size as usize;
+    let page = self.page_size_for_tab();
     let selected =
       self.selected_for_tab();
     if *selected < offset {
@@ -1311,6 +1473,28 @@ impl App {
         self.subscriptions_view.len()
       }
       | _ => 0
+    }
+  }
+
+  fn page_size_for_tab(&self) -> usize {
+    match self.tab {
+      | 0 => {
+        self.feeds_page_size as usize
+      }
+      | 2 => {
+        self.favorites_page_size
+          as usize
+      }
+      | 3 => {
+        self.folders_page_size as usize
+      }
+      | 4 => {
+        self.subscriptions_page_size
+          as usize
+      }
+      | _ => {
+        self.feeds_page_size as usize
+      }
     }
   }
 
@@ -1390,12 +1574,336 @@ impl App {
     let len = self.list_len_for_tab();
     let selected =
       self.selected_value_for_tab();
-    let page = self.page_size as usize;
+    let page = self.page_size_for_tab();
     let offset =
       self.list_offset_for_tab();
     *offset = ensure_offset(
       selected, *offset, page, len
     );
+  }
+
+  fn handle_modal_key(
+    &mut self,
+    key: KeyEvent
+  ) -> Result<bool> {
+    let move_down = self.key_matches(
+      &self.keys.move_down,
+      key
+    );
+    let move_up = self.key_matches(
+      &self.keys.move_up,
+      key
+    );
+    let go_top = self.key_matches(
+      &self.keys.go_top,
+      key
+    );
+    let go_bottom = self.key_matches(
+      &self.keys.go_bottom,
+      key
+    );
+
+    let Some(modal) =
+      self.modal.as_mut()
+    else {
+      return Ok(false);
+    };
+
+    if key.code == KeyCode::Esc {
+      self.modal = None;
+      return Ok(false);
+    }
+
+    if key.code == KeyCode::Enter {
+      let selection = modal.selected;
+      let option = modal
+        .options
+        .get(selection)
+        .cloned()
+        .unwrap_or_default();
+
+      match modal.kind {
+        | ModalKind::Category => {
+          if selection == 0 {
+            self.filter_category = None;
+          } else {
+            self.filter_category =
+              Some(option);
+          }
+          self.rebuild_views();
+          self.status = format!(
+            "Filters: {}",
+            self.filter_summary()
+          );
+        }
+        | ModalKind::Tag => {
+          if selection == 0 {
+            self.filter_tag = None;
+          } else {
+            self.filter_tag =
+              Some(option);
+          }
+          self.rebuild_views();
+          self.status = format!(
+            "Filters: {}",
+            self.filter_summary()
+          );
+        }
+        | ModalKind::Sort => {
+          self.sort_mode =
+            match selection {
+              | 1 => SortMode::Total,
+              | 2 => SortMode::Ratio,
+              | 3 => SortMode::Recent,
+              | _ => SortMode::Unread
+            };
+          self.apply_sort();
+        }
+      }
+
+      self.modal = None;
+      return Ok(false);
+    }
+
+    if move_down {
+      if modal.selected + 1
+        < modal.options.len()
+      {
+        modal.selected += 1;
+      }
+      return Ok(false);
+    }
+
+    if move_up {
+      if modal.selected > 0 {
+        modal.selected -= 1;
+      }
+      return Ok(false);
+    }
+
+    if go_top {
+      modal.selected = 0;
+      return Ok(false);
+    }
+
+    if go_bottom {
+      if !modal.options.is_empty() {
+        modal.selected =
+          modal.options.len() - 1;
+      }
+      return Ok(false);
+    }
+
+    Ok(false)
+  }
+
+  fn open_category_menu(&mut self) {
+    let mut options =
+      Vec::with_capacity(
+        self.categories.len() + 1
+      );
+    options.push("All".to_string());
+    options.extend(
+      self.categories.iter().cloned()
+    );
+
+    let selected = self
+      .filter_category
+      .as_ref()
+      .and_then(|cat| {
+        options
+          .iter()
+          .position(|v| v == cat)
+      })
+      .unwrap_or(0);
+
+    self.modal = Some(ModalState {
+      kind: ModalKind::Category,
+      options,
+      selected
+    });
+  }
+
+  fn open_tag_menu(&mut self) {
+    let mut options =
+      Vec::with_capacity(
+        self.tags.len() + 1
+      );
+    options.push("All".to_string());
+    options.extend(
+      self.tags.iter().cloned()
+    );
+
+    let selected = self
+      .filter_tag
+      .as_ref()
+      .and_then(|tag| {
+        options
+          .iter()
+          .position(|v| v == tag)
+      })
+      .unwrap_or(0);
+
+    self.modal = Some(ModalState {
+      kind: ModalKind::Tag,
+      options,
+      selected
+    });
+  }
+
+  fn open_sort_menu(&mut self) {
+    let options = vec![
+      "Unread count".to_string(),
+      "Total count".to_string(),
+      "Unread/Total ratio".to_string(),
+      "Most recent".to_string(),
+    ];
+
+    let selected = match self.sort_mode
+    {
+      | SortMode::Unread => 0,
+      | SortMode::Total => 1,
+      | SortMode::Ratio => 2,
+      | SortMode::Recent => 3
+    };
+
+    self.modal = Some(ModalState {
+      kind: ModalKind::Sort,
+      options,
+      selected
+    });
+  }
+
+  fn apply_sort(&mut self) {
+    self.rebuild_views();
+    self.sort_favorites();
+    self.status = format!(
+      "Sort: {}",
+      self.sort_label()
+    );
+  }
+
+  fn sort_label(&self) -> &str {
+    match self.sort_mode {
+      | SortMode::Unread => "unread",
+      | SortMode::Total => "total",
+      | SortMode::Ratio => "ratio",
+      | SortMode::Recent => "recent"
+    }
+  }
+
+  fn jump_top(&mut self) {
+    match self.tab {
+      | 0 => {
+        self.selected_feed = 0;
+        self.ensure_visible_for_tab();
+      }
+      | 1 => {
+        self.selected_entry = 0;
+      }
+      | 2 => {
+        self.selected_favorite = 0;
+        self.ensure_visible_for_tab();
+      }
+      | 3 => {
+        self.selected_folder = 0;
+        self.ensure_visible_for_tab();
+      }
+      | _ => {
+        self.selected_subscription = 0;
+        self.ensure_visible_for_tab();
+      }
+    }
+  }
+
+  fn jump_middle(&mut self) {
+    match self.tab {
+      | 0 => {
+        if !self.feeds_view.is_empty() {
+          self.selected_feed =
+            self.feeds_view.len() / 2;
+          self.ensure_visible_for_tab();
+        }
+      }
+      | 1 => {
+        if !self.entries.is_empty() {
+          self.selected_entry =
+            self.entries.len() / 2;
+        }
+      }
+      | 2 => {
+        if !self.favorites.is_empty() {
+          self.selected_favorite =
+            self.favorites.len() / 2;
+          self.ensure_visible_for_tab();
+        }
+      }
+      | 3 => {
+        if !self.folders.is_empty() {
+          self.selected_folder =
+            self.folders.len() / 2;
+          self.ensure_visible_for_tab();
+        }
+      }
+      | _ => {
+        if !self
+          .subscriptions_view
+          .is_empty()
+        {
+          self.selected_subscription =
+            self
+              .subscriptions_view
+              .len()
+              / 2;
+          self.ensure_visible_for_tab();
+        }
+      }
+    }
+  }
+
+  fn jump_bottom(&mut self) {
+    match self.tab {
+      | 0 => {
+        if !self.feeds_view.is_empty() {
+          self.selected_feed =
+            self.feeds_view.len() - 1;
+          self.ensure_visible_for_tab();
+        }
+      }
+      | 1 => {
+        if !self.entries.is_empty() {
+          self.selected_entry =
+            self.entries.len() - 1;
+        }
+      }
+      | 2 => {
+        if !self.favorites.is_empty() {
+          self.selected_favorite =
+            self.favorites.len() - 1;
+          self.ensure_visible_for_tab();
+        }
+      }
+      | 3 => {
+        if !self.folders.is_empty() {
+          self.selected_folder =
+            self.folders.len() - 1;
+          self.ensure_visible_for_tab();
+        }
+      }
+      | _ => {
+        if !self
+          .subscriptions_view
+          .is_empty()
+        {
+          self.selected_subscription =
+            self
+              .subscriptions_view
+              .len()
+              - 1;
+          self.ensure_visible_for_tab();
+        }
+      }
+    }
   }
 
   pub(crate) fn key_matches(
@@ -1504,36 +2012,4 @@ fn ensure_offset(
   }
 
   next.min(len.saturating_sub(1))
-}
-
-fn advance_filter_index(
-  current: Option<usize>,
-  len: usize,
-  delta: i32
-) -> Option<usize> {
-  if len == 0 {
-    return None;
-  }
-
-  let idx = current
-    .map(|v| v as i32)
-    .unwrap_or(
-      if delta > 0 {
-        -1
-      } else {
-        len as i32
-      }
-    );
-
-  let next = idx + delta;
-
-  if next < 0 {
-    return None;
-  }
-
-  if next >= len as i32 {
-    return None;
-  }
-
-  Some(next as usize)
 }

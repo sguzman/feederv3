@@ -28,7 +28,8 @@ use ratatui::widgets::{
 
 use crate::app::{
   App,
-  LoginField
+  LoginField,
+  ModalKind
 };
 use crate::models::{
   EntrySummary,
@@ -180,7 +181,7 @@ pub(crate) fn draw_main(
         &app.feeds,
         &app.feeds_view,
         app.feeds_offset,
-        app.page_size as usize,
+        app.feeds_page_size as usize,
         app.selected_feed,
         Some(&app.subscriptions),
         Some(&app.feed_counts),
@@ -219,7 +220,8 @@ pub(crate) fn draw_main(
         content[0],
         &app.favorites,
         app.favorites_offset,
-        app.page_size as usize,
+        app.favorites_page_size
+          as usize,
         app.selected_favorite,
         Some(&app.feed_counts),
         "Favorites"
@@ -240,7 +242,7 @@ pub(crate) fn draw_main(
         &app.folders,
         app.selected_folder,
         app.folders_offset,
-        app.page_size as usize
+        app.folders_page_size as usize
       );
       draw_folder_detail(
         frame,
@@ -257,7 +259,8 @@ pub(crate) fn draw_main(
         &app.feeds,
         &app.subscriptions_view,
         app.subscriptions_offset,
-        app.page_size as usize,
+        app.subscriptions_page_size
+          as usize,
         app.selected_subscription,
         Some(&app.subscriptions),
         Some(&app.feed_counts),
@@ -292,6 +295,22 @@ pub(crate) fn draw_main(
 
   frame
     .render_widget(footer, chunks[2]);
+
+  if let Some(modal) = &app.modal {
+    let title = match modal.kind {
+      | ModalKind::Category => {
+        "Select Category"
+      }
+      | ModalKind::Tag => "Select Tag",
+      | ModalKind::Sort => "Sort Feeds"
+    };
+    draw_modal_list(
+      frame,
+      title,
+      &modal.options,
+      modal.selected
+    );
+  }
 }
 
 fn draw_feed_detail(
@@ -478,7 +497,7 @@ fn draw_feed_list(
           )
         })
         .unwrap_or_else(|| {
-          "-/-".to_string()
+          "0/0/0".to_string()
         });
 
       let label = format!(
@@ -563,7 +582,7 @@ fn draw_feed_view_list(
           )
         })
         .unwrap_or_else(|| {
-          "-/-".to_string()
+          "0/0/0".to_string()
         });
 
       let label = format!(
@@ -723,4 +742,80 @@ fn page_bounds(
     (start + page_size.max(1)).min(len);
 
   (start, end)
+}
+
+fn draw_modal_list(
+  frame: &mut Frame,
+  title: &str,
+  options: &[String],
+  selected: usize
+) {
+  let area =
+    centered_rect(60, 60, frame.area());
+
+  let items = options
+    .iter()
+    .map(|opt| {
+      ListItem::new(opt.clone())
+    })
+    .collect::<Vec<_>>();
+
+  let list = List::new(items)
+    .block(
+      Block::default()
+        .borders(Borders::ALL)
+        .title(title)
+    )
+    .highlight_style(
+      Style::default()
+        .fg(Color::Yellow)
+        .add_modifier(Modifier::BOLD)
+    )
+    .highlight_symbol("> ");
+
+  let mut state =
+    list_state(selected, options.len());
+
+  frame.render_stateful_widget(
+    list, area, &mut state
+  );
+}
+
+fn centered_rect(
+  percent_x: u16,
+  percent_y: u16,
+  rect: Rect
+) -> Rect {
+  let popup_layout = Layout::default()
+    .direction(Direction::Vertical)
+    .constraints([
+      Constraint::Percentage(
+        (100 - percent_y) / 2
+      ),
+      Constraint::Percentage(percent_y),
+      Constraint::Percentage(
+        (100 - percent_y) / 2
+      )
+    ])
+    .split(rect);
+
+  let vertical = popup_layout[1];
+
+  let horizontal_layout =
+    Layout::default()
+      .direction(Direction::Horizontal)
+      .constraints([
+        Constraint::Percentage(
+          (100 - percent_x) / 2
+        ),
+        Constraint::Percentage(
+          percent_x
+        ),
+        Constraint::Percentage(
+          (100 - percent_x) / 2
+        )
+      ])
+      .split(vertical);
+
+  horizontal_layout[1]
 }

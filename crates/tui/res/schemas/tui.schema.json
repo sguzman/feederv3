@@ -48,11 +48,35 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "page_size",
+        "entries_page_size",
+        "feeds_page_size",
+        "favorites_page_size",
+        "folders_page_size",
+        "subscriptions_page_size",
         "refresh_interval_ms"
       ],
       "properties": {
-        "page_size": {
+        "entries_page_size": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
+        },
+        "feeds_page_size": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
+        },
+        "favorites_page_size": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
+        },
+        "folders_page_size": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
+        },
+        "subscriptions_page_size": {
           "type": "integer",
           "minimum": 1,
           "maximum": 200
@@ -75,19 +99,23 @@
         "tab_entries",
         "tab_favorites",
         "tab_folders",
+        "tab_subscriptions",
         "move_down",
         "move_up",
+        "go_top",
+        "go_middle",
+        "go_bottom",
+        "open_category_menu",
+        "open_tag_menu",
+        "open_sort_menu",
+        "clear_filters",
         "open_entries",
         "toggle_read",
         "toggle_subscribe",
         "entries_next",
         "entries_prev",
-        "tab_subscriptions",
-        "filter_category_next",
-        "filter_category_prev",
-        "filter_tag_next",
-        "filter_tag_prev",
-        "clear_filters"
+        "feeds_next",
+        "feeds_prev"
       ],
       "properties": {
         "quit": {
@@ -114,10 +142,34 @@
         "tab_folders": {
           "type": "string"
         },
+        "tab_subscriptions": {
+          "type": "string"
+        },
         "move_down": {
           "type": "string"
         },
         "move_up": {
+          "type": "string"
+        },
+        "go_top": {
+          "type": "string"
+        },
+        "go_middle": {
+          "type": "string"
+        },
+        "go_bottom": {
+          "type": "string"
+        },
+        "open_category_menu": {
+          "type": "string"
+        },
+        "open_tag_menu": {
+          "type": "string"
+        },
+        "open_sort_menu": {
+          "type": "string"
+        },
+        "clear_filters": {
           "type": "string"
         },
         "open_entries": {
@@ -135,22 +187,10 @@
         "entries_prev": {
           "type": "string"
         },
-        "tab_subscriptions": {
+        "feeds_next": {
           "type": "string"
         },
-        "filter_category_next": {
-          "type": "string"
-        },
-        "filter_category_prev": {
-          "type": "string"
-        },
-        "filter_tag_next": {
-          "type": "string"
-        },
-        "filter_tag_prev": {
-          "type": "string"
-        },
-        "clear_filters": {
+        "feeds_prev": {
           "type": "string"
         }
       }

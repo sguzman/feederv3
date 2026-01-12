@@ -1798,6 +1798,11 @@
           "read_count": {
             "type": "integer",
             "format": "int64"
+          },
+          "last_published_at_ms": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           }
         }
       }

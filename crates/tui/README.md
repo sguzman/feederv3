@@ -19,12 +19,15 @@ Controls (defaults, configurable in `config.toml`):
 - Login: type username/password, Tab to switch field, Enter to login.
 - Tabs: `1` Feeds, `2` Entries, `3` Favorites, `4` Folders, `5` Subscriptions.
 - Navigation: Up/Down or `j`/`k`.
+- Top/middle/bottom: `g`/`M`/`G`.
 - Open entries for selected feed: `e`.
 - Toggle read/unread on selected entry: `m`.
 - Toggle subscribe on selected feed: `s`.
-- Filters: `c`/`C` cycle category, `t`/`T` cycle tag, `x` clears filters.
+- Filters: `c`/`t` open category/tag menus, `x` clears filters.
+- Sort: `o` opens the sort menu.
 - Entries paging: `n`/`p`.
-- List paging (feeds, favorites, folders, subscriptions): `n`/`p`.
+- Feeds paging: `[`/`]`.
+- List paging (favorites, folders, subscriptions): `n`/`p`.
 - Refresh: `r`.
 - Quit: `q`.
 
@@ -35,5 +38,5 @@ Schema: `crates/tui/res/schemas/tui.schema.json`.
 Sections:
 - `[server]` – API base URL and timeout.
 - `[auth]` – auto-login flag + default credentials.
-- `[ui]` – page size and refresh interval.
+- `[ui]` – per-tab page sizes and refresh interval.
 - `[keybindings]` – action bindings (supports `left`, `right`, `up`, `down`, `tab`, `enter`, `backspace`, `esc`, single chars, and `ctrl+<key>`).

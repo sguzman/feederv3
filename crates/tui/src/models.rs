@@ -12,10 +12,12 @@ pub(crate) struct FeedSummary {
 
 #[derive(Debug, Deserialize, Clone)]
 pub(crate) struct FeedEntryCounts {
-  pub(crate) feed_id:      String,
-  pub(crate) total_count:  i64,
-  pub(crate) unread_count: i64,
-  pub(crate) read_count:   i64
+  pub(crate) feed_id: String,
+  pub(crate) total_count:          i64,
+  pub(crate) unread_count:         i64,
+  pub(crate) read_count:           i64,
+  pub(crate) last_published_at_ms:
+    Option<i64>
 }
 
 #[derive(Debug, Deserialize, Clone)]
