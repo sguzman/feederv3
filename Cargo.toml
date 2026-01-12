@@ -5,4 +5,5 @@ members = [
   "crates/fetcher",
   "crates/cli",
   "crates/server",
+  "crates/tui",
 ]

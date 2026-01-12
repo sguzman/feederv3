@@ -13,6 +13,7 @@ Rust async worker that polls a set of RSS/Atom feeds, tracks HTTP state with ada
 - `crates/fetcher/src/main.rs` – fetcher entrypoint; config loading, repo init/migrations, optional ingest benchmark, then scheduler loop.
 - `crates/server/src/main.rs` – server entrypoint; config loading, schema apply, and HTTP routes.
 - `crates/cli/src/main.rs` – ops CLI for validation/cleanup commands.
+- `crates/tui/src/main.rs` – interactive terminal UI for the server API.
 - `crates/*/README.md` – crate-specific docs (core/fetcher/cli).
 - `crates/fetcher/res/` – example config bundle (`config.toml`, `domains.toml`, `feeds/*.toml`).
 - `crates/server/res/` – server config and OpenAPI docs (`config.toml`, `openapi.json`, `openapi.html`).
@@ -79,6 +80,8 @@ OpenAPI docs:
   `cargo run -p feedrv3-server --release`
 - Run server with explicit config:
   `SERVER_CONFIG_PATH=/path/to/config.toml cargo run -p feedrv3-server --release`
+- Run TUI (defaults to http://localhost:8091):
+  `FEEDRV3_SERVER_URL=http://localhost:8091 cargo run -p feedrv3-tui`
 
 ## Data & Schema Notes
 - Fetcher DDL lives in `crates/core/res/sql/{sqlite,postgres}/schema.sql`.
