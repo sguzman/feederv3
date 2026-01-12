@@ -36,6 +36,7 @@ pub fn router(state: AppState) -> Router {
         .route("/v1/auth/tokens", get(auth::list_tokens))
         .route("/v1/auth/tokens/:token_id", delete(auth::revoke_token))
         .route("/v1/entries", get(entries::list_entries))
+        .route("/v1/entries/search", get(entries::search_entries))
         .route("/v1/entries/:item_id", get(entries::entry_detail))
         .route("/v1/entries/unread/count", get(entries::unread_count))
         .route("/v1/feeds/unread/counts", get(entries::feed_unread_counts))

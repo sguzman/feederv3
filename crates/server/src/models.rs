@@ -42,6 +42,16 @@ pub struct EntryListQuery {
 }
 
 
+
+#[derive(Debug, Deserialize)]
+pub struct SearchQuery {
+    pub q: String,
+    pub limit: Option<u32>,
+    pub offset: Option<u32>,
+    pub feed_id: Option<String>,
+    pub read: Option<String>,
+}
+
 #[derive(Debug, Serialize)]
 pub struct EntryListResponse {
     pub items: Vec<EntrySummary>,
