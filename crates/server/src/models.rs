@@ -46,6 +46,8 @@ pub struct EntryListQuery {
 pub struct EntryListResponse {
     pub items: Vec<EntrySummary>,
     pub next_cursor: Option<i64>,
+    pub next_offset: Option<i64>,
+    pub since: Option<i64>,
 }
 
 #[derive(Debug, Deserialize)]

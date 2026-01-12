@@ -75,7 +75,8 @@ pub async fn list_entries(
             .await
             .map_err(|e| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
         let next_cursor = rows.iter().map(|row| row.id).max();
-        return Ok(Json(EntryListResponse { items: rows, next_cursor }));
+        let next_offset = if rows.is_empty() { None } else { Some(offset + rows.len() as i64) };
+        return Ok(Json(EntryListResponse { items: rows, next_cursor, next_offset, since }));
     }
 
     let pool = state
@@ -131,7 +132,8 @@ pub async fn list_entries(
         .await
         .map_err(|e| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
     let next_cursor = rows.iter().map(|row| row.id).max();
-    Ok(Json(EntryListResponse { items: rows, next_cursor }))
+    let next_offset = if rows.is_empty() { None } else { Some(offset + rows.len() as i64) };
+    Ok(Json(EntryListResponse { items: rows, next_cursor, next_offset, since }))
 }
 
 pub async fn list_feed_entries(
