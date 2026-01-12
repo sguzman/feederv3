@@ -9,13 +9,13 @@ use crate::app_state::AppState;
 use crate::auth::auth_user_id;
 use crate::db::quote_ident;
 use crate::errors::ServerError;
-use crate::models::{EntryListQuery, EntrySummary};
+use crate::models::{EntryListQuery, EntryListResponse, EntrySummary};
 
 pub async fn list_entries(
     State(state): State<AppState>,
     headers: HeaderMap,
     Query(query): Query<EntryListQuery>,
-) -> Result<Json<Vec<EntrySummary>>, ServerError> {
+) -> Result<Json<EntryListResponse>, ServerError> {
     let user_id = auth_user_id(&state, &headers).await?;
     let limit = query.limit.unwrap_or(50).min(200) as i64;
     let offset = query.offset.unwrap_or(0) as i64;
@@ -74,7 +74,8 @@ pub async fn list_entries(
             .fetch_all(pool)
             .await
             .map_err(|e| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
-        return Ok(Json(rows));
+        let next_cursor = rows.iter().map(|row| row.id).max();
+        return Ok(Json(EntryListResponse { items: rows, next_cursor }));
     }
 
     let pool = state
@@ -129,7 +130,8 @@ pub async fn list_entries(
         .fetch_all(pool)
         .await
         .map_err(|e| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
-    Ok(Json(rows))
+    let next_cursor = rows.iter().map(|row| row.id).max();
+    Ok(Json(EntryListResponse { items: rows, next_cursor }))
 }
 
 pub async fn list_feed_entries(
@@ -137,7 +139,7 @@ pub async fn list_feed_entries(
     headers: HeaderMap,
     AxumPath(feed_id): AxumPath<String>,
     Query(query): Query<EntryListQuery>,
-) -> Result<Json<Vec<EntrySummary>>, ServerError> {
+) -> Result<Json<EntryListResponse>, ServerError> {
     let mut query = query;
     query.feed_id = Some(feed_id);
     list_entries(State(state), headers, Query(query)).await

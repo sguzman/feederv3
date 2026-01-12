@@ -41,6 +41,13 @@ pub struct EntryListQuery {
     pub since: Option<i64>,
 }
 
+
+#[derive(Debug, Serialize)]
+pub struct EntryListResponse {
+    pub items: Vec<EntrySummary>,
+    pub next_cursor: Option<i64>,
+}
+
 #[derive(Debug, Deserialize)]
 pub struct EntryBatchRequest {
     pub item_ids: Vec<i64>,
