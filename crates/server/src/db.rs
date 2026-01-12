@@ -3,6 +3,7 @@ use std::path::Path;
 use sqlx::postgres::PgPoolOptions;
 
 use crate::app_state::AppState;
+use crate::auth::hash_password;
 use crate::config::{validate_schema_name, ConfigError, ServerConfig, SqlDialect};
 
 pub async fn connect_db(config: &ServerConfig, config_path: &Path) -> Result<AppState, ConfigError> {
@@ -135,4 +136,54 @@ fn is_missing_table_error(e: &sqlx::Error) -> bool {
 
 pub fn quote_ident(name: &str) -> String {
     format!("\"{}\"", name.replace('"', "\"\""))
+}
+
+pub async fn ensure_default_user(
+    config: &ServerConfig,
+    state: &AppState,
+    username: &str,
+    password: &str,
+) -> Result<(), ConfigError> {
+    let password_hash =
+        hash_password(password).map_err(|e| ConfigError::Invalid(format!("hash password: {e}")))?;
+
+    match config.dialect()? {
+        SqlDialect::Sqlite => {
+            let pool = state
+                .sqlite
+                .as_ref()
+                .ok_or_else(|| ConfigError::Invalid("sqlite pool missing".into()))?;
+            let result = sqlx::query(
+                "INSERT OR IGNORE INTO users (username, password_hash, created_at) VALUES (?1, ?2, datetime('now'))",
+            )
+            .bind(username)
+            .bind(password_hash)
+            .execute(pool)
+            .await
+            .map_err(|e| ConfigError::Invalid(format!("default user insert failed: {e}")))?;
+            if result.rows_affected() > 0 {
+                tracing::info!(username, "default user created");
+            }
+        }
+        SqlDialect::Postgres => {
+            let pool = state
+                .postgres
+                .as_ref()
+                .ok_or_else(|| ConfigError::Invalid("postgres pool missing".into()))?;
+            let result = sqlx::query(
+                "INSERT INTO users (username, password_hash, created_at) VALUES ($1, $2, NOW()) \
+                 ON CONFLICT (username) DO NOTHING",
+            )
+            .bind(username)
+            .bind(password_hash)
+            .execute(pool)
+            .await
+            .map_err(|e| ConfigError::Invalid(format!("default user insert failed: {e}")))?;
+            if result.rows_affected() > 0 {
+                tracing::info!(username, "default user created");
+            }
+        }
+    }
+
+    Ok(())
 }

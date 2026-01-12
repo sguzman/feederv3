@@ -74,8 +74,8 @@ impl App {
         Ok(Self {
             screen: Screen::Login,
             focus: LoginField::Username,
-            username: String::new(),
-            password: String::new(),
+            username: "admin".to_string(),
+            password: "admin".to_string(),
             status: "Enter credentials. Tab switches fields. Enter to login.".to_string(),
             token: None,
             feeds: Vec::new(),
@@ -356,6 +356,11 @@ fn main() -> Result<()> {
     let mut terminal = Terminal::new(backend)?;
 
     let mut app = App::new(base_url)?;
+    app.status = "Attempting auto-login as admin...".to_string();
+    if let Err(err) = app.login() {
+        app.status = format!("Auto-login failed: {err}");
+        app.screen = Screen::Login;
+    }
 
     let tick_rate = Duration::from_millis(200);
     let mut last_tick = Instant::now();

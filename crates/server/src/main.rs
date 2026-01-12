@@ -35,6 +35,10 @@ async fn main() -> Result<(), ConfigError> {
         db::reset_server_data(&config, &state).await?;
     }
 
+    if config.app.mode == AppMode::Dev {
+        db::ensure_default_user(&config, &state, "admin", "admin").await?;
+    }
+
     let addr: SocketAddr = format!("{}:{}", config.http.host, config.http.port)
         .parse()
         .map_err(|e| ConfigError::Invalid(format!("invalid http bind: {e}")))?;
