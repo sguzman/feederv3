@@ -51,7 +51,7 @@ Server config (`crates/server/res/config.toml`):
 - `[logging]` – `level`.
 - `[auth]` – `token_ttl_seconds`.
 - `[dev]` – `reset_on_start` (clears server-only tables).
-  - In dev mode, the server also seeds a default `admin/admin` user if it does not exist.
+  - In dev mode, the server seeds the user from `[seed]` if it does not exist (defaults to `admin/admin`).
 
 ## HTTP Server API (high level)
 - Auth: login/logout, rotate token, list/revoke tokens.

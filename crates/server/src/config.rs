@@ -36,6 +36,7 @@ pub struct ServerConfig {
     pub logging: LoggingConfig,
     pub auth: AuthConfig,
     pub dev: DevConfig,
+    pub seed: SeedConfig,
 }
 
 #[derive(Debug, Deserialize)]
@@ -85,6 +86,12 @@ pub struct AuthConfig {
 #[derive(Debug, Deserialize)]
 pub struct DevConfig {
     pub reset_on_start: bool,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct SeedConfig {
+    pub username: String,
+    pub password: String,
 }
 
 impl ServerConfig {

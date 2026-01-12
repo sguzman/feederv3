@@ -36,7 +36,13 @@ async fn main() -> Result<(), ConfigError> {
     }
 
     if config.app.mode == AppMode::Dev {
-        db::ensure_default_user(&config, &state, "admin", "admin").await?;
+        db::ensure_default_user(
+            &config,
+            &state,
+            &config.seed.username,
+            &config.seed.password,
+        )
+        .await?;
     }
 
     let addr: SocketAddr = format!("{}:{}", config.http.host, config.http.port)
