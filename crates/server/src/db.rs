@@ -1,5 +1,6 @@
 use std::path::Path;
 
+use sqlx::PgPool;
 use sqlx::postgres::PgPoolOptions;
 
 use crate::app_state::AppState;
@@ -45,6 +46,8 @@ pub async fn connect_db(
               )
             )
           })?;
+
+      ensure_fetcher_tags_column_sqlite(&pool).await?;
 
       Ok(AppState {
         sqlite:            Some(pool),
@@ -100,6 +103,12 @@ pub async fn connect_db(
              {e}"
           ))
         })?;
+
+      ensure_fetcher_tags_column_postgres(
+        &pool,
+        &fetcher_schema
+      )
+      .await?;
 
       Ok(AppState {
         sqlite:            None,
@@ -384,6 +393,100 @@ pub async fn ensure_default_user(
       }
     }
   }
+
+  Ok(())
+}
+
+async fn ensure_fetcher_tags_column_postgres(
+  pool: &PgPool,
+  schema: &str
+) -> Result<(), ConfigError> {
+  let has_column: Option<i64> =
+    sqlx::query_scalar(
+      "SELECT 1 FROM \
+       information_schema.columns \
+       WHERE table_schema = $1 AND \
+       table_name = 'feeds' AND \
+       column_name = 'tags'"
+    )
+    .bind(schema)
+    .fetch_optional(pool)
+    .await
+    .map_err(|e| {
+      ConfigError::Invalid(format!(
+        "fetcher tags column check \
+         failed: {e}"
+      ))
+    })?;
+
+  if has_column.is_some() {
+    return Ok(());
+  }
+
+  let ddl = format!(
+    "ALTER TABLE {}.feeds ADD COLUMN \
+     IF NOT EXISTS tags TEXT[]",
+    quote_ident(schema)
+  );
+
+  sqlx::query(&ddl)
+    .execute(pool)
+    .await
+    .map_err(|e| {
+      ConfigError::Invalid(format!(
+        "fetcher tags column add \
+         failed: {e}"
+      ))
+    })?;
+
+  Ok(())
+}
+
+async fn ensure_fetcher_tags_column_sqlite(
+  pool: &sqlx::SqlitePool
+) -> Result<(), ConfigError> {
+  let has_table: Option<i64> = sqlx::query_scalar(
+        r#"SELECT 1 FROM sqlite_master WHERE type='table' AND name='feeds' LIMIT 1"#
+    )
+    .fetch_optional(pool)
+    .await
+    .map_err(|e| {
+      ConfigError::Invalid(format!(
+        "fetcher tags table check failed: {e}"
+      ))
+    })?;
+
+  if has_table.is_none() {
+    return Ok(());
+  }
+
+  let has_column: Option<i64> = sqlx::query_scalar(
+        r#"SELECT 1 FROM pragma_table_info('feeds') WHERE name = 'tags' LIMIT 1"#
+    )
+    .fetch_optional(pool)
+    .await
+    .map_err(|e| {
+      ConfigError::Invalid(format!(
+        "fetcher tags column check failed: {e}"
+      ))
+    })?;
+
+  if has_column.is_some() {
+    return Ok(());
+  }
+
+  sqlx::query(
+    "ALTER TABLE feeds ADD COLUMN \
+     tags TEXT NULL"
+  )
+  .execute(pool)
+  .await
+  .map_err(|e| {
+    ConfigError::Invalid(format!(
+      "fetcher tags column add \
+       failed: {e}"
+    ))
+  })?;
 
   Ok(())
 }
