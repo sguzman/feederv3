@@ -60,7 +60,7 @@ pub async fn favorites_unread_counts(
     if let Some(pool) = &state.postgres {
         let schema = state.fetcher_schema.as_deref().unwrap_or("fetcher");
         let query = format!(
-            "SELECT fi.feed_id, COUNT(*)::BIGINT AS unread_count 
+            "SELECT f.feed_id, COUNT(*)::BIGINT AS unread_count 
              FROM favorites f 
              JOIN {}.feed_items fi ON fi.feed_id = f.feed_id 
              LEFT JOIN entry_states es ON es.item_id = fi.id AND es.user_id = $1 
@@ -82,7 +82,7 @@ pub async fn favorites_unread_counts(
         .as_ref()
         .ok_or_else(|| ServerError::new(StatusCode::INTERNAL_SERVER_ERROR, "database pool missing"))?;
     let rows = sqlx::query_as::<_, FavoriteUnreadCount>(
-        "SELECT fi.feed_id, COUNT(*) AS unread_count 
+        "SELECT f.feed_id, COUNT(*) AS unread_count 
          FROM favorites f 
          JOIN feed_items fi ON fi.feed_id = f.feed_id 
          LEFT JOIN entry_states es ON es.item_id = fi.id AND es.user_id = ?1 
