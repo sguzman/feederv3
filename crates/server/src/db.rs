@@ -401,7 +401,7 @@ async fn ensure_fetcher_tags_column_postgres(
   pool: &PgPool,
   schema: &str
 ) -> Result<(), ConfigError> {
-  let has_column: Option<i64> =
+  let has_column: Option<i32> =
     sqlx::query_scalar(
       "SELECT 1 FROM \
        information_schema.columns \
@@ -445,7 +445,7 @@ async fn ensure_fetcher_tags_column_postgres(
 async fn ensure_fetcher_tags_column_sqlite(
   pool: &sqlx::SqlitePool
 ) -> Result<(), ConfigError> {
-  let has_table: Option<i64> = sqlx::query_scalar(
+  let has_table: Option<i32> = sqlx::query_scalar(
         r#"SELECT 1 FROM sqlite_master WHERE type='table' AND name='feeds' LIMIT 1"#
     )
     .fetch_optional(pool)
@@ -460,7 +460,7 @@ async fn ensure_fetcher_tags_column_sqlite(
     return Ok(());
   }
 
-  let has_column: Option<i64> = sqlx::query_scalar(
+  let has_column: Option<i32> = sqlx::query_scalar(
         r#"SELECT 1 FROM pragma_table_info('feeds') WHERE name = 'tags' LIMIT 1"#
     )
     .fetch_optional(pool)
