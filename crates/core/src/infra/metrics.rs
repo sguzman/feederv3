@@ -182,10 +182,10 @@ impl Metrics {
       sorted_map(&due)
     {
       out.push_str(&format!(
-                "feedrv3_due_feeds_total{{category=\"{}\"}} {}\n",
-                escape_label(&category),
-                count
-            ));
+        r#"feedrv3_due_feeds_total{{category="{}"}} {}\n"#,
+        escape_label(&category),
+        count
+      ));
     }
 
     let due_current = self
@@ -210,8 +210,7 @@ impl Metrics {
       sorted_map(&due_current)
     {
       out.push_str(&format!(
-        "feedrv3_due_feeds{{category=\\
-         "{}\"}} {}\n",
+        r#"feedrv3_due_feeds{{category="{}"}} {}\n"#,
         escape_label(&category),
         count
       ));
