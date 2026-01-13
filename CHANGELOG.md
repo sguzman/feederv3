@@ -1,9 +1,14 @@
 # Changelog
 
 ## [Unreleased]
+### 📚 Documentation
+
+- Docs: add justfile and document tooling ([03eef92](https://github.com/sguzman/pulsewire/commit/03eef92486ec7c3e92a65b744518bf231217c77d))
+
+## [0.1.5] - 2026-01-13
 ### ⚙️ Miscellaneous
 
-- Chore: start changelog at v0.1.3 and stage on release ([145281e](https://github.com/sguzman/pulsewire/commit/145281e613d36c98178999b43c9e117014e2783a))- Chore(release): prepare 0.1.4 ([6afb298](https://github.com/sguzman/pulsewire/commit/6afb2989a25d81a7600a4aed7c759180a2c73a36))- Chore: suppress git-cliff warnings and start from v0.1.4 ([2d1a4e0](https://github.com/sguzman/pulsewire/commit/2d1a4e066e0c0042c844714ec6851c6e9615b3eb))
+- Chore: start changelog at v0.1.3 and stage on release ([145281e](https://github.com/sguzman/pulsewire/commit/145281e613d36c98178999b43c9e117014e2783a))- Chore(release): prepare 0.1.4 ([6afb298](https://github.com/sguzman/pulsewire/commit/6afb2989a25d81a7600a4aed7c759180a2c73a36))- Chore: suppress git-cliff warnings and start from v0.1.4 ([2d1a4e0](https://github.com/sguzman/pulsewire/commit/2d1a4e066e0c0042c844714ec6851c6e9615b3eb))- Chore(release): prepare 0.1.5 ([b1d924a](https://github.com/sguzman/pulsewire/commit/b1d924a9abd7685824e232db7a2357086be3de59))
 
 ## [0.1.3] - 2026-01-13
 ### ⚙️ Miscellaneous
