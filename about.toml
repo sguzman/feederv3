@@ -9,8 +9,9 @@ accepted = [
   "Unicode-3.0",
   "Zlib",
 ]
+targets = []
 
-[targets]
+
 
 # Use the workspace default targets.
 
