@@ -1,7 +1,10 @@
 # Changelog
 ## [Unreleased]
+### 📚 Documentation
+- Docs: add lychee link validation tooling ([2cf7b9b](https://github.com/sguzman/pulsewire/commit/2cf7b9be4bc544585cc158615c10be20842d1d12))## [0.1.9] - 2026-01-13
 ### ⚙️ Miscellaneous
-- Chore: tighten git-cliff whitespace trimming ([34d9452](https://github.com/sguzman/pulsewire/commit/34d94520ff3c5c810c2c02a6df80afee2dca990d))## [0.1.8] - 2026-01-13
+- Chore: tighten git-cliff whitespace trimming ([34d9452](https://github.com/sguzman/pulsewire/commit/34d94520ff3c5c810c2c02a6df80afee2dca990d))
+- Chore(release): prepare 0.1.9 ([0f513fb](https://github.com/sguzman/pulsewire/commit/0f513fbacf6a1c20ce7783b11e2a6d064656cecb))## [0.1.8] - 2026-01-13
 ### ⚙️ Miscellaneous
 - Chore: tighten git-cliff changelog spacing ([97ea100](https://github.com/sguzman/pulsewire/commit/97ea10064de0bd78beecd0c949c68385249f5807))
 - Chore(release): prepare 0.1.8 ([51cbbe8](https://github.com/sguzman/pulsewire/commit/51cbbe86310e5a4c90f687fd429230f71a0b0367))## [0.1.7] - 2026-01-13
