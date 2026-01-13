@@ -8,6 +8,7 @@ use std::io::{
   Stdout
 };
 use std::path::PathBuf;
+use std::sync::mpsc;
 use std::time::{
   Duration,
   Instant
@@ -33,6 +34,7 @@ use ratatui::backend::CrosstermBackend;
 
 use crate::app::{
   App,
+  AppEvent,
   Screen
 };
 use crate::config::{
@@ -79,6 +81,10 @@ fn main() -> Result<()> {
   let mut app =
     App::new(&config, keys)?;
 
+  let (event_tx, event_rx) =
+    mpsc::channel::<AppEvent>();
+  app.set_event_sender(event_tx);
+
   if config.auth.auto_login {
     app.status = "Attempting \
                   auto-login..."
@@ -96,7 +102,8 @@ fn main() -> Result<()> {
     &mut app,
     tick_rate,
     &mut last_tick,
-    config.auth.auto_login
+    config.auth.auto_login,
+    event_rx
   );
 
   disable_raw_mode()?;
@@ -134,7 +141,8 @@ fn run_app(
   app: &mut App,
   tick_rate: Duration,
   last_tick: &mut Instant,
-  auto_login: bool
+  auto_login: bool,
+  event_rx: mpsc::Receiver<AppEvent>
 ) -> Result<()> {
   let mut auto_login_pending =
     auto_login;
@@ -163,13 +171,13 @@ fn run_app(
 
     if app.needs_refresh {
       app.needs_refresh = false;
-      if let Err(err) =
-        app.refresh_all()
-      {
-        app.status = format!(
-          "Refresh failed: {err}"
-        );
-      }
+      app.queue_refresh_all();
+    }
+
+    while let Ok(event) =
+      event_rx.try_recv()
+    {
+      app.apply_event(event);
     }
 
     let timeout = tick_rate

@@ -40,16 +40,31 @@ pub(crate) fn draw_login(
   frame: &mut Frame,
   app: &App
 ) {
-  let chunks = Layout::default()
-    .direction(Direction::Vertical)
-    .margin(2)
-    .constraints([
-      Constraint::Length(3),
-      Constraint::Length(3),
-      Constraint::Min(3),
-      Constraint::Length(3)
-    ])
-    .split(frame.area());
+  let banner = banner_text(app);
+  let chunks = if banner.is_some() {
+    Layout::default()
+      .direction(Direction::Vertical)
+      .margin(2)
+      .constraints([
+        Constraint::Length(3),
+        Constraint::Length(3),
+        Constraint::Length(3),
+        Constraint::Min(3),
+        Constraint::Length(3)
+      ])
+      .split(frame.area())
+  } else {
+    Layout::default()
+      .direction(Direction::Vertical)
+      .margin(2)
+      .constraints([
+        Constraint::Length(3),
+        Constraint::Length(3),
+        Constraint::Min(3),
+        Constraint::Length(3)
+      ])
+      .split(frame.area())
+  };
 
   let username_style = if matches!(
     app.focus,
@@ -90,6 +105,25 @@ pub(crate) fn draw_login(
     )
     .style(password_style);
 
+  if let Some((text, style)) = &banner {
+    let banner_widget =
+      Paragraph::new(text.as_str())
+        .block(
+          Block::default()
+            .borders(Borders::ALL)
+            .title("Status")
+        )
+        .style(*style)
+        .wrap(Wrap {
+          trim: true
+        });
+
+    frame.render_widget(
+      banner_widget,
+      chunks[2]
+    );
+  }
+
   let help =
     Paragraph::new(app.status.as_str())
       .block(
@@ -105,7 +139,14 @@ pub(crate) fn draw_login(
     .render_widget(username, chunks[0]);
   frame
     .render_widget(password, chunks[1]);
-  frame.render_widget(help, chunks[2]);
+  frame.render_widget(
+    help,
+    chunks[if banner.is_some() {
+      3
+    } else {
+      2
+    }]
+  );
   frame.render_widget(
     Paragraph::new(
       "Enter to login | Tab to switch \
@@ -115,7 +156,11 @@ pub(crate) fn draw_login(
       Block::default()
         .borders(Borders::ALL)
     ),
-    chunks[3]
+    chunks[if banner.is_some() {
+      4
+    } else {
+      3
+    }]
   );
 }
 
@@ -123,14 +168,27 @@ pub(crate) fn draw_main(
   frame: &mut Frame,
   app: &App
 ) {
-  let chunks = Layout::default()
-    .direction(Direction::Vertical)
-    .constraints([
-      Constraint::Length(3),
-      Constraint::Min(3),
-      Constraint::Length(3)
-    ])
-    .split(frame.area());
+  let banner = banner_text(app);
+  let chunks = if banner.is_some() {
+    Layout::default()
+      .direction(Direction::Vertical)
+      .constraints([
+        Constraint::Length(3),
+        Constraint::Length(3),
+        Constraint::Min(3),
+        Constraint::Length(3)
+      ])
+      .split(frame.area())
+  } else {
+    Layout::default()
+      .direction(Direction::Vertical)
+      .constraints([
+        Constraint::Length(3),
+        Constraint::Min(3),
+        Constraint::Length(3)
+      ])
+      .split(frame.area())
+  };
 
   let titles = [
     "Feeds (1)",
@@ -163,13 +221,37 @@ pub(crate) fn draw_main(
 
   frame.render_widget(tabs, chunks[0]);
 
+  if let Some((text, style)) = &banner {
+    let banner_widget =
+      Paragraph::new(text.as_str())
+        .block(
+          Block::default()
+            .borders(Borders::ALL)
+            .title("Status")
+        )
+        .style(*style)
+        .wrap(Wrap {
+          trim: true
+        });
+    frame.render_widget(
+      banner_widget,
+      chunks[1]
+    );
+  }
+
   let content = Layout::default()
     .direction(Direction::Horizontal)
     .constraints([
       Constraint::Percentage(60),
       Constraint::Percentage(40)
     ])
-    .split(chunks[1]);
+    .split(
+      chunks[if banner.is_some() {
+        2
+      } else {
+        1
+      }]
+    );
 
   match app.tab {
     | 0 => {
@@ -291,8 +373,14 @@ pub(crate) fn draw_main(
         trim: true
       });
 
-  frame
-    .render_widget(footer, chunks[2]);
+  frame.render_widget(
+    footer,
+    chunks[if banner.is_some() {
+      3
+    } else {
+      2
+    }]
+  );
 
   if let Some(modal) = &app.modal {
     let title = match modal.kind {
@@ -309,4 +397,25 @@ pub(crate) fn draw_main(
       modal.selected
     );
   }
+}
+
+fn banner_text(
+  app: &App
+) -> Option<(String, Style)> {
+  if let Some(err) = &app.error {
+    return Some((
+      format!("Error: {err}"),
+      Style::default().fg(Color::Red)
+    ));
+  }
+
+  if app.loading {
+    return Some((
+      "Loading...".to_string(),
+      Style::default()
+        .fg(Color::Yellow)
+    ));
+  }
+
+  None
 }

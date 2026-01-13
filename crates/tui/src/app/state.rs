@@ -2,6 +2,7 @@ use std::collections::{
   HashMap,
   HashSet
 };
+use std::sync::mpsc::Sender;
 
 use anyhow::Result;
 use reqwest::blocking::Client;
@@ -61,6 +62,12 @@ pub(crate) struct App {
   pub(crate) status: String,
   pub(crate) token: Option<String>,
   pub(crate) needs_refresh: bool,
+  pub(crate) loading: bool,
+  pub(crate) pending_requests: usize,
+  pub(crate) error: Option<String>,
+  pub(crate) event_tx: Option<
+    Sender<crate::app::AppEvent>
+  >,
   pub(crate) feeds: Vec<FeedSummary>,
   pub(crate) favorites:
     Vec<FeedSummary>,
@@ -138,6 +145,10 @@ impl App {
         .to_string(),
       token: None,
       needs_refresh: false,
+      loading: false,
+      pending_requests: 0,
+      error: None,
+      event_tx: None,
       feeds: Vec::new(),
       favorites: Vec::new(),
       folders: Vec::new(),

@@ -206,7 +206,7 @@ impl App {
       &self.keys.toggle_read,
       key
     ) {
-      self.toggle_entry_read()?;
+      self.trigger_toggle_entry_read();
       return Ok(false);
     }
 
@@ -214,7 +214,7 @@ impl App {
       &self.keys.toggle_subscribe,
       key
     ) {
-      self.toggle_subscribe()?;
+      self.trigger_toggle_subscribe();
       return Ok(false);
     }
 
@@ -263,5 +263,85 @@ impl App {
     }
 
     Ok(false)
+  }
+
+  fn trigger_toggle_entry_read(
+    &mut self
+  ) {
+    if self.tab != 1 {
+      return;
+    }
+
+    let entry = match self
+      .entries
+      .get(self.selected_entry)
+    {
+      | Some(entry) => entry.clone(),
+      | None => return
+    };
+
+    if let Some(row) = self
+      .entries
+      .get_mut(self.selected_entry)
+    {
+      row.is_read = !entry.is_read;
+    }
+
+    self.status = if entry.is_read {
+      "Marked unread (pending)"
+        .to_string()
+    } else {
+      "Marked read (pending)"
+        .to_string()
+    };
+
+    self.queue_toggle_entry_read(
+      entry.id,
+      !entry.is_read
+    );
+  }
+
+  fn trigger_toggle_subscribe(
+    &mut self
+  ) {
+    if self.tab != 0 {
+      return;
+    }
+
+    let feed = match self
+      .feeds_view
+      .get(self.selected_feed)
+      .and_then(|idx| {
+        self.feeds.get(*idx)
+      }) {
+      | Some(feed) => feed.clone(),
+      | None => return
+    };
+
+    let subscribed = self
+      .subscriptions
+      .contains(&feed.id);
+    let desired = !subscribed;
+
+    if desired {
+      self
+        .subscriptions
+        .insert(feed.id.clone());
+      self.status = "Subscribed \
+                     (pending)"
+        .to_string();
+    } else {
+      self
+        .subscriptions
+        .remove(&feed.id);
+      self.status = "Unsubscribed \
+                     (pending)"
+        .to_string();
+    }
+
+    self.rebuild_views();
+    self.queue_toggle_subscribe(
+      feed.id, desired
+    );
   }
 }
