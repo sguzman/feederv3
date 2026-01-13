@@ -71,4 +71,5 @@ CREATE TABLE IF NOT EXISTS folder_feeds(
 
 CREATE INDEX IF NOT EXISTS idx_subscriptions_user ON subscriptions(user_id);
 CREATE INDEX IF NOT EXISTS idx_entry_states_user ON entry_states(user_id);
+CREATE INDEX IF NOT EXISTS idx_entry_states_user_item_read ON entry_states(user_id, item_id, read_at);
 CREATE INDEX IF NOT EXISTS idx_favorites_user ON favorites(user_id);

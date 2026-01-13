@@ -27,6 +27,8 @@ tab_favorites      = "3"
 tab_feeds          = "1"
 tab_folders        = "4"
 tab_subscriptions  = "5"
+toggle_hide_empty  = "z"
+toggle_hide_read   = "u"
 toggle_read        = "m"
 toggle_subscribe   = "s"
 
@@ -39,5 +41,7 @@ entries_page_size       = 50
 favorites_page_size     = 50
 feeds_page_size         = 50
 folders_page_size       = 50
+hide_empty_feeds        = false
+hide_read_feeds         = false
 refresh_interval_ms     = 500
 subscriptions_page_size = 50

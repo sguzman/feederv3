@@ -22,8 +22,17 @@ impl App {
     self.set_list_offset(next);
     self
       .update_selected_for_offset(next);
-    self.status =
-      format!("Page offset {}", next);
+    if let Some((current, total)) =
+      self.list_page_info()
+    {
+      self.status = format!(
+        "Page {current}/{total} \
+         (offset {next})"
+      );
+    } else {
+      self.status =
+        format!("Page offset {}", next);
+    }
   }
 
   pub(super) fn prev_list_page(
@@ -46,8 +55,17 @@ impl App {
     self.set_list_offset(next);
     self
       .update_selected_for_offset(next);
-    self.status =
-      format!("Page offset {}", next);
+    if let Some((current, total)) =
+      self.list_page_info()
+    {
+      self.status = format!(
+        "Page {current}/{total} \
+         (offset {next})"
+      );
+    } else {
+      self.status =
+        format!("Page offset {}", next);
+    }
   }
 
   pub(super) fn update_selected_for_offset(
@@ -63,6 +81,52 @@ impl App {
     {
       *selected = offset;
     }
+  }
+
+  pub(super) fn list_page_info(
+    &self
+  ) -> Option<(usize, usize)> {
+    let len = self.list_len_for_tab();
+    if len == 0 {
+      return None;
+    }
+
+    let page = self.page_size_for_tab();
+    let total_pages =
+      (len + page - 1) / page;
+    let current_page =
+      self.list_offset_value() / page
+        + 1;
+
+    Some((current_page, total_pages))
+  }
+
+  pub(super) fn entries_page_info(
+    &self
+  ) -> Option<(usize, usize)> {
+    let feed_id =
+      self.entries_feed_id.as_ref()?;
+    let total = self
+      .feed_counts
+      .get(feed_id)
+      .map(|row| row.total_count)
+      .unwrap_or(0);
+
+    if total <= 0 {
+      return None;
+    }
+
+    let page_size =
+      self.entries_page_size as i64;
+    let total_pages =
+      ((total + page_size - 1)
+        / page_size) as usize;
+    let current_page =
+      (self.entries_offset / page_size)
+        as usize
+        + 1;
+
+    Some((current_page, total_pages))
   }
 
   pub(super) fn list_len_for_tab(

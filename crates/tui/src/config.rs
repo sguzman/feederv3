@@ -32,6 +32,8 @@ pub(crate) struct AuthConfig {
 
 #[derive(Debug, Deserialize)]
 pub(crate) struct UiConfig {
+  pub(crate) hide_empty_feeds: bool,
+  pub(crate) hide_read_feeds: bool,
   pub(crate) entries_page_size: u32,
   pub(crate) feeds_page_size: u32,
   pub(crate) favorites_page_size: u32,
@@ -64,6 +66,8 @@ pub(crate) struct Keybindings {
   pub(crate) open_entries:       String,
   pub(crate) toggle_read:        String,
   pub(crate) toggle_subscribe:   String,
+  pub(crate) toggle_hide_empty:  String,
+  pub(crate) toggle_hide_read:   String,
   pub(crate) entries_next:       String,
   pub(crate) entries_prev:       String,
   pub(crate) feeds_next:         String,
@@ -100,6 +104,10 @@ pub(crate) struct ResolvedKeybindings {
   pub(crate) open_entries: KeyBinding,
   pub(crate) toggle_read: KeyBinding,
   pub(crate) toggle_subscribe:
+    KeyBinding,
+  pub(crate) toggle_hide_empty:
+    KeyBinding,
+  pub(crate) toggle_hide_read:
     KeyBinding,
   pub(crate) entries_next: KeyBinding,
   pub(crate) entries_prev: KeyBinding,
@@ -254,6 +262,16 @@ impl TuiConfig {
           .keybindings
           .toggle_subscribe
       )?,
+      toggle_hide_empty:  parse_key(
+        &self
+          .keybindings
+          .toggle_hide_empty
+      )?,
+      toggle_hide_read:   parse_key(
+        &self
+          .keybindings
+          .toggle_hide_read
+      )?,
       entries_next:       parse_key(
         &self.keybindings.entries_next
       )?,
@@ -366,14 +384,21 @@ fn parse_key(
     | "esc" => KeyCode::Esc,
     | _ => {
       if key.chars().count() == 1 {
-        KeyCode::Char(
-          key.chars().next().unwrap()
-        )
+        let ch =
+          key.chars().next().unwrap();
+        if ch.is_ascii_uppercase()
+          && !modifiers.contains(
+            KeyModifiers::SHIFT
+          )
+        {
+          modifiers |=
+            KeyModifiers::SHIFT;
+        }
+        KeyCode::Char(ch)
       } else {
         return Err(ConfigError(
           format!(
-            "unsupported keybinding \
-             '{raw}'"
+            "unsupported keybinding              '{raw}'"
           )
         ));
       }

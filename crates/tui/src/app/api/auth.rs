@@ -51,11 +51,10 @@ impl App {
 
     self.token = Some(token);
     self.screen = Screen::Main;
-    self.status = "Logged in. Press r \
-                   to refresh."
+    self.needs_refresh = true;
+    self.status = "Logged in. Loading \
+                   feeds..."
       .to_string();
-
-    self.refresh_all()?;
 
     Ok(())
   }

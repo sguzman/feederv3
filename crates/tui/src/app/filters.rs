@@ -133,6 +133,31 @@ impl App {
       }
     }
 
+    if self.hide_empty_feeds
+      || self.hide_read_feeds
+    {
+      let counts =
+        self.feed_counts.get(&feed.id);
+      let total = counts
+        .map(|row| row.total_count)
+        .unwrap_or(0);
+      let unread = counts
+        .map(|row| row.unread_count)
+        .unwrap_or(0);
+
+      if self.hide_empty_feeds
+        && total == 0
+      {
+        return false;
+      }
+
+      if self.hide_read_feeds
+        && unread == 0
+      {
+        return false;
+      }
+    }
+
     true
   }
 

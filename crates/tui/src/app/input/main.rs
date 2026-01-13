@@ -167,6 +167,34 @@ impl App {
     }
 
     if self.key_matches(
+      &self.keys.toggle_hide_empty,
+      key
+    ) {
+      self.hide_empty_feeds =
+        !self.hide_empty_feeds;
+      self.rebuild_views();
+      self.status = format!(
+        "Hide empty feeds: {}",
+        self.hide_empty_feeds
+      );
+      return Ok(false);
+    }
+
+    if self.key_matches(
+      &self.keys.toggle_hide_read,
+      key
+    ) {
+      self.hide_read_feeds =
+        !self.hide_read_feeds;
+      self.rebuild_views();
+      self.status = format!(
+        "Hide read feeds: {}",
+        self.hide_read_feeds
+      );
+      return Ok(false);
+    }
+
+    if self.key_matches(
       &self.keys.open_entries,
       key
     ) {

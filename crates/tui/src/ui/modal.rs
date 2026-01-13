@@ -13,6 +13,7 @@ use ratatui::style::{
 use ratatui::widgets::{
   Block,
   Borders,
+  Clear,
   List,
   ListItem
 };
@@ -27,6 +28,8 @@ pub(crate) fn draw_modal_list(
 ) {
   let area =
     centered_rect(60, 60, frame.area());
+
+  frame.render_widget(Clear, area);
 
   let items = options
     .iter()

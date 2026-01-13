@@ -83,13 +83,6 @@ fn main() -> Result<()> {
     app.status = "Attempting \
                   auto-login..."
       .to_string();
-
-    if let Err(err) = app.login() {
-      app.status = format!(
-        "Auto-login failed: {err}"
-      );
-      app.screen = Screen::Login;
-    }
   }
 
   let tick_rate = Duration::from_millis(
@@ -102,7 +95,8 @@ fn main() -> Result<()> {
     &mut terminal,
     &mut app,
     tick_rate,
-    &mut last_tick
+    &mut last_tick,
+    config.auth.auto_login
   );
 
   disable_raw_mode()?;
@@ -139,8 +133,12 @@ fn run_app(
   >,
   app: &mut App,
   tick_rate: Duration,
-  last_tick: &mut Instant
+  last_tick: &mut Instant,
+  auto_login: bool
 ) -> Result<()> {
+  let mut auto_login_pending =
+    auto_login;
+
   loop {
     terminal.draw(|frame| {
       match app.screen {
@@ -152,6 +150,27 @@ fn run_app(
         }
       }
     })?;
+
+    if auto_login_pending {
+      auto_login_pending = false;
+      if let Err(err) = app.login() {
+        app.status = format!(
+          "Auto-login failed: {err}"
+        );
+        app.screen = Screen::Login;
+      }
+    }
+
+    if app.needs_refresh {
+      app.needs_refresh = false;
+      if let Err(err) =
+        app.refresh_all()
+      {
+        app.status = format!(
+          "Refresh failed: {err}"
+        );
+      }
+    }
 
     let timeout = tick_rate
       .saturating_sub(

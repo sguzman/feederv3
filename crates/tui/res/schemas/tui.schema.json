@@ -48,6 +48,8 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
+        "hide_read_feeds",
+        "hide_empty_feeds",
         "entries_page_size",
         "feeds_page_size",
         "favorites_page_size",
@@ -84,6 +86,12 @@
         "refresh_interval_ms": {
           "type": "integer",
           "minimum": 50
+        },
+        "hide_empty_feeds": {
+          "type": "boolean"
+        },
+        "hide_read_feeds": {
+          "type": "boolean"
         }
       }
     },
@@ -115,7 +123,9 @@
         "entries_next",
         "entries_prev",
         "feeds_next",
-        "feeds_prev"
+        "feeds_prev",
+        "toggle_hide_empty",
+        "toggle_hide_read"
       ],
       "properties": {
         "quit": {
@@ -191,6 +201,12 @@
           "type": "string"
         },
         "feeds_prev": {
+          "type": "string"
+        },
+        "toggle_hide_empty": {
+          "type": "string"
+        },
+        "toggle_hide_read": {
           "type": "string"
         }
       }

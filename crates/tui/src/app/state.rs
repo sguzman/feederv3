@@ -60,6 +60,7 @@ pub(crate) struct App {
   pub(crate) password: String,
   pub(crate) status: String,
   pub(crate) token: Option<String>,
+  pub(crate) needs_refresh: bool,
   pub(crate) feeds: Vec<FeedSummary>,
   pub(crate) favorites:
     Vec<FeedSummary>,
@@ -76,6 +77,8 @@ pub(crate) struct App {
   pub(crate) filter_category:
     Option<String>,
   pub(crate) filter_tag: Option<String>,
+  pub(crate) hide_empty_feeds: bool,
+  pub(crate) hide_read_feeds: bool,
   pub(crate) sort_mode: SortMode,
   pub(crate) modal: Option<ModalState>,
   pub(crate) entries: Vec<EntrySummary>,
@@ -134,6 +137,7 @@ impl App {
                to login."
         .to_string(),
       token: None,
+      needs_refresh: false,
       feeds: Vec::new(),
       favorites: Vec::new(),
       folders: Vec::new(),
@@ -145,6 +149,12 @@ impl App {
       tags: Vec::new(),
       filter_category: None,
       filter_tag: None,
+      hide_empty_feeds: config
+        .ui
+        .hide_empty_feeds,
+      hide_read_feeds: config
+        .ui
+        .hide_read_feeds,
       sort_mode: SortMode::Unread,
       modal: None,
       entries: Vec::new(),

@@ -105,6 +105,8 @@ impl App {
       })
       .collect();
 
+    self.rebuild_views();
+
     Ok(())
   }
 }

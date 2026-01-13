@@ -67,11 +67,22 @@ impl App {
       self.selected_entry = 0;
     }
 
-    self.status = format!(
-      "Loaded {} entries (offset {})",
-      self.entries.len(),
-      self.entries_offset
-    );
+    if let Some((current, total)) =
+      self.entries_page_info()
+    {
+      self.status = format!(
+        "Loaded {} entries (page \
+         {current}/{total}, offset {})",
+        self.entries.len(),
+        self.entries_offset
+      );
+    } else {
+      self.status = format!(
+        "Loaded {} entries (offset {})",
+        self.entries.len(),
+        self.entries_offset
+      );
+    }
 
     Ok(())
   }
