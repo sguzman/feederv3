@@ -72,7 +72,8 @@ pub(super) fn render(
   );
 
   out.push_str(
-    "# TYPE pulsewire_due_feeds_total \\
+    "# TYPE pulsewire_due_feeds_total \
+     \\
      counter\n"
   );
 
@@ -188,13 +189,15 @@ pub(super) fn render(
     .unwrap_or_else(|e| e.into_inner());
 
   out.push_str(
-    "# HELP pulsewire_http_latency_ms \\
+    "# HELP pulsewire_http_latency_ms \
+     \\
      HTTP latency by \\
      action/domain.\n"
   );
 
   out.push_str(
-    "# TYPE pulsewire_http_latency_ms \\
+    "# TYPE pulsewire_http_latency_ms \
+     \\
      histogram\n"
   );
 
