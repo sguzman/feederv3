@@ -3,6 +3,6 @@ shared-version = true
 tag-name = "v{{version}}"
 tag-prefix = "v"
 pre-release-commit-message = "chore(release): prepare {{version}}"
-pre-release-hook = ["sh", "-c", "root=$(git rev-parse --show-toplevel) && git -C \"$root\" cliff --config \"$root/cliff.toml\" --output \"$root/CHANGELOG.md\""]
+pre-release-hook = ["sh", "-c", "root=$(git rev-parse --show-toplevel) && git -C \"$root\" cliff --config \"$root/cliff.toml\" --output \"$root/CHANGELOG.md\" && git -C \"$root\" add CHANGELOG.md"]
 publish = false
 allow-branch = ["main"]
