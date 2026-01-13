@@ -1,6 +1,24 @@
 # Pulsewire
 
+<a href="#"><img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/palette/macchiato.png" width="600px"/></a>
+
 ![Pulsewire banner](branding/pulsewire-banner.png)
+
+<div align="center">
+  <a href="https://github.com/sguzman/pulsewire/issues">
+    <img src="https://img.shields.io/github/issues/sguzman/pulsewire?color=fab387&labelColor=303446&style=for-the-badge">
+  </a>
+  <a href="https://github.com/sguzman/pulsewire/stargazers">
+    <img src="https://img.shields.io/github/stars/sguzman/pulsewire?color=ca9ee6&labelColor=303446&style=for-the-badge">
+  </a>
+  <a href="https://github.com/sguzman/pulsewire">
+    <img src="https://img.shields.io/github/repo-size/sguzman/pulsewire?color=ea999c&labelColor=303446&style=for-the-badge">
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=MIT&logoColor=ca9ee6&colorA=313244&colorB=cba6f7"/>
+  </a>
+</div>
+
 
 
 Pulsewire is a time-aware ingestion engine for the open web: RSS/Atom feeds today, release calendars and structured datasets next. It polls with adaptive backoff, respects per-domain limits, stores payloads + items in SQLite/Postgres, and ships a companion HTTP server for reader clients.
