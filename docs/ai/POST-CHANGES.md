@@ -2,6 +2,10 @@
 
 Run these commands after a change is completed and confirmed to compile.
 
+## Script
+
+- `./scripts/post-change.sh`
+
 ## Format Rust
 
 - `cargo fmt`

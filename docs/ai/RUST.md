@@ -22,7 +22,7 @@ After completing a coherent, working change:
 ### 3) Post-change checks are manual (required)
 
 All formatting, linting, validation, and test commands are run manually by the user.
-See `docs/ai/POST-CHANGES.md` for the full checklist.
+Use `./scripts/post-change.sh` or follow `docs/ai/POST-CHANGES.md` for the full checklist.
 
 ### 4) Refactor oversized Rust files into modules (required)
 
