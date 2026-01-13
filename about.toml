@@ -1,0 +1,22 @@
+accepted = [
+  "Apache-2.0",
+  "BSD-2-Clause",
+  "BSD-3-Clause",
+  "CC0-1.0",
+  "ISC",
+  "MIT",
+  "MPL-2.0",
+  "Unicode-3.0",
+  "Zlib",
+]
+
+[targets]
+
+# Use the workspace default targets.
+
+[licenses]
+unused-allowed = true
+
+[output]
+# Example usage:
+# cargo about generate about.hbs > docs/THIRD_PARTY_LICENSES.md

@@ -112,6 +112,7 @@ OpenAPI docs:
 - Postgres uses separate schemas: `fetcher` for fetcher tables, `server` for server state.
 
 ## Development
+- License inventory: `cargo about generate about.hbs > docs/THIRD_PARTY_LICENSES.md`
 - Build: `cargo build`
 - Tests: `cargo test`
 - TOML validation: `taplo validate`
