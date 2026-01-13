@@ -19,6 +19,7 @@ Changes must respect the release policy in `docs/RELEASE.md`.
 - Use Conventional Commits (`feat:`, `fix:`, `docs:`, `refactor:`, `perf:`, `test:`, `chore:`, `build:`, `ci:`).
 - Mark breaking changes with `!` (e.g., `feat!: ...`) and describe the break in the body.
 - If behavior, config schemas, or API contracts change, call it out explicitly in the final response.
+- Recommend a SemVer bump (major/minor/patch) in the final response; the user decides whether/when to apply it.
 
 ### 3) Provide a commit message only (required)
 
