@@ -44,6 +44,7 @@ cargo release patch --workspace
 
 Notes:
 - `publish = false` in `release.toml` so crates are not published.
+- `pre-release-hook` runs git-cliff to generate CHANGELOG.md for every release.
 
 ## Files
 
