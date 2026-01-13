@@ -2,6 +2,7 @@
 edition = "2024"
 name    = "pulsewire-core"
 version = "0.1.0"
+license = "MIT"
 
 [dependencies]
 futures = "0.3.31"

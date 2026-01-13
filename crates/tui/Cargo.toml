@@ -2,6 +2,7 @@
 edition = "2024"
 name    = "pulsewire-tui"
 version = "0.1.0"
+license = "MIT"
 
 [dependencies]
 anyhow = "1.0"

@@ -1,32 +1,14 @@
-[licenses]
 accepted = [
   "Apache-2.0",
   "BSD-2-Clause",
   "BSD-3-Clause",
   "CC0-1.0",
+  "CDLA-Permissive-2.0",
   "ISC",
   "MIT",
+  "MIT-0",
   "MPL-2.0",
+  "OpenSSL",
   "Unicode-3.0",
   "Zlib",
 ]
-
-  "Apache-2.0",
-  "BSD-2-Clause",
-  "BSD-3-Clause",
-  "CC0-1.0",
-  "ISC",
-  "MIT",
-  "MPL-2.0",
-  "Unicode-3.0",
-  "Zlib",
-]
-targets = []
-
-
-
-# Use the workspace default targets.
-
-[output]
-# Example usage:
-# cargo about generate about.hbs > docs/THIRD_PARTY_LICENSES.md

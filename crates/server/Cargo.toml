@@ -2,6 +2,7 @@
 edition = "2024"
 name    = "pulsewire-server"
 version = "0.1.0"
+license = "MIT"
 
 [dependencies]
 argon2 = "0.5.3"
