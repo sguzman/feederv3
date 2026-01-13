@@ -1,7 +1,13 @@
 # Changelog
 ## [Unreleased]
-### 📚 Documentation
-- Docs: add lychee link validation tooling ([2cf7b9b](https://github.com/sguzman/pulsewire/commit/2cf7b9be4bc544585cc158615c10be20842d1d12))## [0.1.9] - 2026-01-13
+### ⚙️ Miscellaneous
+- Docs: add tool-adding guidelines ([dc85a15](https://github.com/sguzman/pulsewire/commit/dc85a158a47c4d8d93cea9cc00111adbb25b6726))
+- Chore: fix lychee include regex ([084d358](https://github.com/sguzman/pulsewire/commit/084d358d62dc37876be3171dce263570ee1a025b))
+- Chore: exclude shields and commit links from lychee ([f776c92](https://github.com/sguzman/pulsewire/commit/f776c9220b47601908e9a3f85e68c389731d9934))
+- Chore: fix cargo-release hook command order ([5d4483b](https://github.com/sguzman/pulsewire/commit/5d4483b43468b19f8694ad4d60379e281b792b38))## [0.1.10] - 2026-01-13
+### ⚙️ Miscellaneous
+- Docs: add lychee link validation tooling ([2cf7b9b](https://github.com/sguzman/pulsewire/commit/2cf7b9be4bc544585cc158615c10be20842d1d12))
+- Chore(release): prepare 0.1.10 ([7cbb455](https://github.com/sguzman/pulsewire/commit/7cbb455d4298e1d1d8828ccc8b5ee5a5b4fd6bc3))## [0.1.9] - 2026-01-13
 ### ⚙️ Miscellaneous
 - Chore: tighten git-cliff whitespace trimming ([34d9452](https://github.com/sguzman/pulsewire/commit/34d94520ff3c5c810c2c02a6df80afee2dca990d))
 - Chore(release): prepare 0.1.9 ([0f513fb](https://github.com/sguzman/pulsewire/commit/0f513fbacf6a1c20ce7783b11e2a6d064656cecb))## [0.1.8] - 2026-01-13
@@ -12,9 +18,8 @@
 - Chore: clean up git-cliff changelog formatting ([c620ca0](https://github.com/sguzman/pulsewire/commit/c620ca000aac60c4b6a2494d08af2e11898dfb00))
 - Chore(release): prepare 0.1.7 ([67fd966](https://github.com/sguzman/pulsewire/commit/67fd966d1862f1da947c4a6ada0f24a914d47b32))## [0.1.6] - 2026-01-13
 ### ⚙️ Miscellaneous
-- Chore(release): prepare 0.1.6 ([c0ca7f1](https://github.com/sguzman/pulsewire/commit/c0ca7f156a9eeac1e80b076fa47ebf1c7fa4cd13))
-### 📚 Documentation
-- Docs: add justfile and document tooling ([03eef92](https://github.com/sguzman/pulsewire/commit/03eef92486ec7c3e92a65b744518bf231217c77d))## [0.1.5] - 2026-01-13
+- Docs: add justfile and document tooling ([03eef92](https://github.com/sguzman/pulsewire/commit/03eef92486ec7c3e92a65b744518bf231217c77d))
+- Chore(release): prepare 0.1.6 ([c0ca7f1](https://github.com/sguzman/pulsewire/commit/c0ca7f156a9eeac1e80b076fa47ebf1c7fa4cd13))## [0.1.5] - 2026-01-13
 ### ⚙️ Miscellaneous
 - Chore: start changelog at v0.1.3 and stage on release ([145281e](https://github.com/sguzman/pulsewire/commit/145281e613d36c98178999b43c9e117014e2783a))
 - Chore(release): prepare 0.1.4 ([6afb298](https://github.com/sguzman/pulsewire/commit/6afb2989a25d81a7600a4aed7c759180a2c73a36))
@@ -86,6 +91,7 @@ Added brief purpose descriptions to clock.rs, http.rs, random.rs, and repo.rs. (
 Updated the sample config to the new sectioned layout in res/config.toml.
 Refreshed documentation to describe the new config sections and field names in README.md. ([0c35961](https://github.com/sguzman/pulsewire/commit/0c35961bffd8df035223b638daca309fe7cd0462))
 - Updated Cargo.toml to require tokio 1.48.0 and refreshed Cargo.lock via cargo update -p tokio --precise 1.48.0 (needed network access). ([75fa6ba](https://github.com/sguzman/pulsewire/commit/75fa6ba37b1c671fccf992750c03d542daed1de5))
+- Fixed comments ([1a0bb58](https://github.com/sguzman/pulsewire/commit/1a0bb584a5334062fc6a8935efbc89d69eb147c2))
 - Updated futures dependency to 0.3.31 in Cargo.toml and refreshed dependencies; cargo check now passes. ([1f415e2](https://github.com/sguzman/pulsewire/commit/1f415e2e90aa3f096f90a03426897a06576716e6))
 - Updated serde to 1.0.228 in Cargo.toml, refreshed Cargo.lock, and verified cargo check passes. ([115a10b](https://github.com/sguzman/pulsewire/commit/115a10bdd30f3ec30d095ac3c0722e3b36212b66))
 - Updated libs ([c1b3fab](https://github.com/sguzman/pulsewire/commit/c1b3fab19156f9fa0ac91b7ec4e3be100cf047a8))
@@ -146,6 +152,7 @@ Updated loader logic in config.rs to scan res/feeds and immediate subdirectories
 - Mode ([84b4e88](https://github.com/sguzman/pulsewire/commit/84b4e88e11d8db4727a4a64c8e3115968ae47289))
 - Subs ([e9488b7](https://github.com/sguzman/pulsewire/commit/e9488b74f4480e2997010a2425b0002d35279a05))
 -  ([e860b7a](https://github.com/sguzman/pulsewire/commit/e860b7ab1595e96e2332b6575e112eb0ad21be13))
+- Fixed url ([218c019](https://github.com/sguzman/pulsewire/commit/218c019a93a8e4c121997f114379eb12525730db))
 - Added file-based logging with hourly rotation and per-level files, configurable in config.toml. Logs go to logs/ (or your configured directory) and files are named like feedrv3-info.YYYY-MM-DD-HH etc., one per level; logging.file_level controls which levels get files (e.g., info -> error/warn/info). ([dd99df7](https://github.com/sguzman/pulsewire/commit/dd99df7f0fd3d0550f16d26f83546878429417a0))
 - Updated ([01ffdb9](https://github.com/sguzman/pulsewire/commit/01ffdb98c131238170f8efe470de683c309f2043))
 - Ignore ([7e7ad15](https://github.com/sguzman/pulsewire/commit/7e7ad15da902978a71306c57ff584c5469749f81))
@@ -182,6 +189,7 @@ Config updates are in config.toml and parsing/fields in config.rs + model.rs. Ru
 - More ([bfcf017](https://github.com/sguzman/pulsewire/commit/bfcf0175dcc4341e68888bc70305cc75948ee8be))
 - More stuff ([634bf00](https://github.com/sguzman/pulsewire/commit/634bf0001d6af1fa0874c9a611daa8fa3e999f10))
 - Missing domain ([00d7ecb](https://github.com/sguzman/pulsewire/commit/00d7ecbab8b4783a7bc49f74f55c358626cfe156))
+- Fixed missing domains ([54ec4d4](https://github.com/sguzman/pulsewire/commit/54ec4d4048ad9713d111b9e238dc363b7ba0b009))
 - Feeds ([217910d](https://github.com/sguzman/pulsewire/commit/217910d70be67a8b0712383cfea7bc799eb4e512))
 - Cnn ([fa786c4](https://github.com/sguzman/pulsewire/commit/fa786c48cb6b509357cd7903f2280fec900eb85b))
 - Added more domains ([cc4346f](https://github.com/sguzman/pulsewire/commit/cc4346f1a0587b277e17dad610f3b6044e3575fd))
@@ -284,7 +292,11 @@ Config updates are in config.toml and parsing/fields in config.rs + model.rs. Ru
 - Tui: show feeds within folders ([d854350](https://github.com/sguzman/pulsewire/commit/d85435096c1d23f5479ca0b76938b40fee359032))
 - Tui: split background into modules ([2cee0c1](https://github.com/sguzman/pulsewire/commit/2cee0c14f1380d74074de858d0ede9ddfa635e54))
 - Tui: remove unused background paths ([169bf4f](https://github.com/sguzman/pulsewire/commit/169bf4fcb2efbb9adc4d07eb94cd7b4b6f8dbd97))
+- Docs: simplify rust ai workflow and add post-change checklist ([cbc0b98](https://github.com/sguzman/pulsewire/commit/cbc0b983c7f7afb2ee890aca200cfc6f541cb1ec))
+- Docs: add post-change script and reference it ([c491114](https://github.com/sguzman/pulsewire/commit/c4911147d7efb1d9c7a5f0ff42c0b9b14e4b341b))
+- Docs: clarify ai workflow and post-change checklist ([59b657b](https://github.com/sguzman/pulsewire/commit/59b657b1b385765a62d6dc65348366ea6414243f))
 - Ignore temp ([bd95e6c](https://github.com/sguzman/pulsewire/commit/bd95e6c4dbe83d940784604e7a6071335f4822ae))
+- Docs: rebrand to pulsewire and switch to MIT license ([9b2df57](https://github.com/sguzman/pulsewire/commit/9b2df57ccefc34135eada25d1ae6e26761970ae7))
 - Actor: rename feedrv3 to pulsewire across workspace ([16ceca0](https://github.com/sguzman/pulsewire/commit/16ceca0f37939d404d0d2dbc2e3fd03471facf4f))
 - Validate ([5c176ed](https://github.com/sguzman/pulsewire/commit/5c176ede452fe231c2ddb11bf36c16f738efef36))
 - Efactor(tui): split background queue into modules ([6e72b41](https://github.com/sguzman/pulsewire/commit/6e72b4179d561a3bac4f3fd3ce0859d6bdd3bc7f))
@@ -292,25 +304,16 @@ Config updates are in config.toml and parsing/fields in config.rs + model.rs. Ru
 - Exclude is global ([fab0d7f](https://github.com/sguzman/pulsewire/commit/fab0d7f0dbafed3d9e728a68b083938c963caa47))
 - Ocs: add branding assets and reference them in readme ([b9c2799](https://github.com/sguzman/pulsewire/commit/b9c27996c49b552f0738056b91da1a50ead0ba95))
 - Ocs: add branding bar and badges to readme ([558530f](https://github.com/sguzman/pulsewire/commit/558530f68d42a169e8d06c1973f78d756ec2822a))
+- Docs: add cargo-about config and license report template ([7b42e45](https://github.com/sguzman/pulsewire/commit/7b42e4580d05fe07308d799dc8462e69ff728f06))
 - Chore: fix cargo-about config targets ([3533fd4](https://github.com/sguzman/pulsewire/commit/3533fd4c1bcb5c81a8e40506db50f8f51bcfc4bc))
 - Chore: fix cargo-about licenses schema ([44683a7](https://github.com/sguzman/pulsewire/commit/44683a7f5cb388919df3f5e68cad4eb4caa39116))
 - Etadata ([e7add48](https://github.com/sguzman/pulsewire/commit/e7add4807766bda55e89e7883a5aaa45ad7bcc05))
 - Ocs: add biome json formatting reference ([682ccad](https://github.com/sguzman/pulsewire/commit/682ccad2a6fff95620452844a188219526646c75))
-- Chore: add workspace version and align crate versions ([c2ab133](https://github.com/sguzman/pulsewire/commit/c2ab1336f5eb1482c25b151475f5148b1322734c))
-- Chore: fix cargo-release config format ([df7370b](https://github.com/sguzman/pulsewire/commit/df7370bb22381d1f697b30ed275b0c9ce5af2e66))
-- Chore(release): prepare 0.1.1 ([b080b8c](https://github.com/sguzman/pulsewire/commit/b080b8cfc4b55365a76aeca7ce6fa9fccefa1361))
-### 🐛 Bug Fixes
-- Fixed comments ([1a0bb58](https://github.com/sguzman/pulsewire/commit/1a0bb584a5334062fc6a8935efbc89d69eb147c2))
-- Fixed url ([218c019](https://github.com/sguzman/pulsewire/commit/218c019a93a8e4c121997f114379eb12525730db))
-- Fixed missing domains ([54ec4d4](https://github.com/sguzman/pulsewire/commit/54ec4d4048ad9713d111b9e238dc363b7ba0b009))
-### 📚 Documentation
-- Docs: simplify rust ai workflow and add post-change checklist ([cbc0b98](https://github.com/sguzman/pulsewire/commit/cbc0b983c7f7afb2ee890aca200cfc6f541cb1ec))
-- Docs: add post-change script and reference it ([c491114](https://github.com/sguzman/pulsewire/commit/c4911147d7efb1d9c7a5f0ff42c0b9b14e4b341b))
-- Docs: clarify ai workflow and post-change checklist ([59b657b](https://github.com/sguzman/pulsewire/commit/59b657b1b385765a62d6dc65348366ea6414243f))
-- Docs: rebrand to pulsewire and switch to MIT license ([9b2df57](https://github.com/sguzman/pulsewire/commit/9b2df57ccefc34135eada25d1ae6e26761970ae7))
-- Docs: add cargo-about config and license report template ([7b42e45](https://github.com/sguzman/pulsewire/commit/7b42e4580d05fe07308d799dc8462e69ff728f06))
 - Docs: update badge colors ([75c0ee8](https://github.com/sguzman/pulsewire/commit/75c0ee8fc33ff5f211e51468c8f27e0b68249c69))
 - Docs: add semver tooling config and roadmap ([e55aab9](https://github.com/sguzman/pulsewire/commit/e55aab958777aee4a531d5902b4ee3c9921f1091))
 - Docs: add semver guidance to rust ai rules ([f05631f](https://github.com/sguzman/pulsewire/commit/f05631fe15e5a3e9a59d9d74f80db78002dedbcc))
 - Docs: require semver bump recommendation in ai rules ([278d140](https://github.com/sguzman/pulsewire/commit/278d140e2f82c720a3c5543596960ef41147d0a7))
-- Docs: disable cargo-release publish and clarify release flow ([09982fa](https://github.com/sguzman/pulsewire/commit/09982faae671b9705842a17a9f6aabf5b8b7ce34))<!-- generated by git-cliff -->
+- Docs: disable cargo-release publish and clarify release flow ([09982fa](https://github.com/sguzman/pulsewire/commit/09982faae671b9705842a17a9f6aabf5b8b7ce34))
+- Chore: add workspace version and align crate versions ([c2ab133](https://github.com/sguzman/pulsewire/commit/c2ab1336f5eb1482c25b151475f5148b1322734c))
+- Chore: fix cargo-release config format ([df7370b](https://github.com/sguzman/pulsewire/commit/df7370bb22381d1f697b30ed275b0c9ce5af2e66))
+- Chore(release): prepare 0.1.1 ([b080b8c](https://github.com/sguzman/pulsewire/commit/b080b8cfc4b55365a76aeca7ce6fa9fccefa1361))<!-- generated by git-cliff -->
