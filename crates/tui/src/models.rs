@@ -11,6 +11,7 @@ pub(crate) struct FeedSummary {
 }
 
 #[derive(Debug, Deserialize, Clone)]
+#[allow(dead_code)]
 pub(crate) struct FeedDetail {
   pub(crate) id:                String,
   pub(crate) url:               String,
@@ -54,6 +55,7 @@ pub(crate) struct EntrySummary {
 }
 
 #[derive(Debug, Deserialize, Clone)]
+#[allow(dead_code)]
 pub(crate) struct EntryDetail {
   pub(crate) id:              i64,
   pub(crate) feed_id:         String,
@@ -86,10 +88,4 @@ pub(crate) struct TokenResponse {
 #[derive(Debug, Deserialize, Clone)]
 pub(crate) struct SubscriptionRow {
   pub(crate) feed_id: String
-}
-
-#[derive(Debug, Deserialize, Clone)]
-pub(crate) struct FavoriteUnreadCount {
-  pub(crate) feed_id:      String,
-  pub(crate) unread_count: i64
 }

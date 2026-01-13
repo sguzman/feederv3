@@ -12,8 +12,7 @@ use crate::models::{
   EntryDetail,
   EntrySummary,
   FeedDetail,
-  FeedSummary,
-  FolderRow
+  FeedSummary
 };
 
 pub(crate) fn draw_feed_detail(
@@ -172,40 +171,6 @@ pub(crate) fn draw_entry_detail(
       Block::default()
         .borders(Borders::ALL)
         .title("Entry Details")
-    )
-    .wrap(Wrap {
-      trim: true
-    });
-
-  frame.render_widget(widget, area);
-}
-
-pub(crate) fn draw_folder_detail(
-  frame: &mut Frame,
-  area: Rect,
-  folder: Option<&FolderRow>
-) {
-  let lines =
-    if let Some(folder) = folder {
-      vec![
-        Line::from(format!(
-          "id: {}",
-          folder.id
-        )),
-        Line::from(format!(
-          "name: {}",
-          folder.name
-        )),
-      ]
-    } else {
-      vec![Line::from("No selection")]
-    };
-
-  let widget = Paragraph::new(lines)
-    .block(
-      Block::default()
-        .borders(Borders::ALL)
-        .title("Folder Details")
     )
     .wrap(Wrap {
       trim: true

@@ -24,14 +24,6 @@ pub(crate) enum AppEvent {
     folders: Vec<FolderRow>,
     message: String
   },
-  RefreshFavorites {
-    favorites: Vec<FeedSummary>,
-    message:   String
-  },
-  RefreshEntries {
-    entries: EntryListResponse,
-    message: String
-  },
   FeedDetail {
     feed_id: String,
     detail:  FeedDetail
@@ -185,49 +177,6 @@ impl App {
         self.error = None;
         self.status = message;
         self.request_folder_feeds();
-      }
-      | AppEvent::RefreshFavorites {
-        favorites,
-        message
-      } => {
-        self.favorites = favorites;
-        self.favorite_ids = self
-          .favorites
-          .iter()
-          .map(|row| row.id.clone())
-          .collect();
-        self.sort_favorites();
-        if self.selected_favorite
-          >= self.favorites.len()
-        {
-          self.selected_favorite = 0;
-          self.favorites_offset = 0;
-        }
-        self.loading = false;
-        self.pending_requests = self
-          .pending_requests
-          .saturating_sub(1);
-        self.error = None;
-        self.status = message;
-      }
-      | AppEvent::RefreshEntries {
-        entries,
-        message
-      } => {
-        self.entries = entries.items;
-        self.entries_next_offset =
-          entries.next_offset;
-        if self.selected_entry
-          >= self.entries.len()
-        {
-          self.selected_entry = 0;
-        }
-        self.loading = false;
-        self.pending_requests = self
-          .pending_requests
-          .saturating_sub(1);
-        self.error = None;
-        self.status = message;
       }
       | AppEvent::FeedDetail {
         feed_id,
