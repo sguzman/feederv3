@@ -9,7 +9,26 @@
 
 
 
+- Chore: tighten git-cliff changelog spacing ([97ea100](https://github.com/sguzman/pulsewire/commit/97ea10064de0bd78beecd0c949c68385249f5807))
+
+
+
+
+
+## [0.1.7] - 2026-01-13
+
+
+
+### ⚙️ Miscellaneous
+
+
+
 - Chore: clean up git-cliff changelog formatting ([c620ca0](https://github.com/sguzman/pulsewire/commit/c620ca000aac60c4b6a2494d08af2e11898dfb00))
+
+
+
+
+- Chore(release): prepare 0.1.7 ([67fd966](https://github.com/sguzman/pulsewire/commit/67fd966d1862f1da947c4a6ada0f24a914d47b32))
 
 
 
