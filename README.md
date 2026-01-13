@@ -112,6 +112,10 @@ OpenAPI docs:
 - Postgres uses separate schemas: `fetcher` for fetcher tables, `server` for server state.
 
 ## Development
+- Release policy: `docs/RELEASE.md`
+- Roadmap: `docs/ROADMAP.md`
+- Changelog config: `cliff.toml`
+- Release config: `release.toml`
 - License inventory: `cargo about generate about.hbs > docs/THIRD_PARTY_LICENSES.md`
 - Build: `cargo build`
 - Tests: `cargo test`

@@ -3,3 +3,5 @@
 - Rust repo rules: docs/ai/RUST.md
 - Project overview and API docs: README.md (Pulsewire)
 - Branding assets: branding/
+- Release policy: docs/RELEASE.md
+- Roadmap: docs/ROADMAP.md
