@@ -112,6 +112,8 @@ OpenAPI docs:
 - Postgres uses separate schemas: `fetcher` for fetcher tables, `server` for server state.
 
 ## Development
+- Tooling: cargo-release, git-cliff, just, biome, taplo, rustfmt
+- Justfile: `just build`, `just fmt`, `just validate`, `just test`, `just post-change`, `just all`
 - Release policy: `docs/RELEASE.md`
 - Roadmap: `docs/ROADMAP.md`
 - Changelog config: `cliff.toml`
