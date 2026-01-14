@@ -6,5 +6,15 @@
 [files]
 # Ignore noisy feed IDs in YouTube feed definitions.
 extend-exclude = [
-  "crates/fetcher/res/feeds/youtube.com/**/*.toml",
+  "**/*.lock",
+  "**/*.map",
+  "**/*.min.js",
+  ".git/**",
+  "CHANGELOG.md",
+  "crates/fetcher/res/feeds/**/**/*.toml",
+  "dist/**",
+  "docs/THIRD_PARTY_LICENSES.md",
+  "node_modules/**",
+  "target/**",
+  "vendor/**",
 ]
