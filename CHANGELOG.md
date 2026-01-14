@@ -1,46 +1,67 @@
 # Changelog
 ## [Unreleased]
+
+### ⚙️ Miscellaneous
+- Nuked whitespace - fixing ([007ddaf](https://github.com/sguzman/pulsewire/commit/007ddafee447d1b791497fa262092a1cba39d678))## [0.1.22] - 2026-01-14
+
 ### ⚙️ Miscellaneous
 - Improving cliff formatting. again. ([affbbc6](https://github.com/sguzman/pulsewire/commit/affbbc6557d4dd7f15c3bc171cc85619e8b4b638))## [0.1.21] - 2026-01-14
+
 ### ⚙️ Miscellaneous
 - I hate cliff ([ba740f1](https://github.com/sguzman/pulsewire/commit/ba740f13c1564259535062350a2b8c09eb060b41))## [0.1.20] - 2026-01-14
+
 ### ⚙️ Miscellaneous
 - Attempt like #942 to fix clliff ([c2ead87](https://github.com/sguzman/pulsewire/commit/c2ead87779136f43530d19b8492278ca25311702))
 - Fix cliff syntax error ([6d31dd5](https://github.com/sguzman/pulsewire/commit/6d31dd5c895c4634f2b71b8cda02a61be94a66c0))
 - I live to suffer and fail to fix cliff ([ccfe021](https://github.com/sguzman/pulsewire/commit/ccfe02132f15848d8d3a6bfa4220662ae00acdc6))## [0.1.17] - 2026-01-13
+
 ### ⚙️ Miscellaneous
 - Another attempt at fixing formatting ([7b5cfc4](https://github.com/sguzman/pulsewire/commit/7b5cfc4df643ce16f43cc39c21c3182558b724e7))## [0.1.16] - 2026-01-13
+
 ### ⚙️ Miscellaneous
 - Cleaning up newlines ([f01ba4d](https://github.com/sguzman/pulsewire/commit/f01ba4d9000ecc23d0e646abd71cb770efbe4268))
 - Duplicate trim key ([2ed9eec](https://github.com/sguzman/pulsewire/commit/2ed9eec760b53c709c1d1b79502f38685a265839))## [0.1.14] - 2026-01-13
+
 ### ⚙️ Miscellaneous
 - Fixing formatting for cliff ([abef09f](https://github.com/sguzman/pulsewire/commit/abef09f66de2a73523a267766ca2b0e55d6edf0e))## [0.1.13] - 2026-01-13
+
 ### ⚙️ Miscellaneous
 - Fixed cliff toml ([597b29e](https://github.com/sguzman/pulsewire/commit/597b29e20111c5b7a4da49834dfc86f361882f2c))
 - Use groups for cliff ([f9bb4a4](https://github.com/sguzman/pulsewire/commit/f9bb4a4d80e095e6ad39f6ca70ea705a5fd44cfa))## [0.1.12] - 2026-01-13
+
 ### ⚙️ Miscellaneous
 - Fix lychee include regex ([084d358](https://github.com/sguzman/pulsewire/commit/084d358d62dc37876be3171dce263570ee1a025b))
 - Exclude shields and commit links from lychee ([f776c92](https://github.com/sguzman/pulsewire/commit/f776c9220b47601908e9a3f85e68c389731d9934))
 - Fix cargo-release hook command order ([5d4483b](https://github.com/sguzman/pulsewire/commit/5d4483b43468b19f8694ad4d60379e281b792b38))
+
 ### 📚 Documentation
 - Add tool-adding guidelines ([dc85a15](https://github.com/sguzman/pulsewire/commit/dc85a158a47c4d8d93cea9cc00111adbb25b6726))## [0.1.10] - 2026-01-13
+
 ### 📚 Documentation
 - Add lychee link validation tooling ([2cf7b9b](https://github.com/sguzman/pulsewire/commit/2cf7b9be4bc544585cc158615c10be20842d1d12))## [0.1.9] - 2026-01-13
+
 ### ⚙️ Miscellaneous
 - Tighten git-cliff whitespace trimming ([34d9452](https://github.com/sguzman/pulsewire/commit/34d94520ff3c5c810c2c02a6df80afee2dca990d))## [0.1.8] - 2026-01-13
+
 ### ⚙️ Miscellaneous
 - Tighten git-cliff changelog spacing ([97ea100](https://github.com/sguzman/pulsewire/commit/97ea10064de0bd78beecd0c949c68385249f5807))## [0.1.7] - 2026-01-13
+
 ### ⚙️ Miscellaneous
 - Clean up git-cliff changelog formatting ([c620ca0](https://github.com/sguzman/pulsewire/commit/c620ca000aac60c4b6a2494d08af2e11898dfb00))## [0.1.6] - 2026-01-13
+
 ### 📚 Documentation
 - Add justfile and document tooling ([03eef92](https://github.com/sguzman/pulsewire/commit/03eef92486ec7c3e92a65b744518bf231217c77d))## [0.1.5] - 2026-01-13
+
 ### ⚙️ Miscellaneous
 - Start changelog at v0.1.3 and stage on release ([145281e](https://github.com/sguzman/pulsewire/commit/145281e613d36c98178999b43c9e117014e2783a))
 - Suppress git-cliff warnings and start from v0.1.4 ([2d1a4e0](https://github.com/sguzman/pulsewire/commit/2d1a4e066e0c0042c844714ec6851c6e9615b3eb))## [0.1.3] - 2026-01-13
+
 ### ⚙️ Miscellaneous
 - Scope changelog to workspace root ([e68c75a](https://github.com/sguzman/pulsewire/commit/e68c75abe5a889e618d0229cef80e22fea2385b6))## [0.1.2] - 2026-01-13
+
 ### ⚙️ Miscellaneous
 - Generate changelog via cargo-release hook ([4120d16](https://github.com/sguzman/pulsewire/commit/4120d16d159fc5d6bc5fb304bd713cb67318c8b5))## [0.1.1] - 2026-01-13
+
 ### ⚙️ Miscellaneous
 -  ([4565da9](https://github.com/sguzman/pulsewire/commit/4565da9043733e08a88f839793ac190d74d6bf87))
 -  ([c898a32](https://github.com/sguzman/pulsewire/commit/c898a3274cdbc3412dba0956281c93563e762e39))
@@ -259,6 +280,7 @@ Config updates are in config.toml and parsing/fields in config.rs + model.rs. Ru
 - Add biome json formatting reference ([682ccad](https://github.com/sguzman/pulsewire/commit/682ccad2a6fff95620452844a188219526646c75))
 - Add workspace version and align crate versions ([c2ab133](https://github.com/sguzman/pulsewire/commit/c2ab1336f5eb1482c25b151475f5148b1322734c))
 - Fix cargo-release config format ([df7370b](https://github.com/sguzman/pulsewire/commit/df7370bb22381d1f697b30ed275b0c9ce5af2e66))
+
 ### 🐛 Bug Fixes
 - Fixed comments ([1a0bb58](https://github.com/sguzman/pulsewire/commit/1a0bb584a5334062fc6a8935efbc89d69eb147c2))
 - Fixed url ([218c019](https://github.com/sguzman/pulsewire/commit/218c019a93a8e4c121997f114379eb12525730db))
@@ -270,6 +292,7 @@ Config updates are in config.toml and parsing/fields in config.rs + model.rs. Ru
 - Fix metrics format and apply formatting ([dd816d1](https://github.com/sguzman/pulsewire/commit/dd816d137539df8571e20b0e0617a38ded68b4f9))
 - Fix due feeds metrics formatting ([f7d6244](https://github.com/sguzman/pulsewire/commit/f7d62444af6e1a4bd0b9c0b159499cf9e0633143))
 - Fix fetcher tags column check ([6725309](https://github.com/sguzman/pulsewire/commit/67253091a5b26266decb480d0133ec560d03cdb9))
+
 ### 📚 Documentation
 - Simplify rust ai workflow and add post-change checklist ([cbc0b98](https://github.com/sguzman/pulsewire/commit/cbc0b983c7f7afb2ee890aca200cfc6f541cb1ec))
 - Add post-change script and reference it ([c491114](https://github.com/sguzman/pulsewire/commit/c4911147d7efb1d9c7a5f0ff42c0b9b14e4b341b))
@@ -281,10 +304,12 @@ Config updates are in config.toml and parsing/fields in config.rs + model.rs. Ru
 - Add semver guidance to rust ai rules ([f05631f](https://github.com/sguzman/pulsewire/commit/f05631fe15e5a3e9a59d9d74f80db78002dedbcc))
 - Require semver bump recommendation in ai rules ([278d140](https://github.com/sguzman/pulsewire/commit/278d140e2f82c720a3c5543596960ef41147d0a7))
 - Disable cargo-release publish and clarify release flow ([09982fa](https://github.com/sguzman/pulsewire/commit/09982faae671b9705842a17a9f6aabf5b8b7ce34))
+
 ### 📦 Dependencies
 - Update dependencies ([b4e0365](https://github.com/sguzman/pulsewire/commit/b4e036555e416ae460188919c4cefca1ee070a6e))
 - Update docs ([6b14b0e](https://github.com/sguzman/pulsewire/commit/6b14b0edbaee1f8dd7d65363d8b14ced4e8abd0f))
 - Update editions to 2024 ([c5bd5da](https://github.com/sguzman/pulsewire/commit/c5bd5dae40fac7185f6a8290d9171f8cc87f26dd))
+
 ### 🚀 Features
 - Create workspace layout ([1852803](https://github.com/sguzman/pulsewire/commit/18528038b382d15a9f6add1b8e7e5b7a6984cbc3))
 - Add core and cli crates ([1519882](https://github.com/sguzman/pulsewire/commit/1519882885756c0a77bfd1fe23e61bf0b0dafff0))
