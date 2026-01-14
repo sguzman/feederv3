@@ -18,3 +18,10 @@ extend-exclude = [
   "target/**",
   "vendor/**",
 ]
+
+[default.extend-words]
+# domain-specific tokens, names, abbreviations, etc.
+"ratatui" = "ratatui"
+"quickwit" = "quickwit"
+"wikidata" = "wikidata"
+"serde" = "serde"
