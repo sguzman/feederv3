@@ -4,5 +4,7 @@
 # Use built-in dictionaries and check common text files.
 
 [files]
-# Ignore generated or vendor content if needed in future.
-# extend-exclude = ["target"]
+# Ignore noisy feed IDs in YouTube feed definitions.
+extend-exclude = [
+  "crates/fetcher/res/feeds/youtube.com/**/*.toml",
+]
